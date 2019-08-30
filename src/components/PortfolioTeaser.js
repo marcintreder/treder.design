@@ -85,7 +85,7 @@ const PortfolioTeaser = props => {
       <ContentWrapper>
         <TextContentWrapper>
           <HeadingL variant={props.headingVariant}>{props.heading}</HeadingL>
-          <TextBody variant={props.variant === 'dark' ? 'light' : 'dark'}>
+          <TextBody variant={props.variant}>
             {props.bodyText}
           </TextBody>
           <CallToAction>

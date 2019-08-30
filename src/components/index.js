@@ -5,7 +5,7 @@ import FixedBar from './FixedBar';
 import Footer from './Footer';
 import GlobalStyles from './GlobalStyles';
 import HeaderBack from './HeaderBack';
-import HeaderLogo from './HeaderLogo';
+import Navigation from './Navigation';
 import HeadingL from './HeadingL';
 import HeadingXL from './HeadingXL';
 import Image from './Image';
@@ -26,7 +26,7 @@ export {
   Footer,
   GlobalStyles,
   HeaderBack,
-  HeaderLogo,
+  Navigation,
   HeadingL,
   HeadingXL,
   Image,

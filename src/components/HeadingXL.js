@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-export default styled.h1`
+const HeadingXL = styled.h1`
   display: block;
   position: relative;
   margin: 0 auto 20px auto;
@@ -9,7 +10,7 @@ export default styled.h1`
   text-align: left;
   font-weight: 900;
   letter-spacing: -1px;
-  color: #fff;
+  color: ${props => props.variant === "dark" ? "#ffffff": "#000000"};
   z-index: 1;
 
   @media screen and (max-width: 700px) {
@@ -32,3 +33,9 @@ export default styled.h1`
     line-height: 70px;
   }
 `;
+
+HeadingXL.propTypes = {
+  variant: PropTypes.oneOf(['dark', 'light']),
+}
+
+export default HeadingXL;

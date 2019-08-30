@@ -6,7 +6,7 @@ import Table from '../images/table.svg';
 import Logo_Sketches from '../images/logos.svg';
 
 import {
-  HeaderLogo,
+  Navigation,
   HeadingXL,
   Layout,
   SEO,
@@ -76,15 +76,6 @@ const TextHome = styled.p`
 
 `;
 
-/*const Post = styled.div`
-  border-bottom: 1px solid lightgray;
-  margin-bottom: 50px;
-
-  @media (max-width: 849px) {
-    padding-left: 0;
-  }
-`;*/
-
 const CricleWrapper = styled.div`
   position: absolute;
   top: 180px;
@@ -113,14 +104,6 @@ const CricleWrapper = styled.div`
     }
 `;
 
-const HeaderWrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: 0 var(--sides-padding-desktop);
-  background-color: #000000;
-`;
-
 const Content = styled.section`
   display: flex;
   flex-direction: column;
@@ -132,12 +115,9 @@ const Home = ({ data }) => {
   return (
     <>
       <Layout>
-        <HeaderWrapper>
-          <SEO title="Treder Design" />
-          <HeaderLogo />
-        </HeaderWrapper>
+          <Navigation variant="dark" seoTitle="Treder Design" />
         <Hero>
-          <HeadingXL>
+          <HeadingXL variant="dark">
             Design +<br /> Product
           </HeadingXL>
           <TextHome>

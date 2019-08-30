@@ -12,6 +12,21 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     'gatsby-plugin-remove-serviceworker',
     {
+      resolve: `gatsby-plugin-breadcrumb`,
+      options: {
+        defaultCrumb: {
+          location: {
+            state: { crumbClicked: true },
+            pathname: "/",
+          },
+          crumbLabel: "home",
+          crumbSeparator: " / ",
+          crumbStyle: { color: "#000" },
+          crumbActiveStyle: { color: "#e7ad7a" },
+        },
+      },
+    },
+    {
       resolve: "gatsby-plugin-react-svg",
       options: {
         rule: {
