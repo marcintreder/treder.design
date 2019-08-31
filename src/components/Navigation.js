@@ -30,6 +30,10 @@ const NavElement = styled.nav`
   width: 100%;
   max-width: var(--max-width-desktop);
   padding: 0 var(--sides-padding-desktop);
+
+  @media screen and (min-width: 1440px) {
+    padding: 0 115px;
+  }
 `;
 
 const Logo = styled.a``;
@@ -70,6 +74,7 @@ const MobileMenuButton = styled.button`
     &:hover,
     &:active {
         fill: var(--gold-color);
+
     }
   }
 `;
@@ -110,7 +115,7 @@ const MenuItem = styled.li`
   }
   &:active {
     background: var(--gold-color);
-    color: black;
+    color: ${props => props.variant === "dark" ? "#000000" : "#ffffff"};
   }
 
   @media screen and (max-width: 600px) {
@@ -196,7 +201,7 @@ const Navigation = props => {
               <MenuLink to="/about">about</MenuLink>
             </MenuItem>
             <MenuItem key="work">
-              <MenuLink to="/about">work</MenuLink>
+              <MenuLink to="/portfolio">portfolio</MenuLink>
             </MenuItem>
             <MenuItem key="blog">
               <MenuLink to="/about">blog</MenuLink>

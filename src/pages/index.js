@@ -18,7 +18,7 @@ import {
 import Circles from '../svg_icons/circles.svg';
 
 const Hero = styled.div`
-  padding: 80px var(--sides-padding-desktop) 80px var(--sides-padding-desktop);
+  padding: 100px var(--sides-padding-desktop) 80px var(--sides-padding-desktop);
   width: 100%;
   height: 700px;
   background: black;
@@ -32,17 +32,16 @@ const Hero = styled.div`
 
   @media screen and (max-width: 700px) {
     height: 640px;
-    }
+  }
 
-    @media screen and (max-width: 500px) {
-      height: 580px;
-    }
+  @media screen and (max-width: 500px) {
+    height: 580px;
+  }
 
-    @media screen and (max-width: 400px) {
-      padding: 40px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
-      height: 500px;
-    }
-
+  @media screen and (max-width: 400px) {
+    padding: 40px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
+    height: 500px;
+  }
 `;
 
 const TextHome = styled.p`
@@ -59,21 +58,20 @@ const TextHome = styled.p`
 
   @media screen and (max-width: 700px) {
     max-width: 468px;
-    }
+  }
 
-    @media screen and (max-width: 600px) {
+  @media screen and (max-width: 600px) {
     max-width: 388px;
-    }
+  }
 
-    @media screen and (max-width: 500px) {
+  @media screen and (max-width: 500px) {
     max-width: 310px;
-    }
+  }
 
-    @media screen and (max-width: 400px) {
+  @media screen and (max-width: 400px) {
     max-width: 240px;
     margin: 40px auto 40px auto;
-    }
-
+  }
 `;
 
 const CricleWrapper = styled.div`
@@ -86,22 +84,22 @@ const CricleWrapper = styled.div`
 
   @media screen and (max-width: 700px) {
     top: 160px;
-    }
+  }
 
-    @media screen and (max-width: 600px) {
-      top: 140px;
-      max-width: 340px;
-    }
+  @media screen and (max-width: 600px) {
+    top: 140px;
+    max-width: 340px;
+  }
 
-    @media screen and (max-width: 500px) {
-      top: 120px;
-      max-width: 300px;
-    }
+  @media screen and (max-width: 500px) {
+    top: 120px;
+    max-width: 300px;
+  }
 
-    @media screen and (max-width: 400px) {
-      top: 60px;
+  @media screen and (max-width: 400px) {
+    top: 60px;
     max-width: 240px;
-    }
+  }
 `;
 
 const Content = styled.section`
@@ -115,15 +113,14 @@ const Home = ({ data }) => {
   return (
     <>
       <Layout>
-          <Navigation variant="dark" seoTitle="Treder Design" />
+        <Navigation variant="dark" seoTitle="Treder Design" />
         <Hero>
           <HeadingXL variant="dark">
             Design +<br /> Product
           </HeadingXL>
           <TextHome>
             I'm Marcin Treder – product & design leader, coding designer and
-            founding CEO at UXPin – one of the world leading design
-            tools.
+            founding CEO at UXPin – one of the world leading design tools.
           </TextHome>
           <Button>explore my portfolio</Button>
           <CricleWrapper>
@@ -133,10 +130,12 @@ const Home = ({ data }) => {
         <Content>
           <AboutMe />
           <PortfolioTeaser
+            variant="dark"
+            alignment="left"
             heading="A radically different design tool"
             headingVariant="gold"
-            variant="dark"
-            linkLabel="Read the story"
+            ctaVariant="link"
+            ctaLabel="read the story"
             illustration={Wires}
             illustrationPosition="edge"
             bodyText={
@@ -157,10 +156,12 @@ const Home = ({ data }) => {
           />
           <Quote />
           <PortfolioTeaser
+            alignment="left"
             heading="The Open Source Adventure"
             headingVariant="dark"
             variant="light"
-            linkLabel="Read the story"
+            ctaLabel="read the story"
+            ctaVariant="link"
             illustration={Table}
             illustrationPosition="margin"
             bodyText={
@@ -187,10 +188,12 @@ const Home = ({ data }) => {
             }
           />
           <PortfolioTeaser
+            alignment="left"
             heading="Designing for yourself is tough"
             headingVariant="gold"
             variant="dark"
-            linkLabel="Read the story"
+            ctaLabel="read the story"
+            ctaVariant="link"
             illustration={Logo_Sketches}
             illustrationPosition="margin"
             bodyText={

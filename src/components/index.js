@@ -1,6 +1,7 @@
 import AboutMe from './AboutMe';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
+import Breadcrumbs from './Breadcrumbs';
 import FixedBar from './FixedBar';
 import Footer from './Footer';
 import GlobalStyles from './GlobalStyles';
@@ -22,6 +23,7 @@ export {
   AboutMe,
   Button,
   ButtonLink,
+  Breadcrumbs,
   FixedBar,
   Footer,
   GlobalStyles,

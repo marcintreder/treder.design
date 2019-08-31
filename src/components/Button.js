@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-export default styled.button`
+const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,14 +13,22 @@ export default styled.button`
   font-weight: 400;
   font-variant: small-caps;
   letter-spacing: 1px;
-  border: 1px solid var(--gold-color);
+  border: 1px solid
+    ${props => (props.variant === 'gold' ? 'var(--gold-color)' : '#000000')};
   background: none;
-  color: var(--gold-color);
+  color: ${props =>
+    props.variant === 'gold' ? 'var(--gold-color)' : '#000000'};
   transition: box-shadow 342ms cubic-bezier(0.23, 1, 0.32, 1);
 
   :hover {
-    background-color: var(--gold-color);
-    color: black;
+    background-color: ${props =>
+      props.variant === 'gold' ? 'var(--gold-color)' : '#000000'};
+    color: ${props =>
+      props.hoveredLabelColor === 'gold'
+        ? 'var(--gold-color)'
+        : props.hoveredLabelColor === 'dark'
+        ? '#000'
+        : '#fff'};
   }
 
   :active {
@@ -27,3 +36,10 @@ export default styled.button`
     box-shadow: inset 0 0 1px #000;
   }
 `;
+
+Button.propTypes = {
+  variant: PropTypes.oneOf(['gold', 'dark']),
+  hoveredLabelColor: PropTypes.oneOf(['gold', 'dark', 'light']),
+};
+
+export default Button;

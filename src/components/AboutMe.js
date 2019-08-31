@@ -27,6 +27,10 @@ const AboutMeSection = styled.section`
 
 const AboutMeWrapper = styled.div`
   padding: 0 var(--sides-padding-desktop);
+
+  @media screen and (min-width: 1440px) {
+    padding: 0 115px;
+  }
 `;
 
 const TrederImageWrapper = styled.div`

@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Breadcrumb } from 'gatsby-plugin-breadcrumb';
 import { graphql, Link } from 'gatsby';
 
 import {
-  Button,
+  Breadcrumbs,
   Navigation,
   HeadingXL,
   Layout,
-  SEO,
   TextBody,
   TrederImage,
 } from '../components';
@@ -29,6 +27,10 @@ const AboutMeWrapper = styled.section`
 
   article + div {
     margin-top: 20px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    padding: 0 115px;
   }
 
   @media screen and (max-width: 1270px) {
@@ -75,29 +77,6 @@ const DescriptionWrapper = styled.article`
     }
 `;
 
-const BreadcrumbWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: var(--max-width-desktop);
-  margin: 0 auto;
-  padding: 0 var(--sides-padding-desktop);
-
-  div > div > span {
-    font-size: 10px !important;
-    margin: 0 5px;
-  }
-
-  [href] {
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    visibility: hidden;
-  }
-`;
-
 const DetailsWrapper = styled.section`
   display: flex;
   justify-content: center;
@@ -112,6 +91,10 @@ const DetailsContent = styled.div`
   width: 100%;
   max-width: var(--max-width-desktop);
   padding: 60px var(--sides-padding-desktop);
+
+  @media screen and (min-width: 1440px) {
+    padding: 60px 115px;
+  }
 `;
 
 const HeadingM = styled.h3`
@@ -244,18 +227,7 @@ const About = ({ location, data }) => {
           </DescriptionWrapper>
           <TrederImage />
         </AboutMeWrapper>
-        <BreadcrumbWrapper>
-          <Breadcrumb
-            location={location}
-            crumbLabel="about us"
-            crumbActiveStyle={{ color: '#e7ad7a' }}
-            style={{
-              fontSize: '14px',
-              fontVariant: 'small-caps',
-              letterSpacing: '1px',
-            }}
-          />
-        </BreadcrumbWrapper>
+        <Breadcrumbs location={location} label="about" />
         <DetailsWrapper>
           <DetailsContent>
             <Background>

@@ -6,7 +6,7 @@ const HeadingXL = styled.h1`
   position: relative;
   margin: 0 auto 20px auto;
   font-size: 140px;
-  line-height: 150px;
+  line-height: 130px;
   text-align: left;
   font-weight: 900;
   letter-spacing: -1px;
