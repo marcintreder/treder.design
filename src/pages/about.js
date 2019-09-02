@@ -5,6 +5,7 @@ import { graphql, Link } from 'gatsby';
 import {
   Breadcrumbs,
   Navigation,
+  HeadingM,
   HeadingXL,
   Layout,
   TextBody,
@@ -92,16 +93,13 @@ const DetailsContent = styled.div`
   max-width: var(--max-width-desktop);
   padding: 60px var(--sides-padding-desktop);
 
+  ${HeadingM} {
+    margin-bottom: 40px;
+  }
+
   @media screen and (min-width: 1440px) {
     padding: 60px 115px;
   }
-`;
-
-const HeadingM = styled.h3`
-  margin-bottom: 40px;
-  font-size: 24px;
-  font-weight: 700;
-  color: white;
 `;
 
 const Background = styled.article`
@@ -201,8 +199,8 @@ const About = ({ location, data }) => {
       <Layout>
         <AboutMeWrapper>
           <DescriptionWrapper>
-            <HeadingXL variant="light">About me.</HeadingXL>
-            <TextBody variant="light">
+            <HeadingXL variant="dark">About me.</HeadingXL>
+            <TextBody variant="dark">
               <p>
                 I'm a builder. I love building great products and assembling
                 teams able to cross the chasm between good and great. It's my
@@ -232,7 +230,7 @@ const About = ({ location, data }) => {
           <DetailsContent>
             <Background>
               <HeadingM>Background</HeadingM>
-              <TextBody variant="dark">
+              <TextBody variant="light">
                 <p>
                   For the past 12 years I've been working in the fields of
                   design and product. I've started as an UX designer and I
@@ -275,7 +273,7 @@ const About = ({ location, data }) => {
             </GoodAt>
             <Values>
               <HeadingM>Values</HeadingM>
-              <TextBody variant="dark">
+              <TextBody variant="light">
                 Over the years I found out that self-awarness is one of the keys
                 to being a good leader and a good person. On my quest to
                 understand myself I identified the following core values:
@@ -283,7 +281,7 @@ const About = ({ location, data }) => {
               <ValuesList>
                 <ValueItem>
                   <ValueHeader>discipline</ValueHeader>
-                  <TextBody variant="dark">
+                  <TextBody variant="light">
                     I take a great pride in being highly disciplined. If I
                     commit to a certain task, there's nothing that can stop me
                     from completing it. Whether we're talking about work, sports
@@ -293,7 +291,7 @@ const About = ({ location, data }) => {
                 </ValueItem>
                 <ValueItem>
                   <ValueHeader>mastery</ValueHeader>
-                  <TextBody variant="dark">
+                  <TextBody variant="light">
                     I enjoy learning and bringing new skills to the level of
                     mastery. It's important to me to gradually, day by day,
                     become better at what matters to me. I treat my work and my
@@ -302,7 +300,7 @@ const About = ({ location, data }) => {
                 </ValueItem>
                 <ValueItem>
                   <ValueHeader>loyalty</ValueHeader>
-                  <TextBody variant="dark">
+                  <TextBody variant="light">
                     I remain loyal to people and I highly value loyalty. Life is
                     easier when faced together with a group of reliable people.
                     I always aspire to be the person that others can rely on.{' '}

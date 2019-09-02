@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { Button, HeadingL, TextBody } from '../components';
+import { ButtonLink, HeadingL, TextBody } from '../components';
 
 const PortfolioTeaserWrapper = styled.section`
   display: flex;
@@ -87,7 +87,7 @@ const CallToAction = styled.span`
   width: fit-content;
   margin-top: 60px;
 
-  ${Button} {
+  ${ButtonLink} {
     margin-left: ${props => (props.alignment === 'left' ? '0px' : 'auto')};
   }
 `;
@@ -103,7 +103,7 @@ const IllustrationWrapper = styled.div`
       props.alignment === 'left' ? 'right' : 'center'},
     center;
 
-  ${Button} {
+  ${ButtonLink} {
     margin: 450px auto 0 auto;
   }
 
@@ -114,7 +114,7 @@ const IllustrationWrapper = styled.div`
     margin: ${props =>
       props.alignment === 'left' ? '0 0 0 20px' : '0 auto 80px auto'};
 
-    ${Button} {
+    ${ButtonLink} {
       margin: 0;
     }
   }
@@ -136,18 +136,19 @@ const PortfolioTeaser = props => {
             ''
           )}
           <HeadingL variant={props.headingVariant}>{props.heading}</HeadingL>
-          <TextBody variant={props.variant}>{props.bodyText}</TextBody>
+          <TextBody variant={props.variant === "dark" ? "light" : "dark"}>{props.bodyText}</TextBody>
           {props.alignment === 'left' ? (
             <CallToAction alignment={props.alignment}>
               {props.ctaVariant === 'link' ? (
                 <Link to="/">{props.ctaLabel}</Link>
               ) : (
-                <Button
+                <ButtonLink
+                    to={props.destination}
                   variant={props.buttonVariant}
                   hoveredLabelColor={props.buttonHoveredLabel}
                 >
                   {props.ctaLabel}
-                </Button>
+                </ButtonLink>
               )}
             </CallToAction>
           ) : (
@@ -164,12 +165,12 @@ const PortfolioTeaser = props => {
               {props.ctaVariant === 'link' ? (
                 <Link to="/">{props.ctaLabel}</Link>
               ) : (
-                <Button
+                <ButtonLink
                   variant={props.buttonVariant}
                   hoveredLabelColor={props.buttonHoveredLabel}
                 >
                   {props.ctaLabel}
-                </Button>
+                </ButtonLink>
               )}
             </CallToAction>
           ) : (

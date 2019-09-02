@@ -7,7 +7,7 @@ const TextBody = styled.div`
   line-height: 30px;
   font-weight: 100;
 
-  color: ${props => props.variant === "dark" ? "#ffffff" : "#000000"};
+  color: ${props => props.variant === "light" ? "#ffffff" : "#000000"};
 
   p {
     margin-bottom: 32px;

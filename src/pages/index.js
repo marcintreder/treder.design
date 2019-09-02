@@ -115,7 +115,7 @@ const Home = ({ data }) => {
       <Layout>
         <Navigation variant="dark" seoTitle="Treder Design" />
         <Hero>
-          <HeadingXL variant="dark">
+          <HeadingXL variant="light">
             Design +<br /> Product
           </HeadingXL>
           <TextHome>

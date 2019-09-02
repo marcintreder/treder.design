@@ -10,7 +10,7 @@ const HeadingXL = styled.h1`
   text-align: left;
   font-weight: 900;
   letter-spacing: -1px;
-  color: ${props => props.variant === "dark" ? "#ffffff": "#000000"};
+  color: ${props => props.variant === "dark" ? "#000000": "#FFFFFF"};
   z-index: 1;
 
   @media screen and (max-width: 700px) {

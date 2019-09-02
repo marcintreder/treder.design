@@ -97,7 +97,7 @@ const AboutMe = props => {
         </HeaderWrapper>
         <ContentWrapper>
           <TextWrapper>
-            <TextBody variant="light">
+            <TextBody variant="dark">
               <p>
                 I'm a builder. I love building great products and assembling
                 teams able to cross the chasm between good and great. It's my

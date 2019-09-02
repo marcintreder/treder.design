@@ -133,8 +133,8 @@ const Portfolio = ({ location, data }) => {
         <Navigation seoTitle="Portfolio" variant="light" activeLink={2} />
         <PortfolioHeaderWrapper>
           <PortfolioHeader>
-            <HeadingXL variant="light">Design & Product Portfolio</HeadingXL>
-            <TextBody variant="light">
+            <HeadingXL variant="dark">Design & Product Portfolio</HeadingXL>
+            <TextBody variant="dark">
               <p>
                 This portfolio is devoted to my greatest passion – the creation
                 of products. For the past 12 years, I've worked on dozens of
@@ -175,6 +175,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="gold"
           buttonHoveredLabel="dark"
           ctaLabel="read this story"
+          destination="/portfolio/conversion-optimization"
           illustration={Conversion}
           illustrationPosition="margin"
           bodyText={
