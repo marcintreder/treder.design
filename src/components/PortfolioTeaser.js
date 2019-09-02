@@ -71,10 +71,11 @@ const TextContentWrapper = styled.div`
   max-width: 800px;
   margin: ${props => (props.alignment === 'center' ? '0 auto' : '0')};
   padding-top: 80px;
-  padding-bottom: 80px;
+  padding-bottom: ${props => (props.alignment === 'left' ? '80px' : '20px')};
 
   h2 {
     margin-top: 0;
+    margin-bottom: 30px;
   }
 
   @media screen and (max-width: 700px) {
@@ -83,27 +84,45 @@ const TextContentWrapper = styled.div`
 `;
 
 const CallToAction = styled.span`
-  display: block;
   width: fit-content;
   margin-top: 60px;
+
+  ${Button} {
+    margin-left: ${props => (props.alignment === 'left' ? '0px' : 'auto')};
+  }
 `;
 
 const IllustrationWrapper = styled.div`
-  width: 40%;
-  margin-left: 20px;
+  width: ${props => (props.alignment === 'left' ? '40%' : '100%')};
+  height: ${props => (props.alignment === 'left' ? 'inherit' : '380px')};
+  margin-left: ${props => (props.alignment === 'left' ? '20px' : '0px')};
+  margin-bottom: ${props => (props.alignment === 'left' ? '0px' : '200px')};
   background-repeat: no-repeat;
   background-image: url(${props => props.illustration});
-  background-position: right, center;
+  background-position: ${props =>
+      props.alignment === 'left' ? 'right' : 'center'},
+    center;
+
+  ${Button} {
+    margin: 450px auto 0 auto;
+  }
 
   @media screen and (max-width: 1050px) {
     background-image: none;
-    width: 0px;
+    width: ${props => (props.alignment === 'left' ? '0px' : '60%')};
+    height: inherit;
+    margin: ${props =>
+      props.alignment === 'left' ? '0 0 0 20px' : '0 auto 80px auto'};
+
+    ${Button} {
+      margin: 0;
+    }
   }
 `;
 
 const PortfolioTeaser = props => {
   return (
-    <PortfolioTeaserWrapper variant={props.variant}>
+    <PortfolioTeaserWrapper variant={props.variant} id={props.id}>
       <ContentWrapper alignment={props.alignment}>
         <TextContentWrapper alignment={props.alignment}>
           {props.subHeading ? (
@@ -118,29 +137,52 @@ const PortfolioTeaser = props => {
           )}
           <HeadingL variant={props.headingVariant}>{props.heading}</HeadingL>
           <TextBody variant={props.variant}>{props.bodyText}</TextBody>
-          <CallToAction>
-            {props.ctaVariant === 'link' ? (
-              <Link to="/">{props.ctaLabel}</Link>
-            ) : (
-              <Button
-                variant={props.buttonVariant}
-                hoveredLabelColor={props.buttonHoveredLabel}
-              >
-                {props.ctaLabel}
-              </Button>
-            )}
-          </CallToAction>
+          {props.alignment === 'left' ? (
+            <CallToAction alignment={props.alignment}>
+              {props.ctaVariant === 'link' ? (
+                <Link to="/">{props.ctaLabel}</Link>
+              ) : (
+                <Button
+                  variant={props.buttonVariant}
+                  hoveredLabelColor={props.buttonHoveredLabel}
+                >
+                  {props.ctaLabel}
+                </Button>
+              )}
+            </CallToAction>
+          ) : (
+            ''
+          )}
         </TextContentWrapper>
         <IllustrationWrapper
           illustration={props.illustration}
           illustrationPosition={props.illustrationPosition}
-        />
+          alignment={props.alignment}
+        >
+          {props.alignment === 'center' ? (
+            <CallToAction>
+              {props.ctaVariant === 'link' ? (
+                <Link to="/">{props.ctaLabel}</Link>
+              ) : (
+                <Button
+                  variant={props.buttonVariant}
+                  hoveredLabelColor={props.buttonHoveredLabel}
+                >
+                  {props.ctaLabel}
+                </Button>
+              )}
+            </CallToAction>
+          ) : (
+            ''
+          )}
+        </IllustrationWrapper>
       </ContentWrapper>
     </PortfolioTeaserWrapper>
   );
 };
 
 PortfolioTeaser.propTypes = {
+  id: PropTypes.string,
   variant: PropTypes.oneOf(['dark', 'light', 'gold']),
   alignment: PropTypes.oneOf(['left', 'center']),
   heading: PropTypes.string,

@@ -22,6 +22,10 @@ const Content = styled.main`
 `;
 
 const Layout = ({ children }) => {
+  if (typeof window !== "undefined") {
+    // eslint-disable-next-line global-require
+    require("smooth-scroll")('a[href*="#"]')
+  }
   return (
     <StaticQuery
       query={graphql`

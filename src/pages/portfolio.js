@@ -4,6 +4,7 @@ import { graphql, Link } from 'gatsby';
 
 import {
   Button,
+  ButtonLink,
   Breadcrumbs,
   HeadingXL,
   Navigation,
@@ -13,6 +14,13 @@ import {
 } from '../components';
 
 import Logo_Sketches from '../images/logos.svg';
+import Conversion from '../images/conversion.svg';
+import Grid from '../images/grid.svg';
+import New_Editor from '../images/new_editor.svg';
+import Homepage from '../images/homepage.svg';
+import Adele from '../images/adele.svg';
+import Mobile from '../images/mobile.svg';
+import Video from '../images/video.svg';
 
 const PortfolioHeaderWrapper = styled.section`
   display: flex;
@@ -20,7 +28,7 @@ const PortfolioHeaderWrapper = styled.section`
   justify-content: center;
   width: 100%;
 
-  ${Button} {
+  ${ButtonLink} {
     margin-bottom: 80px;
   }
 
@@ -145,10 +153,17 @@ const Portfolio = ({ location, data }) => {
               </p>
             </TextBody>
           </PortfolioHeader>
-          <Button variant="gold" hoveredLabelColor="light">explore my portfolio</Button>
+          <ButtonLink
+            to="/portfolio/#first"
+            variant="gold"
+            hoveredLabelColor="light"
+          >
+            explore my portfolio
+          </ButtonLink>
           <Breadcrumbs location={location} label="portfolio" />
         </PortfolioHeaderWrapper>
         <PortfolioTeaser
+          id="first"
           variant="dark"
           alignment="left"
           heading="Conversion Optimization"
@@ -160,6 +175,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="gold"
           buttonHoveredLabel="dark"
           ctaLabel="read this story"
+          illustration={Conversion}
           illustrationPosition="margin"
           bodyText={
             <p>
@@ -185,6 +201,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="gold"
           ctaLabel="read this story"
+          illustration={Grid}
           illustrationPosition="margin"
           bodyText={<p>The story of the notepad that changed my life</p>}
         />
@@ -200,6 +217,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="light"
           ctaLabel="read this story"
+          illustration={Homepage}
           illustrationPosition="margin"
           bodyText={
             <p>
@@ -222,6 +240,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="gold"
           ctaLabel="read this story"
+          illustration={Mobile}
           illustrationPosition="margin"
           bodyText={
             <>
@@ -254,6 +273,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="light"
           ctaLabel="read this story"
+          illustration={Video}
           illustrationPosition="margin"
           bodyText={
             <p>
@@ -279,6 +299,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="gold"
           buttonHoveredLabel="dark"
           ctaLabel="read this story"
+          illustration={New_Editor}
           illustrationPosition="margin"
           bodyText={
             <>
@@ -308,6 +329,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="gold"
           ctaLabel="read this story"
+          illustration={Adele}
           illustrationPosition="margin"
           bodyText={
             <>

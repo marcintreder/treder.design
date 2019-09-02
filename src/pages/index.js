@@ -1,21 +1,21 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import Wires from '../images/wires.svg';
-import Table from '../images/table.svg';
 import Logo_Sketches from '../images/logos.svg';
 
 import {
   Navigation,
   HeadingXL,
   Layout,
-  SEO,
   Button,
+  ButtonLink,
   AboutMe,
   PortfolioTeaser,
   Quote,
 } from '../components';
 import Circles from '../svg_icons/circles.svg';
+import Small_Editor from '../images/small_editor.svg';
+import Adele from '../images/adele_gold.svg';
 
 const Hero = styled.div`
   padding: 100px var(--sides-padding-desktop) 80px var(--sides-padding-desktop);
@@ -122,7 +122,9 @@ const Home = ({ data }) => {
             I'm Marcin Treder – product & design leader, coding designer and
             founding CEO at UXPin – one of the world leading design tools.
           </TextHome>
-          <Button>explore my portfolio</Button>
+          <ButtonLink variant="gold" hoveredLabelColor="dark" to="/portfolio">
+            explore my portfolio
+          </ButtonLink>
           <CricleWrapper>
             <Circles style={{ width: '100%' }} />
           </CricleWrapper>
@@ -136,7 +138,7 @@ const Home = ({ data }) => {
             headingVariant="gold"
             ctaVariant="link"
             ctaLabel="read the story"
-            illustration={Wires}
+            illustration={Small_Editor}
             illustrationPosition="edge"
             bodyText={
               <>
@@ -162,7 +164,7 @@ const Home = ({ data }) => {
             variant="light"
             ctaLabel="read the story"
             ctaVariant="link"
-            illustration={Table}
+            illustration={Adele}
             illustrationPosition="margin"
             bodyText={
               <>
