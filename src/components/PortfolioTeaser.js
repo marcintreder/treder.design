@@ -136,14 +136,16 @@ const PortfolioTeaser = props => {
             ''
           )}
           <HeadingL variant={props.headingVariant}>{props.heading}</HeadingL>
-          <TextBody variant={props.variant === "dark" ? "light" : "dark"}>{props.bodyText}</TextBody>
+          <TextBody variant={props.variant === 'dark' ? 'light' : 'dark'}>
+            {props.bodyText}
+          </TextBody>
           {props.alignment === 'left' ? (
             <CallToAction alignment={props.alignment}>
               {props.ctaVariant === 'link' ? (
                 <Link to="/">{props.ctaLabel}</Link>
               ) : (
                 <ButtonLink
-                    to={props.destination}
+                  to={props.destination}
                   variant={props.buttonVariant}
                   hoveredLabelColor={props.buttonHoveredLabel}
                 >
@@ -166,6 +168,7 @@ const PortfolioTeaser = props => {
                 <Link to="/">{props.ctaLabel}</Link>
               ) : (
                 <ButtonLink
+                  to={props.destination}
                   variant={props.buttonVariant}
                   hoveredLabelColor={props.buttonHoveredLabel}
                 >

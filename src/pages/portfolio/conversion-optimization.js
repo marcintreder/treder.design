@@ -7,6 +7,8 @@ import {
   ButtonLink,
   Caption,
   Breadcrumbs,
+  ContextPortfolio,
+  BreadcrumbsPortfolioWrapper,
   HeadingM,
   HeadingXL,
   Navigation,
@@ -15,6 +17,7 @@ import {
   PortfolioTeaser,
   Layout,
   TextBody,
+  PortfolioHeaderWrapper,
 } from '../../components';
 
 import Logo_Sketches from '../../images/logos.svg';
@@ -28,96 +31,6 @@ import Video from '../../images/video.svg';
 import Nokaut from '../../images/nokaut_home_page.jpg';
 import Buttons from '../../images/buttons.png';
 import GridBackground from '../../images/grid_background.svg';
-
-const HeaderWrapper = styled.section`
-  background-color: #000000;
-
-  div[class*='PortfolioTeaser__TextContentWrapper'] {
-    padding-top: 0;
-  }
-
-  section[class*='PortfolioTeaser__PortfolioTeaserWrapper'] {
-    margin-top: 40px;
-  }
-
-  @media screen and (max-width: 1050px) {
-    div[class*='PortfolioTeaser__TextContentWrapper'] {
-      width: 100%;
-      max-width: 100%;
-    }
-  }
-`;
-
-const BreadcumbrsWrapper = styled.nav`
-  margin: 40px 0;
-
-  @media screen and (max-width: 600px) {
-    visibility: hidden;
-    margin: 20px 0 0 0;
-  }
-`;
-
-const ContextRoleWrapper = styled.section`
-  width: 100%;
-
-  ${HeadingM} {
-    margin-bottom: 30px;
-  }
-`;
-
-const ContextWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  max-width: var(--max-width-desktop);
-  padding: 0 var(--sides-padding-desktop);
-  margin: 0 auto;
-
-  @media screen and (max-width: 780px) {
-    flex-direction: column;
-  }
-
-  @media screen and (min-width: 1440px) {
-    padding: 0 115px;
-  }
-`;
-
-const ContextContent = styled.article`
-  width: 65%;
-  padding-right: 40px;
-
-  @media screen and (max-width: 780px) {
-    width: 100%;
-    padding-right: 0px;
-  }
-`;
-
-const ObjectivesRoleWrapper = styled.aside`
-  width: 375px;
-  font-size: 16px;
-  line-height: 30px;
-  font-weight: 100;
-
-  ul,
-  ol {
-    padding-left: 0;
-    list-style-position: inside;
-  }
-
-  @media screen and (max-width: 780px) {
-    width: 100%;
-  }
-`;
-
-const ObjectivesContent = styled.article`
-  margin-bottom: 122px;
-
-  @media screen and (max-width: 780px) {
-    margin-bottom: 60px;
-  }
-`;
-
-const RoleContent = styled.article``;
 
 const ImageWrapper = styled.figure`
   display: flex;
@@ -169,6 +82,14 @@ const ResultsContent = styled.article`
     padding: 80px 115px;
   }
 
+  @media screen and (max-width: 1440px) {
+    background-position: right 11% center;
+  }
+
+  @media screen and (max-width: 1300px) {
+    background-position: right 11.5% center;
+  }
+
   @media screen and (max-width: 600px) {
     background-position: center center;
   }
@@ -207,8 +128,8 @@ const ButtonsIllustration = styled.figure`
     margin: 0 auto;
 
     @media screen and (max-width: 600px) {
-    width: 100%;
-  }
+      width: 100%;
+    }
   }
 `;
 
@@ -218,7 +139,7 @@ const Conversion = ({ location, data }) => {
   return (
     <>
       <Layout>
-        <HeaderWrapper>
+        <PortfolioHeaderWrapper variant="dark">
           <Navigation
             seoTitle="Conversion Optimization Design Project"
             variant="dark"
@@ -235,7 +156,7 @@ const Conversion = ({ location, data }) => {
             buttonVariant="gold"
             buttonHoveredLabel="dark"
             ctaLabel="read this story"
-            destination="/portfolio/conversion-optimization"
+            destination="/portfolio/conversion-optimization/#anchor"
             illustration={ConverionIllustration}
             illustrationPosition="margin"
             bodyText={
@@ -251,112 +172,104 @@ const Conversion = ({ location, data }) => {
               </p>
             }
           />
-        </HeaderWrapper>
-        <BreadcumbrsWrapper>
+        </PortfolioHeaderWrapper>
+        <BreadcrumbsPortfolioWrapper>
           <Breadcrumbs location={location} label="conversion optimization" />
-        </BreadcumbrsWrapper>
-        <ContextRoleWrapper>
-          <ContextWrapper>
-            <ContextContent>
-              <HeadingM variant="dark">Context</HeadingM>
-              <TextBody variant="dark">
-                <p>
-                  In 2008 I was hired as the first in-house product designer at
-                  a Polish eCommerce startup – <strong>Nokaut.pl</strong> (later
-                  known as Grupa Nokaut). Before I joined the company, all
-                  design tasks were either outsourced or performed by engineers.
-                  Shortly after I joined, I noticed that most of the team seemed
-                  to consider design to be mere decoration.
-                </p>
-                <p>
-                  Nokaut.pl was a consumer–focused company, and this disregard
-                  for design, started to harm the business.To help Nokaut.pl
-                  grow, I had to introduce a proper design process and prove the
-                  value of design. Beginnings were not easy, but ultimately
-                  (thanks to my mentor – the co-founder and VP of Product) I
-                  found my way to prove the value of design. A combination of
-                  direct collaboration with engineers and constant work on
-                  improving business metrics brought outstanding results.
-                </p>
-                <p>
-                  One of the initiatives that helped me establish design at
-                  Nokaut.pl was a series of projects focused on{' '}
-                  <strong>optimizing the conversion rate</strong>. I tried to
-                  use my knowledge about human cognition to optimize key aspects
-                  of the user interface. For the team, it was an opportunity to
-                  observe (and participate!) how design hypotheses can lead to
-                  real, measurable, change.
-                </p>
-                <p>
-                  There are very few documents and screenshots of my old work.
-                  After all, it was, 10 – 11 years ago and Grupa Nokatu, after a
-                  successful <strong>IPO</strong>, ultimately failed and seized
-                  to exist (years after I left). However, one study survived
-                  thanks to a bunch of talks that I had at local meetups and
-                  conferences.
-                </p>
-                <p>
-                  In 2009 I was trusted with the optimization of critical
-                  elements of the Nokaut.pl product page. A product page was
-                  really a collection of millions of individual pages
-                  representing every product listed in Nokuat.pl. Collectively,
-                  they had the most significant impact on the overall conversion
-                  rate.
-                </p>
-                <p>
-                  Together withthe engineering team, we've worked out a series
-                  of hypotheses based on factors affecting human attention
-                  (contrast, color, movement, pattern...) and we've performed a
-                  series of multivariable split tests (multiple variants of
-                  product pages were being served randomly to users.
-                </p>
-              </TextBody>
-            </ContextContent>
-            <ObjectivesRoleWrapper>
-              <ObjectivesContent>
-                <HeadingM variant="dark">Objectives</HeadingM>
-                <ol>
-                  <li>
-                    Increase the conversion rate on the "go to store" button
-                    (CPC business model, every click generated transaction!)
-                  </li>
-                  <li>
-                    Engage engineers in the design process and show them the
-                    power of design.
-                  </li>
-                </ol>
-              </ObjectivesContent>
-              <RoleContent>
-                <HeadingM variant="dark">My Role</HeadingM>
-                <ul>
-                  <li>
-                    Helping the engineering team understand the value of design
-                    through leading a series of workshops.
-                  </li>
-                  <li>
-                    Helping the engineering team understand how the knowledge
-                    about human cognition can lead to better business results.
-                  </li>
-                  <li>
-                    Leading the collaborative "state design hypothesis"
-                    exercise.
-                  </li>
-                  <li>
-                    Wireframing and prototyping solutions connected to the
-                    design hypotheses stated by the team.
-                  </li>
-                  <li>Conducting and analysing multivariable split tests.</li>
-                </ul>
-              </RoleContent>
-            </ObjectivesRoleWrapper>
-          </ContextWrapper>
+        </BreadcrumbsPortfolioWrapper>
+        <ContextPortfolio
+          id="anchor"
+          contextContent={
+            <>
+              <p>
+                In 2008 I was hired as the first in-house product designer at a
+                Polish eCommerce startup – <strong>Nokaut.pl</strong> (later
+                known as Grupa Nokaut). Before I joined the company, all design
+                tasks were either outsourced or performed by engineers. Shortly
+                after I joined, I noticed that most of the team seemed to
+                consider design to be mere decoration.
+              </p>
+              <p>
+                Nokaut.pl was a consumer–focused company, and this disregard for
+                design, started to harm the business.To help Nokaut.pl grow, I
+                had to introduce a proper design process and prove the value of
+                design. Beginnings were not easy, but ultimately (thanks to my
+                mentor – the co-founder and VP of Product) I found my way to
+                prove the value of design. A combination of direct collaboration
+                with engineers and constant work on improving business metrics
+                brought outstanding results.
+              </p>
+              <p>
+                One of the initiatives that helped me establish design at
+                Nokaut.pl was a series of projects focused on{' '}
+                <strong>optimizing the conversion rate</strong>. I tried to use
+                my knowledge about human cognition to optimize key aspects of
+                the user interface. For the team, it was an opportunity to
+                observe (and participate!) how design hypotheses can lead to
+                real, measurable, change.
+              </p>
+              <p>
+                There are very few documents and screenshots of my old work.
+                After all, it was, 10 – 11 years ago and Grupa Nokatu, after a
+                successful <strong>IPO</strong>, ultimately failed and seized to
+                exist (years after I left). However, one study survived thanks
+                to a bunch of talks that I had at local meetups and conferences.
+              </p>
+              <p>
+                In 2009 I was trusted with the optimization of critical elements
+                of the Nokaut.pl product page. A product page was really a
+                collection of millions of individual pages representing every
+                product listed in Nokuat.pl. Collectively, they had the most
+                significant impact on the overall conversion rate.
+              </p>
+              <p>
+                Together withthe engineering team, we've worked out a series of
+                hypotheses based on factors affecting human attention (contrast,
+                color, movement, pattern...) and we've performed a series of
+                multivariable split tests (multiple variants of product pages
+                were being served randomly to users.
+              </p>
+            </>
+          }
+          objectivesContent={
+            <ol>
+              <li>
+                Increase the conversion rate on the "go to store" button (CPC
+                business model, every click generated transaction!)
+              </li>
+              <li>
+                Engage engineers in the design process and show them the power
+                of design.
+              </li>
+            </ol>
+          }
+          myRoleContent={
+            <ul>
+              <li>
+                Helping the engineering team understand the value of design
+                through leading a series of workshops.
+              </li>
+              <li>
+                Helping the engineering team understand how the knowledge about
+                human cognition can lead to better business results.
+              </li>
+              <li>
+                Leading the collaborative "state design hypothesis" exercise.
+              </li>
+              <li>
+                Wireframing and prototyping solutions connected to the design
+                hypotheses stated by the team.
+              </li>
+              <li>Conducting and analysing multivariable split tests.</li>
+            </ul>
+          }
+        >
           <ImageWrapper>
             <img src={Nokaut} />
             <Caption variant="dark">
               An example of the Nokaut.pl product page in 2008 - 2009
             </Caption>
           </ImageWrapper>
-        </ContextRoleWrapper>
+        </ContextPortfolio>
         <ResultsWrapper>
           <ResultsContent>
             <ResultsList>
@@ -385,16 +298,16 @@ const Conversion = ({ location, data }) => {
               <img src={Buttons} />
             </ButtonsIllustration>
             <ToolsWrapper>
-            <HeadingM>Tools</HeadingM>
-            <ul>
-              <li>Axure (wireframing, prototyping)</li>
-              <li>Notable (comments on visual design)</li>
-              <li>Photoshop (visual design)</li>
-              <li>Photoshop (visual design)</li>
-              <li>Propriatory multiveriable split testing tool</li>
-              <li>Google Analytics</li>
-            </ul>
-          </ToolsWrapper>
+              <HeadingM>Tools</HeadingM>
+              <ul>
+                <li>Axure (wireframing, prototyping)</li>
+                <li>Notable (comments on visual design)</li>
+                <li>Photoshop (visual design)</li>
+                <li>Photoshop (visual design)</li>
+                <li>Propriatory multiveriable split testing tool</li>
+                <li>Google Analytics</li>
+              </ul>
+            </ToolsWrapper>
           </ResultsContent>
         </ResultsWrapper>
         <MoreProjects />

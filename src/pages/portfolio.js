@@ -218,6 +218,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="light"
           ctaLabel="read this story"
+          destination="/portfolio/ecommerce-homepage-design"
           illustration={Homepage}
           illustrationPosition="margin"
           bodyText={

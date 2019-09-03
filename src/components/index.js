@@ -2,7 +2,9 @@ import AboutMe from './AboutMe';
 import Button from './Button';
 import ButtonLink from './ButtonLink';
 import Breadcrumbs from './Breadcrumbs';
+import BreadcrumbsPortfolioWrapper from './BreadcrumbsPortfolioWrapper';
 import Caption from './Caption';
+import ContextPortfolio from './ContextPortfolio';
 import FixedBar from './FixedBar';
 import Footer from './Footer';
 import GlobalStyles from './GlobalStyles';
@@ -22,6 +24,7 @@ import TextDate from './TextDate';
 import TrederImage from './TrederImage';
 import Quote from './Quote';
 import PortfolioTeaser from './PortfolioTeaser';
+import PortfolioHeaderWrapper from './PortfolioHeaderWrapper';
 
 
 export {
@@ -29,7 +32,9 @@ export {
   Button,
   ButtonLink,
   Breadcrumbs,
+  BreadcrumbsPortfolioWrapper,
   Caption,
+  ContextPortfolio,
   FixedBar,
   Footer,
   GlobalStyles,
@@ -48,5 +53,6 @@ export {
   TextDate,
   TrederImage,
   Quote,
-  PortfolioTeaser
+  PortfolioTeaser,
+  PortfolioHeaderWrapper
 };
