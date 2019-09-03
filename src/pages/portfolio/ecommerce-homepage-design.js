@@ -41,10 +41,11 @@ const ImageWrapper = styled.figure`
     justify-content: center;
     padding: 0 var(--sides-padding-desktop);
     margin: 80px 0;
-    
+
     img {
-        width: auto;
+        width: 60%;
         height: auto;
+        margin: 0 auto;
     }
 
     figcaption {
