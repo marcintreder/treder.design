@@ -379,21 +379,12 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         }
         objectivesContent={
           <ol>
+            <li>Creating a collaborative tool for designers and engineers.</li>
             <li>
-              Turning Nokaut.pl homepage into a destination page that users
-              would like to visit (the majority of traffic to Nokaut.pl was
-              coming from product–specific queries in Google, which made the
-              task of building a brand difficult).
+              Creating a GTM plan that strongly resonates with the target
+              audience and launching on November 11th 2010.
             </li>
-            <li>
-              Keeping all the SEO features intact but turning them into a
-              valuable part of overall user experience
-            </li>
-            <li>Educating users about the value of Nokaut.pl.</li>
-            <li>
-              Finding new premium ad locations for Nokaut's network of ad
-              partners.
-            </li>
+            <li>Selling 400 notepads withing 30 days post launch.</li>
           </ol>
         }
         myRoleContent={
