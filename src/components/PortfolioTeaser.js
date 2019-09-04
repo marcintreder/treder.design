@@ -118,6 +118,10 @@ const IllustrationWrapper = styled.div`
       margin: 0;
     }
   }
+
+  @media screen and (max-width: 700px) {
+    margin: 0 0 80px 0;
+  }
 `;
 
 const PortfolioTeaser = props => {
