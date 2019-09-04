@@ -202,6 +202,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="gold"
           ctaLabel="read this story"
+          destination="/portfolio/paper-prototyping-redesigned"
           illustration={Grid}
           illustrationPosition="margin"
           bodyText={<p>The story of the notepad that changed my life</p>}

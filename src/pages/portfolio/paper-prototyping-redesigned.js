@@ -20,6 +20,17 @@ import {
   TextBody,
 } from '../../components';
 
+import UXPinNotepad1 from '../../images/uxpin_notepad_1.png';
+import UXPinNotepad2 from '../../images/uxpin_notepad_2.jpg';
+import UXPinNotepad3 from '../../images/uxpin_notepad_3.jpg';
+import UXPinNotepad4 from '../../images/uxpin_notepad_4.jpg';
+import UXPinNotepad5 from '../../images/uxpin_notepad_5.png';
+import UXPinNotepad6 from '../../images/uxpin_notepad_6.png';
+import UXPinNotepad7 from '../../images/uxpin_notepad_7.jpg';
+import UXPinNotepad8 from '../../images/uxpin_notepad_8.jpg';
+import UXPinNotepadCollection1 from '../../images/uxpin_notepad_collection_1.png';
+import UXPinNotepadCollection2 from '../../images/uxpin_notepad_collection_2.png';
+
 import Logo_Sketches from '../../images/logos.svg';
 import Conversion from '../../images/conversion.svg';
 import Grid from '../../images/grid.svg';
@@ -39,11 +50,12 @@ const ImageWrapper = styled.figure`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 0 var(--sides-padding-desktop);
-  margin: 80px 0;
+  margin: 20px auto;
 
   img {
-    width: 70%;
+    width: 100%;
     height: auto;
     margin: 0 auto;
   }
@@ -53,41 +65,63 @@ const ImageWrapper = styled.figure`
     text-align: center;
   }
 
-  @media screen and (max-width: 1280px) {
-    img {
-      width: 80%;
-    }
-  }
-
-  @media screen and (max-width: 1100px) {
-    img {
-      width: 100%;
-    }
+  @media screen and (min-width: 1440px) {
+    width: 1440px;
   }
 
   @media screen and (max-width: 600px) {
     margin: 40px 0;
-
-    img {
-      width: 100%;
-    }
   }
 `;
 
-const ProcessWrapper = styled.section`
+const TwoImagesWrapper = styled.article`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
-  margin-bottom: 120px;
+  max-width: var(--max-width-desktop);
+  margin: 20px auto;
+  padding: 0 var(--sides-padding-desktop);
+  overflow: hidden;
 
-  @media screen and (max-width: 600px) {
-    margin-bottom: 80px;
+  figcaption {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  @media screen and (min-width: 1440px) {
+    padding: 0 115px;
   }
 `;
 
-const ProcessContent = styled.article`
+const TwoImagesContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+
+  img:first-of-type {
+    height: auto;
+    margin-right: 20px;
+  }
+
+  img:last-of-type {
+    width: 60%;
+    height: auto;
+  }
+
+  @media screen and (max-width: 1380px) {
+    height: 80%;
+  }
+`;
+
+const ExplorationWrapper = styled.article`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
   width: 100%;
   max-width: var(--max-width-desktop);
   margin: 0 auto;
@@ -98,55 +132,12 @@ const ProcessContent = styled.article`
   }
 `;
 
-const ProcessDescription = styled.div`
-  width: 60%;
-  margin-right: 20px;
-
-  @media screen and (max-width: 1200px) {
-    width: 50%;
-    max-right: 10px;
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    max-right: 0;
-  }
-`;
-
-const AdPlaceImage = styled.figure`
-  width: 30%;
-  margin-top: 85px;
-  img {
-    max-width: 400px;
-    width: 100%;
-    height: auto;
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    margin-top: 40px;
-    margin-bottom: 40px;
-  }
-`;
-
-const ProcessChart = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 20px;
-  padding: 0 var(--sides-padding-desktop);
-  img {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-`;
-
 const ResultsWrapper = styled.section`
   display: flex;
   justify-content: center;
   width: 100%;
   background-color: #000000;
-  margin: 0 auto;
+  margin: 80px auto 0 auto;
 
   font-size: 16px;
   font-weight: 100;
@@ -156,6 +147,68 @@ const ResultsWrapper = styled.section`
   ul,
   ol {
     padding-left: 15px;
+  }
+`;
+
+const LaunchWrapper = styled.section`
+  width: 100%;
+`;
+
+const LaunchContent = styled.article`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  max-width: var(--max-width-desktop);
+  margin: 40px auto 0 auto;
+  padding: 0 var(--sides-padding-desktop);
+
+  @media screen and (min-width: 1440px) {
+    padding: 0 115px;
+  }
+`;
+
+const LaunchDescription = styled.div`
+  width: 65%;
+  padding-right: 40px;
+
+  @media screen and (max-width: 1280px) {
+    width: 100%;
+  }
+`;
+
+const LaunchSideImages = styled.aside`
+  width: 375px;
+  margin-top: 80px;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  img:first-of-type {
+    margin-bottom: 40px;
+  }
+
+  figcaption {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 1280px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+
+    img {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    figcaption {
+      margin-bottom: 80px;
+    }
   }
 `;
 
@@ -237,85 +290,90 @@ const ToolsWrapper = styled.article`
   }
 `;
 
-const eCommerceHomepageDesign = ({ location, data }) => {
+const PaperPrototypingRedesigned = ({ location, data }) => {
   return (
     <Layout>
-      <PortfolioHeaderWrapper variant="light">
-        <Navigation seoTitle="eCommerce Homepage redesign" variant="light" />
+      <PortfolioHeaderWrapper variant="dark">
+        <Navigation seoTitle="Paper Prototyping Redesigned" variant="dark" />
         <PortfolioTeaser
-          variant="light"
+          variant="dark"
           alignment="left"
-          heading="Homepage for 2.5M People"
-          headingVariant="dark"
-          subHeading="2011"
-          subHeadingVariant="dark"
+          heading="Paper Prototyping Redesigned"
+          headingVariant="light"
+          subHeading="2010"
+          subHeadingVariant="gold"
           subHeadingBorder
           ctaVariant="button"
-          buttonVariant="dark"
+          buttonVariant="gold"
           buttonHoveredLabel="light"
           ctaLabel="read this story"
-          destination="/portfolio/ecommerce-homepage-design"
-          illustration={Homepage}
+          destination="/portfolio/paper-prototyping-redesigned/#first"
+          illustration={UXPinNotepad1}
           illustrationPosition="margin"
           bodyText={
             <p>
-              TIn 2011 I led the process of the redesign of the Nokaut.pl
-              Homepage. At that time, Nokaut.pl was attracting 2.5 million users
-              a month and the owner of Nokaut.pl – Grupa Nokaut was preparing
-              their IPO. Intense project!
+              In 2010 I got promoted to the role of Head of Design at Grupa
+              Nokaut. I felt a great sense of pride and commitment to the
+              company. And yet, being as young as I were at that time, I had
+              endless energy to work long hours. I challenged myself to do more
+              and more. I engaged in design work for a series of early–stage
+              startups. Not a single one ended up successful. In the summer of
+              2010, I've decided to reflect on the failures of all the projects
+              and engage in a fun little project that answered the problem that
+              I felt myself. Little did I know that this small side project will
+              affect the next 10 years of my life and without planning to do so,
+              I'll start one of the most prominent startups in the history of
+              the tech industry in Poland.
             </p>
           }
         />
       </PortfolioHeaderWrapper>
       <BreadcrumbsPortfolioWrapper>
-        <Breadcrumbs location={location} label="ecommerce homepage design" />
+        <Breadcrumbs location={location} label="paper prototyping redesigned" />
       </BreadcrumbsPortfolioWrapper>
       <ContextPortfolio
+        id="first"
         contextContent={
           <>
             <p>
-              2008 – 2012 I had a pleasure to work for one of the leading
-              eCommerce companies of Central & Eastern Europe –{' '}
-              <strong>Groupa Nokaut</strong>. Hundreds of difficult projects
-              with lots of external and internal constraints shaped me as a
-              designer and product leader.
+              Grupa Nokaut was a highly engineering–driven organization. After
+              successful experiments, the value of design was understood and
+              appreciated, but collaboration remained to be a problem. Design
+              and engineering existed in two silos, and it caused many
+              inefficiencies in the product development process.
             </p>
             <p>
-              After two years of working as an individual contributor, I was
-              promoted to the management team, simultaneously leading the design
-              organization and working in the product R&D team on the future of
-              Grupa Nokaut products.
+              To overcome this challenge in 2010, I've started to organize paper
+              prototyping workshops. I invited the entire engineering team, and
+              together with members of my team, we would present results of most
+              recent research and hold an open discussion about their outcome.
             </p>
             <p>
-              Among all the great projects that I had a pleasure to participate
-              in, couple holds a very special place in my memory. They were
-              extremely difficult, challenging, yet important and... not
-              entirely successful. They were great lessons for myself and the
-              business.
+              After reviewing the results of the research, the entire group was
+              being divided into small interdisciplinary teams and asked to
+              sketch a solution to problems uncovered by the research.
             </p>
             <p>
-              The one that was both memorable and highly interestign was the
-              redesign of Nokaut.pl homepage in 2011.
+              The first iteration of this workshop was only somehow successful.
+              The team was engaged, but many people struggled with sketching and
+              felt concerned about their ability to express themselves visually.
             </p>
             <p>
-              In 2011 Nokaut.pl was attracting over{' '}
-              <strong>2.5 million users</strong> (grew up to 5 million in early
-              2012) every month and was the main engine of the growth that led
-              to <strong>Grupa Nokaut IPO in 2012</strong>. Taking that at that
-              time Poland had just over 20 million Internet users – the numbers
-              generated by Nokaut.pl were amazing.
+              On a subsequent edition of the workshop instead of blank pieces of
+              paper and pencils team received sticky notes with printed,
+              essential components from our style guide. Instead of sketching
+              the solution, the team was asked to build the interface with
+              sticky notes.
             </p>
             <p>
-              Despite the strong business results, Nokaut.pl never managed to
-              establish a solid brand. Majority of users entered Nokaut.pl
-              through well–positioned product pages in Google Search.
+              This playful approach turned out to be an overwhelming success.
             </p>
             <p>
-              With the approaching IPO Grupa Nokaut wanted to change that
-              situation. The CEO decided to ask my team to redesign the homepage
-              and turn it from an SEO powerhouse to a destination page with
-              value on its own, but... without affecting negatively any of the
-              SEO juice.
+              Soon after, together with two friends, I decided to turn this
+              positive experience into a product. The problem felt real, and it
+              seemed that we might have a solution. Without any hopes to turn it
+              into a big business we've designed and produced the very first
+              UXPin product – UXPin Paper Prototyping notepad for web design.
             </p>
           </>
         }
@@ -340,121 +398,147 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         }
         myRoleContent={
           <ul>
-            <li>Leading the research and analysis.</li>
-            <li>
-              Creating a business case and product plan for the redesign and
-              associated features.
-            </li>
-            <li>Leading the redesign team (1 designer, 2 developers)</li>
+            <li>Coming up with the concept of the product.</li>
+            <li>Research and analysis</li>
+            <li>Low fidelity design of notepads and collaterals</li>
             <li>Wireframing and prototyping key experiences</li>
-            <li>Planning and negotiating slots for ads</li>
-            <li>Presenting plan and progress of work to the CEO</li>
+            <li>Creating the business model</li>
             <li>
-              Measuring performance and optimizing the design with a series of
-              Multivariable Split Tests and usability studies.
+              Creating and executing the first marketing plan (including GTM)
             </li>
+            <li>Post–launch customer service and quality assurance</li>
           </ul>
         }
       >
         <ImageWrapper>
-          <img src={NokautHomepage} />
+          <img src={UXPinNotepad2} />
           <Caption variant="dark">
-            Nokaut.pl Homepage after the 2011 redesign.
+            The very first picture of the UXPin Paper Prototyping Notepad
+          </Caption>
+        </ImageWrapper>
+        <ExplorationWrapper>
+          <HeadingM variant="dark">Exploration</HeadingM>
+          <TextBody variant="dark">
+            <p>
+              To kick off the process, together with my co–founders, we've
+              started to attempt to define a small set of user interface
+              elements (today, we would say – atoms) that was sufficient and
+              universal enough to build any website. For hours we would cut out
+              elements from sticky notes and try to recreate popular websites –
+              eBay, Facebook, MySpace...
+            </p>
+            <p>
+              Once we felt that we have something that works for us, we've
+              started to run tests with our friends – designers. After dozens of
+              iterations, we finally felt that we had a design that works for a
+              majority of cases. Excited, we've started to look for a producer.
+              It turned out that producing notepads with a sufficiently strong
+              glue was quite a challenge. After 2 months of intense
+              negotiations, we've found a printing house able to produce the
+              first series of UXPin notepads – 400 pieces.
+            </p>
+          </TextBody>
+        </ExplorationWrapper>
+        <ImageWrapper>
+          <img src={UXPinNotepadCollection1} />
+          <Caption variant="dark">
+            UXPin was always all about the quality. We checked every single
+            notepad, making sure that everything is just right.
           </Caption>
         </ImageWrapper>
       </ContextPortfolio>
-      <ProcessWrapper>
-        <ProcessContent>
-          <ProcessDescription>
-            <HeadingM variant="dark">The Process</HeadingM>
+      <LaunchWrapper>
+        <LaunchContent>
+          <LaunchDescription>
+            <HeadingM variant="dark">Launch</HeadingM>
             <TextBody variant="dark">
               <p>
-                The chart below represents the process run for this project.
-                It's also an accurate representation of how my team and myself
-                run design and product work at Grupa Nokaut at that time. We
-                took pride in being data–driven yet balanced and creative and
-                we've never shied away from negotiating with key stakeholders.
-              </p>{' '}
-              <p>
-                The homepage redesign was a very special project with very high
-                stakes and CEO requested me to be very hands–on and design key
-                experiences on my own. I wasn't particularly fond of
-                micromanagement, but I understood that with the upcoming IPO
-                changes on the homepage are going to be highly scrutinized by
-                media and analysts. There was no room for mistakes.
+                In early November the printing house completed our order of 400
+                UXPin Notepads – in theory, we were ready to launch. The
+                practice has been somehow more complicated, though. Now we had
+                to find time to build the UXPin website and store.
               </p>
+              <p>
+                To motivated ourselves, we've set a fixed launch deadline –
+                November 11th 2010. November 11th is simultaneously celebrated
+                as the World Usability Day and Poland Independence Day (public
+                holiday). Seemed like a great day to launch UXPin!
+              </p>
+              <p>
+                Unfortunately, we were busy with other commitments until the
+                very launch day, and we didn't manage to do nearly anything.
+              </p>
+              <p>
+                Young and excited, instead of rescheduling the launch we've
+                worked for 24 hours non–stop. The entire website was designed
+                and build in one day. We had to accept some significant
+                compromises (e.g., WordPress served us as the eCommerce
+                platform). A price worth paying for keeping our word!
+              </p>
+              <p>
+                In the late evening of November 11th we were ready to launch.
+                The first order came a couple of minutes after the launch. We
+                were completely sold out within 48 hours.
+              </p>
+              <p>UXPin adventure has started!</p>
             </TextBody>
-          </ProcessDescription>
-          <AdPlaceImage>
-            <img src={NokautHomepageHead} />
+          </LaunchDescription>
+          <LaunchSideImages>
+            <img src={UXPinNotepad6} />
+            <img src={UXPinNotepad5} />
             <Caption variant="dark">
-              Negotiating ad placements and presenting the value of Nokaut.pl
-              were important for key stakeholders. Above you can see multiple
-              signals of Nokaut.pl strength (counter of users who saved money
-              with Nokaut.pl, prominent mention that Nokaut.pl stores 10 million
-              offers from nearly 4000 stores) and a new premium ad space.
+              The original wireframe and the design of the first UXPin website.
             </Caption>
-          </AdPlaceImage>
-        </ProcessContent>
-        <ProcessChart>
-          <img src={ProcessChartHomepage} />
-        </ProcessChart>
-      </ProcessWrapper>
+          </LaunchSideImages>
+        </LaunchContent>
+      </LaunchWrapper>
+      <ImageWrapper>
+        <img src={UXPinNotepadCollection2} />
+        <Caption variant="dark">
+          The first batch of UXPin notepads sold out in 48 hours.
+        </Caption>
+      </ImageWrapper>
       <ResultsWrapper>
         <ResultsContent>
           <ResultsList>
             <HeadingM>Results</HeadingM>
             <ul>
-              <li>The homepage started to attract more direct traffic.</li>
               <li>
-                In the research, we've discovered a need to compare multiple
-                different products without losing the context of the current
-                search. Feature build as a result of this study significantly
-                increased the conversion rate.
+                UXPin quickly became extremely popular. Just in the first month
+                we've started to serve IBM, Apple, Google, MySpace, Sony and
+                other great companies all over the world.
               </li>
-              <li>New ad slots increased ad revenue for the company.</li>
               <li>
-                The CEO was happy with the new homepage and the positive media
-                reception. I was designated to comment on the redesign to media
-                outlets.
+                This very simple notepad, within 12 months, led us to starting a
+                real company, which attracted multiple awards, VC funding (first
+                Polish company that raised capital in Silicon Valley) and today
+                serves tens of thousands companies all over the world.
               </li>
             </ul>
           </ResultsList>
           <MiniQuoteWrapper>
             <MiniQuote>
-              Design leadership requires empathy towards users as well as
-              towards the stakeholders. Successful negotiations with key
-              executives can lead to outstanding results.
+              Great design requires superb discipline. Only with discipline a
+              designer can achieve her goals.
             </MiniQuote>
           </MiniQuoteWrapper>
           <LessonsWrapper>
             <HeadingM>Lessons Learned</HeadingM>
             <ol>
               <li>
-                The redesign brought a smaller revenue change than a feature
-                inspired by the research that my team did at the same time.
-                There was a solid business case for changing the homepage, but
-                it only worked within the given priorities (IPO and brand at the
-                time of IPO). Otherwise, an investment in more user research and
-                product changes could lead to significantly better business
-                results.
+                Problem based product development can lead to amazing success.
               </li>
+              <li>Discipline is necessary in any design and product work.</li>
               <li>
-                Trust of the key executives into design practice and design
-                leader means everything. I was lucky to be granted a high degree
-                of trust and, in consequence, the design team had more freedom
-                to do the best work of their lives.
+                One decision can lead to years of unexpected consequences.
               </li>
             </ol>
           </LessonsWrapper>
           <ToolsWrapper>
             <HeadingM>Tools</HeadingM>
             <ul>
-              <li>Omnigraffle (wireframing)</li>
               <li>Axure (prototyping)</li>
-              <li>Notable (comments on visual design)</li>
               <li>Photoshop (visual design)</li>
-              <li>Propriatory multiveriable split testing tool</li>
               <li>Google Analytics</li>
             </ul>
           </ToolsWrapper>
@@ -667,4 +751,4 @@ const eCommerceHomepageDesign = ({ location, data }) => {
   );
 };
 
-export default eCommerceHomepageDesign;
+export default PaperPrototypingRedesigned;

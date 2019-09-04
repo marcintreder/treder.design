@@ -303,7 +303,6 @@ const Conversion = ({ location, data }) => {
                 <li>Axure (wireframing, prototyping)</li>
                 <li>Notable (comments on visual design)</li>
                 <li>Photoshop (visual design)</li>
-                <li>Photoshop (visual design)</li>
                 <li>Propriatory multiveriable split testing tool</li>
                 <li>Google Analytics</li>
               </ul>
