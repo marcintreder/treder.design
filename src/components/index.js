@@ -25,6 +25,7 @@ import TrederImage from './TrederImage';
 import Quote from './Quote';
 import PortfolioTeaser from './PortfolioTeaser';
 import PortfolioHeaderWrapper from './PortfolioHeaderWrapper';
+import PortfolioResults from './PortfolioResults';
 
 
 export {
@@ -54,5 +55,6 @@ export {
   TrederImage,
   Quote,
   PortfolioTeaser,
-  PortfolioHeaderWrapper
+  PortfolioHeaderWrapper,
+  PortfolioResults
 };

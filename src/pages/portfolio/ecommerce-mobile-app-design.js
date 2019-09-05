@@ -8,9 +8,9 @@ import {
   BreadcrumbsPortfolioWrapper,
   HeadingM,
   Navigation,
-  MiniQuote,
   MoreProjects,
   PortfolioTeaser,
+  PortfolioResults,
   PortfolioHeaderWrapper,
   Layout,
   TextBody,
@@ -24,7 +24,6 @@ import New_Editor from '../../images/new_editor.svg';
 import Adele from '../../images/adele.svg';
 import Homepage from '../../images/small_homepage.svg';
 import Video from '../../images/video.svg';
-import GridBackground from '../../images/grid_background.svg';
 /* Illustrations used in the main content section */
 import Mobile from '../../images/mobile.svg';
 import NokautSkaner from '../../images/nokaut_skaner.png';
@@ -118,102 +117,6 @@ const ProcessChart = styled.div`
   img {
     max-width: 1200px;
     margin: 0 auto;
-  }
-`;
-
-const ResultsWrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  background-color: #000000;
-  margin: 0 auto;
-
-  font-size: 16px;
-  font-weight: 100;
-  line-height: 30px;
-  color: #ffffff;
-
-  ul,
-  ol {
-    padding-left: 15px;
-  }
-`;
-
-const ResultsContent = styled.article`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: var(--max-width-desktop);
-  padding: 80px var(--sides-padding-desktop);
-
-  background-image: url(${GridBackground});
-  background-repeat: no-repeat;
-  background-position: right 115px center;
-
-  @media screen and (min-width: 1440px) {
-    padding: 80px 115px;
-  }
-
-  @media screen and (max-width: 1440px) {
-    background-position: right 11% center;
-  }
-
-  @media screen and (max-width: 1300px) {
-    background-position: right 11.5% center;
-  }
-
-  @media screen and (max-width: 600px) {
-    padding-top: 40px;
-    background-position: center center;
-  }
-`;
-
-const ResultsList = styled.div`
-  width: 60%;
-  padding-right: 80px;
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    padding-right: 0;
-  }
-`;
-
-const LessonsWrapper = styled.div`
-  width: 60%;
-  margin-top: 40px;
-  padding-right: 80px;
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    padding-right: 0;
-    margin-top: 20px;
-  }
-`;
-
-const MiniQuoteWrapper = styled.div`
-  width: 40%;
-
-  q {
-    display: block;
-    margin-top: 75px;
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    margin-bottom: 20px;
-
-    q {
-      display: block;
-      margin-top: 40px;
-    }
-  }
-`;
-
-const ToolsWrapper = styled.article`
-  margin-top: 40px;
-
-  @media screen and (max-width: 600px) {
-    margin-top: 20px;
   }
 `;
 
@@ -430,33 +333,21 @@ const eCommerceMobileAppDesign = ({ location, data }) => {
           <img src={ProcessChartMobile} />
         </ProcessChart>
       </ProcessWrapper>
-      <ResultsWrapper>
-        <ResultsContent>
-          <ResultsList>
-            <HeadingM>Results</HeadingM>
-            <ul>
-              <li>
-                The app quickly became popular among Grupa Nokaut users and
-                became the top 5 eCommerce mobile app in Central and Eastern
-                Europe.
-              </li>
-              <li>
-                The app didn't contribute significantly to the revenue
-                generation for the business. The CPC business model didn't fit
-                into the mobile experience.
-              </li>
-            </ul>
-          </ResultsList>
-          <MiniQuoteWrapper>
-            <MiniQuote>
-              In mobile design – context is king. You can't design a great
-              mobile app that will be used "everywhere" by sitting in front of a
-              computer in the office.
-            </MiniQuote>
-          </MiniQuoteWrapper>
-          <LessonsWrapper>
-            <HeadingM>Lessons Learned</HeadingM>
-            <ol>
+      <PortfolioResults 
+        results={<ul>
+          <li>
+            The app quickly became popular among Grupa Nokaut users and
+            became the top 5 eCommerce mobile app in Central and Eastern
+            Europe.
+          </li>
+          <li>
+            The app didn't contribute significantly to the revenue
+            generation for the business. The CPC business model didn't fit
+            into the mobile experience.
+          </li>
+        </ul>}
+        lessons={
+          <ol>
               <li>
                 Products built just for the sake of a business partnership are
                 challenging to turn into success (Windows Mobile 6.5 app had
@@ -482,19 +373,20 @@ const eCommerceMobileAppDesign = ({ location, data }) => {
                 relationship building.
               </li>
             </ol>
-          </LessonsWrapper>
-          <ToolsWrapper>
-            <HeadingM>Tools</HeadingM>
-            <ul>
+        }
+        tools={
+          <ul>
               <li>Axure (wireframing, prototyping)</li>
               <li>Notable (comments on visual design)</li>
               <li>Photoshop (visual design)</li>
               <li>MixPanel Flow</li>
               <li>Google Analytics</li>
             </ul>
-          </ToolsWrapper>
-        </ResultsContent>
-      </ResultsWrapper>
+        }
+        quote="In mobile design – context is king. You can't design a great
+        mobile app that will be used 'everywhere' by sitting in front of a
+        computer in the office."
+      />
       <MoreProjects />
       <PortfolioTeaser
         variant="dark"
