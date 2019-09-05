@@ -1,47 +1,44 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql, Link } from 'gatsby';
 
 import {
-  Button,
-  ButtonLink,
   Caption,
   Breadcrumbs,
   ContextPortfolio,
   BreadcrumbsPortfolioWrapper,
   HeadingM,
-  HeadingXL,
   Navigation,
   MiniQuote,
   MoreProjects,
   PortfolioTeaser,
   Layout,
-  TextBody,
   PortfolioHeaderWrapper,
+  PortfolioImageWrapper,
 } from '../../components';
 
+/* Illustrations */
 import Logo_Sketches from '../../images/logos.svg';
-import ConverionIllustration from '../../images/conversion.svg';
 import Grid from '../../images/grid.svg';
 import New_Editor from '../../images/new_editor.svg';
-import Homepage from '../../images/homepage.svg';
 import Adele from '../../images/adele.svg';
 import Mobile from '../../images/mobile.svg';
 import Video from '../../images/video.svg';
-import Nokaut from '../../images/nokaut_home_page.jpg';
 import Buttons from '../../images/buttons.png';
 import GridBackground from '../../images/grid_background.svg';
+import Homepage from '../../images/homepage.svg';
+/* Illustrations used in the main section */
+import ConverionIllustration from '../../images/conversion.svg';
+import Nokaut from '../../images/nokaut_home_page.jpg';
 
-const ImageWrapper = styled.figure`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+/* Page specific style components */
+const ImageWrapper = styled(PortfolioImageWrapper)`
   margin: 60px 0 120px 0;
+
   img {
     width: 759px;
     box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.1);
   }
+
   ${Caption} {
     margin-top: 30px;
   }
