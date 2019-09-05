@@ -1,40 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql, Link } from 'gatsby';
 
 import {
-  Button,
-  ButtonLink,
   Caption,
   ContextPortfolio,
   Breadcrumbs,
   BreadcrumbsPortfolioWrapper,
   HeadingM,
-  HeadingXL,
   Navigation,
-  MiniQuote,
   MoreProjects,
   PortfolioTeaser,
   PortfolioHeaderWrapper,
+  PortfolioResults,
   Layout,
   TextBody,
 } from '../../components';
 
+/* Illustrations */
 import Logo_Sketches from '../../images/logos.svg';
 import Conversion from '../../images/conversion.svg';
 import Grid from '../../images/grid.svg';
 import New_Editor from '../../images/new_editor.svg';
-import Homepage from '../../images/small_homepage.svg';
 import Adele from '../../images/adele.svg';
 import Mobile from '../../images/mobile.svg';
 import Video from '../../images/video.svg';
-import Nokaut from '../../images/nokaut_home_page.jpg';
-import Buttons from '../../images/buttons.png';
-import GridBackground from '../../images/grid_background.svg';
+/* Illustrations used in the main section */
+import Homepage from '../../images/small_homepage.svg';
 import ProcessChartHomepage from '../../images/process_homepage.svg';
 import NokautHomepageHead from '../../images/nokaut_homepage_head.png';
 import NokautHomepage from '../../images/nokaut_homepage.png';
 
+/* Page specific styles */
 const ImageWrapper = styled.figure`
   display: flex;
   flex-direction: column;
@@ -138,102 +134,6 @@ const ProcessChart = styled.div`
   img {
     max-width: 1200px;
     margin: 0 auto;
-  }
-`;
-
-const ResultsWrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  background-color: #000000;
-  margin: 0 auto;
-
-  font-size: 16px;
-  font-weight: 100;
-  line-height: 30px;
-  color: #ffffff;
-
-  ul,
-  ol {
-    padding-left: 15px;
-  }
-`;
-
-const ResultsContent = styled.article`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: var(--max-width-desktop);
-  padding: 80px var(--sides-padding-desktop);
-
-  background-image: url(${GridBackground});
-  background-repeat: no-repeat;
-  background-position: right 115px center;
-
-  @media screen and (min-width: 1440px) {
-    padding: 80px 115px;
-  }
-
-  @media screen and (max-width: 1440px) {
-    background-position: right 11% center;
-  }
-
-  @media screen and (max-width: 1300px) {
-    background-position: right 11.5% center;
-  }
-
-  @media screen and (max-width: 600px) {
-    padding-top: 40px;
-    background-position: center center;
-  }
-`;
-
-const ResultsList = styled.div`
-  width: 60%;
-  padding-right: 80px;
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    padding-right: 0;
-  }
-`;
-
-const LessonsWrapper = styled.div`
-  width: 60%;
-  margin-top: 40px;
-  padding-right: 80px;
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    padding-right: 0;
-    margin-top: 20px;
-  }
-`;
-
-const MiniQuoteWrapper = styled.div`
-  width: 40%;
-
-  q {
-    display: block;
-    margin-top: 75px;
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    margin-bottom: 20px;
-
-    q {
-      display: block;
-      margin-top: 40px;
-    }
-  }
-`;
-
-const ToolsWrapper = styled.article`
-  margin-top: 40px;
-
-  @media screen and (max-width: 600px) {
-    margin-top: 20px;
   }
 `;
 
@@ -400,66 +300,56 @@ const eCommerceHomepageDesign = ({ location, data }) => {
           <img src={ProcessChartHomepage} />
         </ProcessChart>
       </ProcessWrapper>
-      <ResultsWrapper>
-        <ResultsContent>
-          <ResultsList>
-            <HeadingM>Results</HeadingM>
-            <ul>
-              <li>The homepage started to attract more direct traffic.</li>
-              <li>
-                In the research, we've discovered a need to compare multiple
-                different products without losing the context of the current
-                search. Feature build as a result of this study significantly
-                increased the conversion rate.
-              </li>
-              <li>New ad slots increased ad revenue for the company.</li>
-              <li>
-                The CEO was happy with the new homepage and the positive media
-                reception. I was designated to comment on the redesign to media
-                outlets.
-              </li>
-            </ul>
-          </ResultsList>
-          <MiniQuoteWrapper>
-            <MiniQuote>
-              Design leadership requires empathy towards users as well as
-              towards the stakeholders. Successful negotiations with key
-              executives can lead to outstanding results.
-            </MiniQuote>
-          </MiniQuoteWrapper>
-          <LessonsWrapper>
-            <HeadingM>Lessons Learned</HeadingM>
-            <ol>
-              <li>
-                The redesign brought a smaller revenue change than a feature
-                inspired by the research that my team did at the same time.
-                There was a solid business case for changing the homepage, but
-                it only worked within the given priorities (IPO and brand at the
-                time of IPO). Otherwise, an investment in more user research and
-                product changes could lead to significantly better business
-                results.
-              </li>
-              <li>
-                Trust of the key executives into design practice and design
-                leader means everything. I was lucky to be granted a high degree
-                of trust and, in consequence, the design team had more freedom
-                to do the best work of their lives.
-              </li>
-            </ol>
-          </LessonsWrapper>
-          <ToolsWrapper>
-            <HeadingM>Tools</HeadingM>
-            <ul>
-              <li>Omnigraffle (wireframing)</li>
-              <li>Axure (prototyping)</li>
-              <li>Notable (comments on visual design)</li>
-              <li>Photoshop (visual design)</li>
-              <li>Propriatory multiveriable split testing tool</li>
-              <li>Google Analytics</li>
-            </ul>
-          </ToolsWrapper>
-        </ResultsContent>
-      </ResultsWrapper>
+      <PortfolioResults
+        results={
+          <ul>
+            <li>The homepage started to attract more direct traffic.</li>
+            <li>
+              In the research, we've discovered a need to compare multiple
+              different products without losing the context of the current
+              search. Feature build as a result of this study significantly
+              increased the conversion rate.
+            </li>
+            <li>New ad slots increased ad revenue for the company.</li>
+            <li>
+              The CEO was happy with the new homepage and the positive media
+              reception. I was designated to comment on the redesign to media
+              outlets.
+            </li>
+          </ul>
+        }
+        lessons={
+          <ol>
+            <li>
+              The redesign brought a smaller revenue change than a feature
+              inspired by the research that my team did at the same time. There
+              was a solid business case for changing the homepage, but it only
+              worked within the given priorities (IPO and brand at the time of
+              IPO). Otherwise, an investment in more user research and product
+              changes could lead to significantly better business results.
+            </li>
+            <li>
+              Trust of the key executives into design practice and design leader
+              means everything. I was lucky to be granted a high degree of trust
+              and, in consequence, the design team had more freedom to do the
+              best work of their lives.
+            </li>
+          </ol>
+        }
+        tools={
+          <ul>
+            <li>Omnigraffle (wireframing)</li>
+            <li>Axure (prototyping)</li>
+            <li>Notable (comments on visual design)</li>
+            <li>Photoshop (visual design)</li>
+            <li>Propriatory multiveriable split testing tool</li>
+            <li>Google Analytics</li>
+          </ul>
+        }
+        quote="Design leadership requires empathy towards users as well as
+        towards the stakeholders. Successful negotiations with key
+        executives can lead to outstanding results."
+      />
       <MoreProjects />
       <PortfolioTeaser
         variant="dark"
