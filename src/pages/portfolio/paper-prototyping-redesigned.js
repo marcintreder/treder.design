@@ -565,19 +565,26 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
       />
       <PortfolioTeaser
         variant="light"
-        alignment="left"
-        heading="Paper Prototyping Redesigned"
+        alignment="center"
+        heading="Homepage for 2.5M People"
         headingVariant="dark"
-        subHeading="2010"
+        subHeading="2011"
         subHeadingVariant="dark"
         subHeadingBorder
         ctaVariant="button"
         buttonVariant="dark"
         buttonHoveredLabel="light"
         ctaLabel="read this story"
-        illustration={Grid}
+        illustration={Homepage}
         illustrationPosition="margin"
-        bodyText={<p>The story of the notepad that changed my life</p>}
+        bodyText={
+          <p>
+            TIn 2011 I led the process of the redesign of the Nokaut.pl
+            Homepage. At that time, Nokaut.pl was attracting 2.5 million users a
+            month and the owner of Nokaut.pl – Grupa Nokaut was preparing their
+            IPO. Intense project!
+          </p>
+        }
       />
       <PortfolioTeaser
         variant="gold"

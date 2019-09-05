@@ -234,7 +234,7 @@ const Portfolio = ({ location, data }) => {
         <PortfolioTeaser
           variant="gold"
           alignment="left"
-          heading="Mobile App for 3 Platforms"
+          heading="eCommerce Mobile App for 3 Platforms"
           headingVariant="dark"
           subHeading="2011"
           subHeadingVariant="dark"
@@ -243,6 +243,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="gold"
           ctaLabel="read this story"
+          destination="/portfolio/ecommerce-mobile-app-design"
           illustration={Mobile}
           illustrationPosition="margin"
           bodyText={
