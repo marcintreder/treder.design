@@ -12,6 +12,7 @@ import {
   PortfolioTeaser,
   PortfolioResults,
   PortfolioHeaderWrapper,
+  PortfolioImageWrapper,
   Layout,
   TextBody,
 } from '../../components';
@@ -30,44 +31,16 @@ import NokautSkaner from '../../images/nokaut_skaner.png';
 import ProcessChartMobile from '../../images/process_mobile.svg';
 
 /* Styles for page specific components */
-const ImageWrapper = styled.figure`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 var(--sides-padding-desktop);
-  margin: 80px 0;
+
+const ImageWrapper = styled(PortfolioImageWrapper)`
+  margin: 80px auto;
 
   img {
-    width: 70%;
-    height: auto;
-    margin: 0 auto;
-  }
-
-  figcaption {
-    margin-top: 40px;
-    text-align: center;
-  }
-
-  @media screen and (max-width: 1280px) {
-    img {
-      width: 80%;
-    }
-  }
-
-  @media screen and (max-width: 1100px) {
-    img {
-      width: 100%;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    margin: 40px 0;
-
-    img {
-      width: 100%;
-    }
+    width: 80%;
   }
 `;
+
+
 
 const ProcessWrapper = styled.section`
   width: 100%;
