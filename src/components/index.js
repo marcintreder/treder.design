@@ -23,6 +23,7 @@ import TextBody from './TextBody';
 import TextDate from './TextDate';
 import TrederImage from './TrederImage';
 import Quote from './Quote';
+import PortfolioImageWrapper from './PortfolioImageWrapper';
 import PortfolioTeaser from './PortfolioTeaser';
 import PortfolioHeaderWrapper from './PortfolioHeaderWrapper';
 import PortfolioResults from './PortfolioResults';
@@ -54,6 +55,7 @@ export {
   TextDate,
   TrederImage,
   Quote,
+  PortfolioImageWrapper,
   PortfolioTeaser,
   PortfolioHeaderWrapper,
   PortfolioResults

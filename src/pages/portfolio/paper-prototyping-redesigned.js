@@ -1,121 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql, Link } from 'gatsby';
 
 import {
-  Button,
-  ButtonLink,
   Caption,
   ContextPortfolio,
   Breadcrumbs,
   BreadcrumbsPortfolioWrapper,
   HeadingM,
-  HeadingXL,
   Navigation,
-  MiniQuote,
   MoreProjects,
+  PortfolioImageWrapper,
   PortfolioTeaser,
   PortfolioHeaderWrapper,
+  PortfolioResults,
   Layout,
   TextBody,
 } from '../../components';
 
-import UXPinNotepad1 from '../../images/uxpin_notepad_1.png';
-import UXPinNotepad2 from '../../images/uxpin_notepad_2.jpg';
-import UXPinNotepad3 from '../../images/uxpin_notepad_3.jpg';
-import UXPinNotepad4 from '../../images/uxpin_notepad_4.jpg';
-import UXPinNotepad5 from '../../images/uxpin_notepad_5.png';
-import UXPinNotepad6 from '../../images/uxpin_notepad_6.png';
-import UXPinNotepad7 from '../../images/uxpin_notepad_7.jpg';
-import UXPinNotepad8 from '../../images/uxpin_notepad_8.jpg';
-import UXPinNotepadCollection1 from '../../images/uxpin_notepad_collection_1.png';
-import UXPinNotepadCollection2 from '../../images/uxpin_notepad_collection_2.png';
-
+/* Illustrations */
 import Logo_Sketches from '../../images/logos.svg';
 import Conversion from '../../images/conversion.svg';
-import Grid from '../../images/grid.svg';
 import New_Editor from '../../images/new_editor.svg';
 import Homepage from '../../images/small_homepage.svg';
 import Adele from '../../images/adele.svg';
 import Mobile from '../../images/mobile.svg';
 import Video from '../../images/video.svg';
-import Nokaut from '../../images/nokaut_home_page.jpg';
-import Buttons from '../../images/buttons.png';
-import GridBackground from '../../images/grid_background.svg';
-import ProcessChartHomepage from '../../images/process_homepage.svg';
-import NokautHomepageHead from '../../images/nokaut_homepage_head.png';
-import NokautHomepage from '../../images/nokaut_homepage.png';
+/* Illustrations used in the main section */
+import UXPinNotepad1 from '../../images/uxpin_notepad_1.png';
+import UXPinNotepad2 from '../../images/uxpin_notepad_2.jpg';
+import UXPinNotepad5 from '../../images/uxpin_notepad_5.png';
+import UXPinNotepad6 from '../../images/uxpin_notepad_6.png';
+import UXPinNotepadCollection1 from '../../images/uxpin_notepad_collection_1.png';
+import UXPinNotepadCollection2 from '../../images/uxpin_notepad_collection_2.png';
 
-const ImageWrapper = styled.figure`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 var(--sides-padding-desktop);
-  margin: 20px auto;
-
-  img {
-    width: 100%;
-    height: auto;
-    margin: 0 auto;
-  }
-
-  figcaption {
-    margin-top: 40px;
-    text-align: center;
-  }
-
-  @media screen and (min-width: 1440px) {
-    width: 1440px;
-  }
-
-  @media screen and (max-width: 600px) {
-    margin: 40px 0;
-  }
-`;
-
-const TwoImagesWrapper = styled.article`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  max-width: var(--max-width-desktop);
-  margin: 20px auto;
-  padding: 0 var(--sides-padding-desktop);
-  overflow: hidden;
-
-  figcaption {
-    margin-top: 40px;
-    text-align: center;
-  }
-
-  @media screen and (min-width: 1440px) {
-    padding: 0 115px;
-  }
-`;
-
-const TwoImagesContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  height: 600px;
-  margin: 0 auto;
-  overflow: hidden;
-
-  img:first-of-type {
-    height: auto;
-    margin-right: 20px;
-  }
-
-  img:last-of-type {
-    width: 60%;
-    height: auto;
-  }
-
-  @media screen and (max-width: 1380px) {
-    height: 80%;
-  }
+/* Page specific style components */
+const LastImageWrapper = styled(PortfolioImageWrapper)`
+    margin-bottom: 80px;
 `;
 
 const ExplorationWrapper = styled.article`
@@ -129,24 +49,6 @@ const ExplorationWrapper = styled.article`
 
   @media screen and (min-width: 1440px) {
     padding: 0 115px;
-  }
-`;
-
-const ResultsWrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  background-color: #000000;
-  margin: 80px auto 0 auto;
-
-  font-size: 16px;
-  font-weight: 100;
-  line-height: 30px;
-  color: #ffffff;
-
-  ul,
-  ol {
-    padding-left: 15px;
   }
 `;
 
@@ -209,84 +111,6 @@ const LaunchSideImages = styled.aside`
     figcaption {
       margin-bottom: 80px;
     }
-  }
-`;
-
-const ResultsContent = styled.article`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: var(--max-width-desktop);
-  padding: 80px var(--sides-padding-desktop);
-
-  background-image: url(${GridBackground});
-  background-repeat: no-repeat;
-  background-position: right 115px center;
-
-  @media screen and (min-width: 1440px) {
-    padding: 80px 115px;
-  }
-
-  @media screen and (max-width: 1440px) {
-    background-position: right 11% center;
-  }
-
-  @media screen and (max-width: 1300px) {
-    background-position: right 11.5% center;
-  }
-
-  @media screen and (max-width: 600px) {
-    padding-top: 40px;
-    background-position: center center;
-  }
-`;
-
-const ResultsList = styled.div`
-  width: 60%;
-  padding-right: 80px;
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    padding-right: 0;
-  }
-`;
-
-const LessonsWrapper = styled.div`
-  width: 60%;
-  margin-top: 40px;
-  padding-right: 80px;
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    padding-right: 0;
-    margin-top: 20px;
-  }
-`;
-
-const MiniQuoteWrapper = styled.div`
-  width: 40%;
-
-  q {
-    display: block;
-    margin-top: 75px;
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    margin-bottom: 20px;
-
-    q {
-      display: block;
-      margin-top: 40px;
-    }
-  }
-`;
-
-const ToolsWrapper = styled.article`
-  margin-top: 40px;
-
-  @media screen and (max-width: 600px) {
-    margin-top: 20px;
   }
 `;
 
@@ -401,12 +225,12 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
           </ul>
         }
       >
-        <ImageWrapper>
+        <PortfolioImageWrapper>
           <img src={UXPinNotepad2} />
           <Caption variant="dark">
             The very first picture of the UXPin Paper Prototyping Notepad
           </Caption>
-        </ImageWrapper>
+        </PortfolioImageWrapper>
         <ExplorationWrapper>
           <HeadingM variant="dark">Exploration</HeadingM>
           <TextBody variant="dark">
@@ -430,13 +254,13 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
             </p>
           </TextBody>
         </ExplorationWrapper>
-        <ImageWrapper>
+        <PortfolioImageWrapper>
           <img src={UXPinNotepadCollection1} />
           <Caption variant="dark">
             UXPin was always all about the quality. We checked every single
             notepad, making sure that everything is just right.
           </Caption>
-        </ImageWrapper>
+        </PortfolioImageWrapper>
       </ContextPortfolio>
       <LaunchWrapper>
         <LaunchContent>
@@ -483,58 +307,47 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
           </LaunchSideImages>
         </LaunchContent>
       </LaunchWrapper>
-      <ImageWrapper>
+      <LastImageWrapper>
         <img src={UXPinNotepadCollection2} />
         <Caption variant="dark">
           The first batch of UXPin notepads sold out in 48 hours.
         </Caption>
-      </ImageWrapper>
-      <ResultsWrapper>
-        <ResultsContent>
-          <ResultsList>
-            <HeadingM>Results</HeadingM>
-            <ul>
-              <li>
-                UXPin quickly became extremely popular. Just in the first month
-                we've started to serve IBM, Apple, Google, MySpace, Sony and
-                other great companies all over the world.
-              </li>
-              <li>
-                This very simple notepad, within 12 months, led us to starting a
-                real company, which attracted multiple awards, VC funding (first
-                Polish company that raised capital in Silicon Valley) and today
-                serves tens of thousands companies all over the world.
-              </li>
-            </ul>
-          </ResultsList>
-          <MiniQuoteWrapper>
-            <MiniQuote>
-              Great design requires superb discipline. Only with discipline a
-              designer can achieve her goals.
-            </MiniQuote>
-          </MiniQuoteWrapper>
-          <LessonsWrapper>
-            <HeadingM>Lessons Learned</HeadingM>
-            <ol>
-              <li>
-                Problem based product development can lead to amazing success.
-              </li>
-              <li>Discipline is necessary in any design and product work.</li>
-              <li>
-                One decision can lead to years of unexpected consequences.
-              </li>
-            </ol>
-          </LessonsWrapper>
-          <ToolsWrapper>
-            <HeadingM>Tools</HeadingM>
-            <ul>
-              <li>Axure (prototyping)</li>
-              <li>Photoshop (visual design)</li>
-              <li>Google Analytics</li>
-            </ul>
-          </ToolsWrapper>
-        </ResultsContent>
-      </ResultsWrapper>
+      </LastImageWrapper>
+      <PortfolioResults
+        results={
+          <ul>
+            <li>
+              UXPin quickly became extremely popular. Just in the first month
+              we've started to serve IBM, Apple, Google, MySpace, Sony and other
+              great companies all over the world.
+            </li>
+            <li>
+              This very simple notepad, within 12 months, led us to starting a
+              real company, which attracted multiple awards, VC funding (first
+              Polish company that raised capital in Silicon Valley) and today
+              serves tens of thousands companies all over the world.
+            </li>
+          </ul>
+        }
+        lessons={
+          <ol>
+            <li>
+              Problem based product development can lead to amazing success.
+            </li>
+            <li>Discipline is necessary in any design and product work.</li>
+            <li>One decision can lead to years of unexpected consequences.</li>
+          </ol>
+        }
+        tools={
+          <ul>
+            <li>Axure (prototyping)</li>
+            <li>Photoshop (visual design)</li>
+            <li>Google Analytics</li>
+          </ul>
+        }
+        quote="Great design requires superb discipline. Only with discipline a
+        designer can achieve her goals."
+      />
       <MoreProjects />
       <PortfolioTeaser
         variant="dark"
