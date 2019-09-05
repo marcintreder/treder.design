@@ -137,7 +137,7 @@ const eCommerceMobileAppDesign = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="light"
           ctaLabel="read this story"
-          destination="/portfolio/ecommerce-homepage-design"
+          destination="/portfolio/ecommerce-mobile-app-design#first"
           illustration={Mobile}
           illustrationPosition="margin"
           bodyText={
@@ -161,6 +161,7 @@ const eCommerceMobileAppDesign = ({ location, data }) => {
         <Breadcrumbs location={location} label="ecommerce mobile app design" />
       </BreadcrumbsPortfolioWrapper>
       <ContextPortfolio
+        id="first"
         contextContent={
           <>
             <p>
@@ -443,6 +444,7 @@ const eCommerceMobileAppDesign = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="light"
         ctaLabel="read this story"
+        destination="/portfolio/ecommerce-homepage-design"
         illustration={Homepage}
         illustrationPosition="margin"
         bodyText={
