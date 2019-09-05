@@ -12,6 +12,7 @@ import {
   PortfolioTeaser,
   PortfolioHeaderWrapper,
   PortfolioResults,
+  PortfolioImageWrapper,
   Layout,
   TextBody,
 } from '../../components';
@@ -31,12 +32,8 @@ import NokautHomepageHead from '../../images/nokaut_homepage_head.png';
 import NokautHomepage from '../../images/nokaut_homepage.png';
 
 /* Page specific styles */
-const ImageWrapper = styled.figure`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 var(--sides-padding-desktop);
-  margin: 80px 0;
+const ImageWrapper = styled(PortfolioImageWrapper)`
+  margin: 80px auto;
 
   img {
     width: 70%;
@@ -47,26 +44,6 @@ const ImageWrapper = styled.figure`
   figcaption {
     margin-top: 40px;
     text-align: center;
-  }
-
-  @media screen and (max-width: 1280px) {
-    img {
-      width: 80%;
-    }
-  }
-
-  @media screen and (max-width: 1100px) {
-    img {
-      width: 100%;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    margin: 40px 0;
-
-    img {
-      width: 100%;
-    }
   }
 `;
 
@@ -159,7 +136,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
           illustrationPosition="margin"
           bodyText={
             <p>
-              TIn 2011 I led the process of the redesign of the Nokaut.pl
+              In 2011 I led the process of the redesign of the Nokaut.pl
               Homepage. At that time, Nokaut.pl was attracting 2.5 million users
               a month and the owner of Nokaut.pl – Grupa Nokaut was preparing
               their IPO. Intense project!
