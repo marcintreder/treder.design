@@ -41,51 +41,12 @@ const ExplorationWrapper = styled.article`
   margin: 0 auto;
   padding: 0 var(--sides-padding-desktop);
 
-  @media screen and (min-width: 1440px) {
-    padding: 0 115px;
-  }
-`;
-
-const ProcessWrapper = styled.section`
-  width: 100%;
-  margin-bottom: 120px;
-
   ${PortfolioImageWrapper} {
-    margin-top: 120px;
+      margin: 80px auto;
   }
-
-  @media screen and (max-width: 600px) {
-    margin-bottom: 80px;
-  }
-`;
-
-const ProcessContent = styled.article`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 100%;
-  max-width: var(--max-width-desktop);
-  margin: 0 auto;
-  padding: 0 var(--sides-padding-desktop);
 
   @media screen and (min-width: 1440px) {
     padding: 0 115px;
-  }
-`;
-
-const ProcessDescription = styled.div`
-  width: 60%;
-  margin-right: 20px;
-
-  @media screen and (max-width: 1200px) {
-    width: 50%;
-    max-right: 10px;
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    max-right: 0;
   }
 `;
 
@@ -215,7 +176,7 @@ const TrederDesignBranding = ({ location, data }) => {
             </p>
           </TextBody>
           <PortfolioImageWrapper>
-            <img src={Logo_Sketches_White} />
+            <img src={Logo_Sketches_White} style={{width: "80%"}}/>
             <Caption variant="dark">
               Examples of signs created in the exploration phase of the process.
             </Caption>
