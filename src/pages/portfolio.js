@@ -277,6 +277,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="light"
           ctaLabel="read this story"
+          destination="/portfolio/ecommerce-video-portal/"
           illustration={Video}
           illustrationPosition="margin"
           bodyText={
@@ -303,6 +304,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="gold"
           buttonHoveredLabel="dark"
           ctaLabel="read this story"
+          destination="/portfolio/uxpin-new-editor/"
           illustration={New_Editor}
           illustrationPosition="margin"
           bodyText={
