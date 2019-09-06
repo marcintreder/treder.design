@@ -335,6 +335,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="gold"
           ctaLabel="read this story"
+          destination="/portfolio/open-source-adventure"
           illustration={Adele}
           illustrationPosition="margin"
           bodyText={
