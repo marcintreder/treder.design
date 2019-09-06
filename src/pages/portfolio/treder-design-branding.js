@@ -27,8 +27,9 @@ import Video from '../../images/video.svg';
 import Grid from '../../images/grid.svg';
 import New_Editor from '../../images/new_editor.svg';
 /* Illustrations used in the main section */
-import Adele_1 from '../../images/adele_1.png';
-import Adele_2 from '../../images/adele_2.png';
+import Logo_Sketches_White from '../../images/logo_sketches_white.svg';
+import Logo_Sign from '../../images/logo_sign.svg';
+import LogoTypes from '../../images/logotypes.svg';
 
 /* Page specific style components */
 const ExplorationWrapper = styled.article`
@@ -88,54 +89,42 @@ const ProcessDescription = styled.div`
   }
 `;
 
-const OpenSourceAdventure = ({ location, data }) => {
+const TrederDesignBranding = ({ location, data }) => {
   return (
     <Layout>
-      <PortfolioHeaderWrapper variant="light">
-        <Navigation
-          seoTitle="Adele Design Systems – The Open Source Adventure"
-          variant="light"
-        />
+      <PortfolioHeaderWrapper variant="dark">
+        <Navigation seoTitle="Treder Design Brand Identity" variant="dark" />
         <PortfolioTeaser
-          variant="light"
+          variant="dark"
           alignment="left"
-          heading="The Open Source Adventure – Adele"
-          headingVariant="dark"
-          subHeading="2018"
+          heading="Treder Design Brand Identity"
+          headingVariant="gold"
+          subHeading="2019"
           subHeadingVariant="gold"
           subHeadingBorder
           ctaVariant="button"
           buttonVariant="gold"
-          buttonHoveredLabel="light"
+          buttonHoveredLabel="dark"
           ctaLabel="read this story"
-          destination="/portfolio/open-source-adventure/#first"
-          illustration={Adele}
+          destination="/portfolio/treder-design-branding/#first"
+          illustration={Logo_Sketches}
           illustrationPosition="margin"
           bodyText={
             <>
               <p>
-                Since 2012 I'm operating as a full–time CEO of a growing startup
-                – UXPin (over 50 employees, profitable). Despite that, I've
-                never stopped being a designer, coder, and a product person. To
-                relax and contribute either to UXPin or the overall design and
-                engineering community, I tend to take on side projects.
+                I spent my entire career working on products and user
+                interfaces. I built multiple teams, completed hundreds of
+                projects, and launched dozens of products. I never have,
+                however, designed full brand identity.
               </p>
               <p>
-                To relax and contribute either to UXPin or the overall design
-                and engineering community, I tend to take on side projects.
+                I always had great respect for designers working on brands. Some
+                of my design heroes – Massimo Vignelli and Michael Bierut
+                designed timeless brand identities.
               </p>
               <p>
-                In 2017, after talking to a bunch of friends working on Design
-                Systems, I decided to devote my weekend to the creation of an
-                open source repository of analyzed design systems.
-              </p>
-              <p>
-                For two subsequent weekends in January 2018, I designed and
-                coded (React.js and Node.js for tooling) the repository.
-              </p>
-              <p>
-                The popularity of this project exceeded my most optimistic
-                expectations.
+                Finally, I've decided to surrender to my desire and allow myself
+                to work on a dream project – design of my brand.
               </p>
             </>
           }
@@ -152,46 +141,64 @@ const OpenSourceAdventure = ({ location, data }) => {
         contextContent={
           <>
             <p>
-              Design systems are growing in popularity, but still, very few
-              people can claim that they have built multiple complex design
-              systems in their career. That leads to designers and engineers
-              having a strong need to check how other people in the industry
-              solved specific problems. When we kicked off work on our design
-              system at UXPin, I'd have to constantly visit repositories of
-              systems like IBM Carbon or Shopify Polaris to check how they
-              approached, e.g. icons or colors in their respective systems.
-              Every visit like that is time–consumign and distracting.
+              Before sketching any ideas, I started to write down my story. I
+              had to find an answer to the crucial questions: "What do I stand
+              for?", "What is important to me in design?", "How can I contribute
+              to teams creating amazing products?".
             </p>
             <p>
-              I decided to solve this problem by creating an open platform where
-              members of the community can share their analyses of design
-              systems. Every system can be described with metadata spanning
-              dozens of categories and covering everything from the depth of
-              used technologies to the structure of the documentation.
+              After over 12 years of creating digital (and sometimes physical!)
+              products, I stood on the verge of the chasm of meaning, wondering
+              how can I create a sign that sums up my whole career as well as my
+              plans for the future.
+            </p>
+            <p>
+              I started with the highest possible level – the level of values. I
+              consider myself a principled man with solid self–awareness, and
+              yet I struggled with naming my values. I had to take a deep dive
+              into the stories of my past and ambitions for the future. After
+              this exercise, I identified: <strong>loyalty</strong>,{' '}
+              <strong>mastery</strong> (neverending strive to become better),
+              and <strong>self-discipline</strong> as my three fundamental
+              values.
+            </p>
+            <p>
+              Subsequently, I started to think about all the critical moments in
+              my career. What pushed me forward? What empowered me to become
+              better? I consider myself a capable designer (always on the path
+              to becoming better!). However, my career wasn't built entirely on
+              the foundation of my craft. Not at all. I was quickly promoted to
+              leadership, and by being a leader, I made more impact than as a
+              designer. I was able to talk to people when others were silent,
+              form teams from individuals, help people grow, and create a
+              healthy tension that led everyone to great results. I'm a
+              designer, but I exist for the people.
+            </p>
+            <p>
+              I had to design a sign that represents my simple values and my
+              devotion to people and teams. What an exciting challenge!
             </p>
           </>
         }
         objectivesContent={
           <ol>
+            <li>Creating memorable brand identity, in tune with my values.</li>
             <li>
-              Creating the public repository with analyses of at least 50 design
-              systems.
-            </li>
-            <li>Finding at least 10 maintainers of the public repository.</li>
-            <li>
-              Attracting at least 10,000 unique users in the first month after
-              the launch.
+              Identifying the desired message, meaning and values represented by
+              the brand.
             </li>
           </ol>
         }
         myRoleContent={
           <ul>
-            <li>Coming up with the concept of the product.</li>
-            <li>Prototyping and visual design.</li>
-            <li>Coding: HTML/CSS/JS (React.js)</li>
-            <li>Creating CLI build tools (Node.js)</li>
-            <li>Writing the technical documentation</li>
-            <li>Building and maintaining the community</li>
+            <li>
+              Defining the meaning and message behind the Treder Design brand.
+            </li>
+            <li>
+              Sketching multiple versions of the logo in the exploration phase.
+            </li>
+            <li>Selecting typeface and typographical details.</li>
+            <li>Designing the final version the logotype</li>
           </ul>
         }
       >
@@ -199,117 +206,103 @@ const OpenSourceAdventure = ({ location, data }) => {
           <HeadingM variant="dark">Exploration</HeadingM>
           <TextBody variant="dark">
             <p>
-              After documenting my hypotheses and sketching initial interface
-              concepts, I talked to multiple friends in the industry, trying to
-              understand whether I'm thinking about the problem in the right
-              way. My initial idea has been confirmed, but it became clear that
-              the entire project has to be open sourced, so anybody can
-              contribute straight from GitHub and, subsequently, the relevant
-              tooling has to be built to create an easy maintenance process.
-            </p>
-            <p>
-              While I felt comfortable with building the web part of the
-              project, I felt that I might struggle with the tooling part. It
-              seemed that the tooling (generators of file format, file builders
-              etc.) has to be built in Node.js and at that time, I had a very
-              rudimentary ability to use Node. I decided to treat as an
-              excellent opportunity to become a better programmer!
+              I started by sketching geometrical signs that, on some level,
+              represented my story. I designed nearly a hundred different signs
+              – some of them where more esoterical, some, very straightforward.
+              I took a lot of inspiration from the modernist era. I strived for
+              similar simplicity and compelling message, as well as the clean
+              aesthetics.
             </p>
           </TextBody>
           <PortfolioImageWrapper>
-            <img src={Adele_1} />
+            <img src={Logo_Sketches_White} />
             <Caption variant="dark">
-              The early prototype of Adele created in UXPin
+              Examples of signs created in the exploration phase of the process.
             </Caption>
           </PortfolioImageWrapper>
+          <TextBody variant="dark">
+            <p>
+              I decided that gold and black are going to be the primary colors
+              that I'm going to use on this project. I love this powerful
+              combination, and I believe it fits my message. Cold metal, with
+              high value and stability, combined with the space created by the
+              lack of light, felt just right.
+            </p>
+            <p>
+              The finally selected sign represents my values in the form of a
+              sharp, gold rectangle that encompasses two halves of a circle –
+              individuals working together thanks to the creative tension.
+            </p>
+          </TextBody>
+          <PortfolioImageWrapper>
+            <img src={Logo_Sign} style={{ width: '280px', height: '280px' }} />
+            <Caption variant="dark">
+              The final sign. Simplicity of values and leadership creating space
+              for collaboration.
+            </Caption>
+          </PortfolioImageWrapper>
+          <TextBody variant="dark">
+            <p>
+              Finally, I started working on typography. At first, intuitively, I
+              started working with the creations of my typography hero – Adrian
+              Frutiger. I tested Avenir, Avenir Next, Frutiger, Universe, but
+              nothing from my favorite typefaces looked right. Slightly
+              disappointed, I cast a wider net. Finally, I found the perfect
+              typeface for the project – modern, but also classically modernist,
+              not anonymous, but not overused and simply beautiful. Neue Plak –
+              a modern reedition of Plak designed by Paul Renner became my
+              typeface of choice.
+            </p>
+          </TextBody>
+
+          <PortfolioImageWrapper>
+            <img src={LogoTypes} />
+            <Caption variant="dark">
+              Four variants of Treder Design logotype
+            </Caption>
+          </PortfolioImageWrapper>
+          <TextBody variant="dark">
+            <p>
+              Design of the logotype is just the beginning of the whole project.
+              This case study is going to grow in the near future with a more
+              complete brand identity standards and examples.
+            </p>
+          </TextBody>
         </ExplorationWrapper>
       </ContextPortfolio>
-      <ProcessWrapper>
-        <ProcessContent>
-          <ProcessDescription>
-            <HeadingM variant="dark">The Process</HeadingM>
-            <TextBody variant="dark">
-              <p>
-                Before investing time into coding, I prototyped the entire
-                experience in UXPin. In the way of casual research, I showed
-                invited 10 friends to test the prototype. After correcting
-                multiple small errors, I've concluded the study and moved to
-                code.
-              </p>
-              <p>
-                I have chosen React.js as the foundation of my approach to
-                JavaScript. I felt comfortable with this library (we use it
-                across UXPin), and I felt that the popularity of React.js will
-                make a future contribution to Adele easier. For CSS, I've
-                decided to use Styled Components. New at the time, styled
-                components provided an easy way to dynamically manipulate
-                styling within encapsulated components. Another safety check for
-                future contributors.
-              </p>
-              <p>
-                While writing the code of all the components, I added tests in
-                Jest.
-              </p>
-              <p>
-                The biggest challenge turned out to be completely unexpected.
-                For accessibility and semantics reason, I've decided to use the
-                HTML table element as the foundation of Adele table.
-                Unfortunately, with all the features that I've planned, the HTML
-                table struggled with performance. I had to deploy multiple hacks
-                to make it work reasonably well while supporting full keyboard
-                use (again, for accessibility reasons).
-              </p>
-            </TextBody>
-          </ProcessDescription>
-        </ProcessContent>
-        <PortfolioImageWrapper>
-          <img src={Adele_2} />
-          <Caption variant="dark">
-            Adele website now contains detailed analyses of over 80 design
-            systems.
-          </Caption>
-        </PortfolioImageWrapper>
-      </ProcessWrapper>
       <PortfolioResults
         results={
           <ul>
             <li>
-              In the first 12 months after the launch of the project, Adele has
-              been visited by over 120,000 people.
+              The brand identity inspired the entire Treder Design portfolio
+              website.
             </li>
             <li>
-              Adele has 586 stars on Github and 73 people forked the repository.
+              Defining values helped me better understand myself and my career
+              path.
             </li>
-            <li>Today Adele stores 86 analyses of design systems</li>
-            <li>Adele is maintained by a community of over 50 contributors.</li>
           </ul>
         }
         lessons={
           <ol>
             <li>
-              Technical analysis is an important part of any project. I made a
-              wrong decision about the HTML Table, because I didn't spend enough
-              time analyzing the issue.
+              Designing brand identity is much more a task in storytelling than
+              sketching.
             </li>
-            <li>Open source projects are highly rewarding.</li>
             <li>
-              Taking care of the accessibility of the UI should be treated as a
-              critical part of every project.
+              It may take hundred of takes to find the right sign for the story,
+              but at the end of the day – it's worth it.
             </li>
+            <li>I loved the process.</li>
           </ol>
         }
         tools={
           <ul>
-            <li>UXPin (prototyping)</li>
-            <li>Sketch (visual design)</li>
-            <li>React.js</li>
-            <li>Node.js</li>
-            <li>Styled Components</li>
-            <li>Jest, Enzyme</li>
-            <li>Google Analytics</li>
+            <li>UXPin (early sketches, interactive exploration)</li>
+            <li>Figma (final visual design of the logo)</li>
           </ul>
         }
-        quote="Combination of research and vision, empowered by strong conviction, lead to the best results."
+        quote="Designing for yourself is tough."
       />
       <MoreProjects />
       <PortfolioTeaser
@@ -414,7 +407,7 @@ const OpenSourceAdventure = ({ location, data }) => {
           </>
         }
       />
-               <PortfolioTeaser
+      <PortfolioTeaser
         variant="dark"
         alignment="center"
         heading="The New Design Editor"
@@ -509,4 +502,4 @@ const OpenSourceAdventure = ({ location, data }) => {
   );
 };
 
-export default OpenSourceAdventure;
+export default TrederDesignBranding;

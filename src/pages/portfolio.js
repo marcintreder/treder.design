@@ -374,6 +374,7 @@ const Portfolio = ({ location, data }) => {
           buttonVariant="gold"
           buttonHoveredLabel="dark"
           ctaLabel="read this story"
+          destination="/portfolio/treder-design-branding"
           illustration={Logo_Sketches}
           illustrationPosition="margin"
           bodyText={
