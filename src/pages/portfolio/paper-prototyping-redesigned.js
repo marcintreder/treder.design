@@ -388,6 +388,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="light"
         ctaLabel="read this story"
+        destination="/portfolio/ecommerce-homepage-design/"
         illustration={Homepage}
         illustrationPosition="margin"
         bodyText={
@@ -411,6 +412,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="gold"
         ctaLabel="read this story"
+        destination="/portfolio/ecommerce-mobile-app-design/"
         illustration={Mobile}
         illustrationPosition="margin"
         bodyText={
@@ -444,6 +446,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="light"
         ctaLabel="read this story"
+        destination="/portfolio/ecommerce-video-portal/"
         illustration={Video}
         illustrationPosition="margin"
         bodyText={
@@ -468,6 +471,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         ctaVariant="button"
         buttonVariant="gold"
         buttonHoveredLabel="dark"
+        destination="/portfolio/uxpin-new-editor/"
         ctaLabel="read this story"
         illustration={New_Editor}
         illustrationPosition="margin"
@@ -499,6 +503,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="gold"
         ctaLabel="read this story"
+        destination="/portfolio/open-source-adventure/"
         illustration={Adele}
         illustrationPosition="margin"
         bodyText={
@@ -536,6 +541,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         buttonVariant="gold"
         buttonHoveredLabel="dark"
         ctaLabel="read this story"
+        destination="/portfolio/treder-design-branding/"
         illustration={Logo_Sketches}
         illustrationPosition="margin"
         bodyText={
