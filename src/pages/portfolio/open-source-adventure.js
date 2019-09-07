@@ -445,7 +445,7 @@ const OpenSourceAdventure = ({ location, data }) => {
           </>
         }
       />
-      <PortfolioTeaser
+           <PortfolioTeaser
         variant="light"
         alignment="left"
         heading="eCommerce Video Portal"
@@ -469,6 +469,41 @@ const OpenSourceAdventure = ({ location, data }) => {
             Video Portal that quickly attracted over 100,000 viewers. I had a
             pleasure to lead the design and product development process.
           </p>
+        }
+      />
+      <PortfolioTeaser
+        variant="dark"
+        alignment="left"
+        heading="Designing for yourself is tough"
+        headingVariant="gold"
+        subHeading="2019"
+        subHeadingVariant="gold"
+        subHeadingBorder
+        ctaVariant="button"
+        buttonVariant="gold"
+        buttonHoveredLabel="dark"
+        ctaLabel="read this story"
+        destination="/portfolio/treder-design-branding/"
+        illustration={Logo_Sketches}
+        illustrationPosition="margin"
+        bodyText={
+          <>
+            <p>
+              I've spent way over a decade designing all sorts of products, but
+              hardly ever – brand identities. Neverthless, I have a deep
+              affection for the very special connection between art and
+              storytelling always present in great brand design.
+            </p>
+            <p>
+              When I decided to build my personal website, I knew that this is a
+              great opportunity to define my brand – my story, aesthetics and
+              message with a holistic design process.
+            </p>
+            <p>
+              I quickly became my own most demanding client and yet... I
+              thoroughly enjoyed the process of designing Treder Design brand.
+            </p>
+          </>
         }
       />
     </Layout>
