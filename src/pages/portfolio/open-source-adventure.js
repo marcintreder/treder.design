@@ -392,7 +392,7 @@ const OpenSourceAdventure = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="gold"
         ctaLabel="read this story"
-        destination="/portfolio/mobile-app-design"
+        destination="/portfolio/ecommerce-mobile-app-design"
         illustration={Mobile}
         illustrationPosition="margin"
         bodyText={
