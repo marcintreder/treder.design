@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { graphql, Link } from 'gatsby';
 
 import {
-  Button,
   ButtonLink,
   Breadcrumbs,
   HeadingXL,

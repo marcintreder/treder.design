@@ -1,26 +1,60 @@
 import React from 'react';
+import styled from 'styled-components';
 import { graphql } from 'gatsby';
 
 import {
-  HeaderBack,
+  Breadcrumbs,
   HeadingXL,
   Layout,
   SEO,
   TextBody,
   TextDate,
+  Navigation,
 } from '../components';
 
-export default ({ data }) => {
+const BlogArticleWrapper = styled.section`
+  width: 100%;
+`;
+
+const BlogArticleContent = styled.article`
+  width: 100%;
+  max-width: var(--max-width-desktop);
+  padding: 40px var(--sides-padding-desktop);
+`;
+
+const BlogHeaderWrapper = styled.section`
+  width: 100%;
+  max-width: var(--max-width-desktop);
+  padding: 60px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
+  background-color: #000;
+`;
+
+const BreadcrumbsWrapper = styled.section`
+  margin-top: 20px;
+`;
+
+export default ({ location, data }) => {
   const post = data.markdownRemark;
 
   return (
     <>
-      <SEO title={post.frontmatter.title} />
-      <HeaderBack />
+      <Navigation seoTitle="About" variant="dark" />
       <Layout>
-        <HeadingXL>{post.frontmatter.title}</HeadingXL>
-        <TextDate>{post.frontmatter.date}</TextDate>
-        <TextBody dangerouslySetInnerHTML={{ __html: post.html }} />
+        <BlogArticleWrapper>
+          <BlogHeaderWrapper>
+            <HeadingXL variant="light">{post.frontmatter.title}</HeadingXL>
+            <TextDate>{post.frontmatter.date}</TextDate>
+          </BlogHeaderWrapper>
+          <BreadcrumbsWrapper>
+          <Breadcrumbs
+            location={location}
+            label={post.frontmatter.title.toLowerCase()}
+          />
+          </BreadcrumbsWrapper>
+          <BlogArticleContent>
+            <TextBody dangerouslySetInnerHTML={{ __html: post.html }} />
+          </BlogArticleContent>
+        </BlogArticleWrapper>
       </Layout>
     </>
   );
