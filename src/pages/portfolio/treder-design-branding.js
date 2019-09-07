@@ -368,6 +368,32 @@ const TrederDesignBranding = ({ location, data }) => {
           </>
         }
       />
+            <PortfolioTeaser
+        variant="light"
+        alignment="left"
+        heading="eCommerce Video Portal"
+        headingVariant="dark"
+        subHeading="2011"
+        subHeadingVariant="gold"
+        subHeadingBorder
+        ctaVariant="button"
+        buttonVariant="dark"
+        buttonHoveredLabel="light"
+        ctaLabel="read this story"
+        destination="/portfolio/ecommerce-video-portal"
+        illustration={Video}
+        illustrationPosition="margin"
+        bodyText={
+          <p>
+            For over two years I worked as part of the R&D Group at Groupa
+            Nokaut. We were tasked with coming up with new product ideas that
+            address the most critical strategic problems of the business. One of
+            the projects that we realized in 2011 was Nokaut.tv – an eCommerve
+            Video Portal that quickly attracted over 100,000 viewers. I had a
+            pleasure to lead the design and product development process.
+          </p>
+        }
+      />
       <PortfolioTeaser
         variant="dark"
         alignment="center"
@@ -399,62 +425,40 @@ const TrederDesignBranding = ({ location, data }) => {
           </>
         }
       />
-      <PortfolioTeaser
-        variant="light"
+        <PortfolioTeaser
+        variant="gold"
         alignment="left"
-        heading="eCommerce Video Portal"
+        heading="The Open Source Adventure"
         headingVariant="dark"
-        subHeading="2011"
-        subHeadingVariant="gold"
+        subHeading="2018"
+        subHeadingVariant="dark"
         subHeadingBorder
         ctaVariant="button"
         buttonVariant="dark"
-        buttonHoveredLabel="light"
+        buttonHoveredLabel="gold"
         ctaLabel="read this story"
-        destination="/portfolio/ecommerce-video-portal"
-        illustration={Video}
-        illustrationPosition="margin"
-        bodyText={
-          <p>
-            For over two years I worked as part of the R&D Group at Groupa
-            Nokaut. We were tasked with coming up with new product ideas that
-            address the most critical strategic problems of the business. One of
-            the projects that we realized in 2011 was Nokaut.tv – an eCommerve
-            Video Portal that quickly attracted over 100,000 viewers. I had a
-            pleasure to lead the design and product development process.
-          </p>
-        }
-      />
-      <PortfolioTeaser
-        variant="dark"
-        alignment="left"
-        heading="Designing for yourself is tough"
-        headingVariant="gold"
-        subHeading="2019"
-        subHeadingVariant="gold"
-        subHeadingBorder
-        ctaVariant="button"
-        buttonVariant="gold"
-        buttonHoveredLabel="dark"
-        ctaLabel="read this story"
-        illustration={Logo_Sketches}
+        destination="/portfolio/open-source-adventure"
+        illustration={Adele}
         illustrationPosition="margin"
         bodyText={
           <>
             <p>
-              I've spent way over a decade designing all sorts of products, but
-              hardly ever – brand identities. Neverthless, I have a deep
-              affection for the very special connection between art and
-              storytelling always present in great brand design.
+              Since 2012 I'm operating as a full–time CEO of a growing startup –
+              UXPin (over 50 employees, profitable). Despite that, I've never
+              stopped being a designer, coder, and a product person. To relax
+              and contribute either to UXPin or the overall design and
+              engineering community, I tend to take on side projects.
             </p>
             <p>
-              When I decided to build my personal website, I knew that this is a
-              great opportunity to define my brand – my story, aesthetics and
-              message with a holistic design process.
+              In 2017, after talking to a bunch of friends working on Design
+              Systems, I decided to devote my weekends to the creation of an
+              open source repository of analyzed design systems.
             </p>
             <p>
-              I quickly became my own most demanding client and yet... I
-              thoroughly enjoyed the process of designing Treder Design brand.
+              For two subsequent weekends in January 2018, I designed and coded
+              (React.js and Node.js for tooling) the repository. The popularity
+              of this project exceeded my most optimistic expectations. In 2017,
+              after talking to a bunch of friends working on Design
             </p>
           </>
         }
