@@ -6,12 +6,10 @@ import {
   Breadcrumbs,
   Navigation,
   HeadingM,
-  HeadingL,
   HeadingXL,
   PortfolioImageWrapper,
   Layout,
   TextBody,
-  TrederImage,
   ButtonLink,
 } from '../../components';
 
@@ -21,14 +19,15 @@ const BlogHeaderWrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 0 auto;
   width: 100%;
-
-  ${ButtonLink} {
-    margin-bottom: 80px;
-  }
 
   div[class*='Breadcrumbs'] {
     margin-bottom: 20px;
+  }
+
+  ${PortfolioImageWrapper} {
+      margin-right: 0;
   }
 `;
 
@@ -37,9 +36,12 @@ const BlogHeader = styled.header`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  width: 100%;
+  height: 420px;
   max-width: var(--max-width-desktop);
   padding: 0 var(--sides-padding-desktop);
-  margin: 80px auto 20px auto;
+  margin: 0 auto 20px auto;
+  overflow: hidden;
 
   ${PortfolioImageWrapper} {
     margin-top: -80px;
@@ -48,7 +50,7 @@ const BlogHeader = styled.header`
 
   ${HeadingXL} {
     width: 580px;
-    margin: 0 80px 0 -5px;
+    margin: 80px 80px 0 -5px;
   }
 
   ${TextBody} {
@@ -65,66 +67,28 @@ const BlogHeader = styled.header`
     }
   }
 
-  @media screen and (max-width: 1300px) {
+  @media screen and (max-width: 1225px) {
     justify-content: center;
-    margin-top: 50px;
-
-    ${HeadingXL} {
-      width: 580px;
-      margin: 0;
-    }
-  }
-
-  @media screen and (max-width: 1130px) {
-    justify-content: center;
-    max-height: 600px;
     overflow: hidden;
     margin-top: 0;
 
     ${HeadingXL} {
-      width: 580px;
-      padding-top: 100px;
+      width: fit-content;
+      margin-right: auto;
+      margin-left: auto;
+      text-align: center;
     }
 
     ${PortfolioImageWrapper} {
       margin-top: -490px;
-    }
-  }
-
-  @media screen and (max-width: 700px) {
-    justify-content: center;
-
-    ${HeadingXL} {
-      width: 490px;
-      margin: 0;
+      margin-right: auto;
     }
   }
 
   @media screen and (max-width: 600px) {
-    justify-content: center;
-
-    ${HeadingXL} {
-      width: 420px;
-      margin: 0;
-    }
-  }
-
-  @media screen and (max-width: 500px) {
-    justify-content: center;
-
-    ${HeadingXL} {
-      width: 320px;
-      margin: 0;
-    }
-  }
-
-  @media screen and (max-width: 400px) {
-    justify-content: center;
-
-    ${HeadingXL} {
-      width: fit-content;
-      margin: 0;
-    }
+      ${PortfolioImageWrapper} {
+        margin-right: 0;
+      }
   }
 `;
 
@@ -183,6 +147,10 @@ const BlogLink = styled(Link)`
 
 const BreadCrumbsWrapper = styled.nav`
   margin: 0 auto 40px auto;
+
+  @media screen and (max-width: 600px) {
+    margin: 0 auto;
+  }
 `;
 
 const Blog = ({ location, data }) => {
@@ -191,7 +159,7 @@ const Blog = ({ location, data }) => {
       <Navigation seoTitle="About" variant="light" activeLink={3} />
       <BlogHeaderWrapper>
         <BlogHeader>
-          <HeadingXL variant="dark">Design & Product Musings</HeadingXL>
+          <HeadingXL variant="dark">Organized Musings</HeadingXL>
           <PortfolioImageWrapper>
             <img src={Grid} alt="grid pattern" />
           </PortfolioImageWrapper>

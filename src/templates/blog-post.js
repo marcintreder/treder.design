@@ -19,12 +19,19 @@ const BlogArticleWrapper = styled.section`
 const BlogArticleContent = styled.article`
   width: 100%;
   max-width: var(--max-width-desktop);
+  margin: 0 auto;
   padding: 40px var(--sides-padding-desktop);
 `;
 
 const BlogHeaderWrapper = styled.section`
   width: 100%;
+  background-color: #000;
+`;
+
+const BlogHeaderContent = styled.article`
+  width: 100%;
   max-width: var(--max-width-desktop);
+  margin: 0 auto;
   padding: 60px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
   background-color: #000;
 `;
@@ -39,17 +46,19 @@ export default ({ location, data }) => {
   return (
     <>
       <Navigation seoTitle="About" variant="dark" />
+      <BlogHeaderWrapper>
+        <BlogHeaderContent>
+          <HeadingXL variant="light">{post.frontmatter.title}</HeadingXL>
+          <TextDate>{post.frontmatter.date}</TextDate>
+        </BlogHeaderContent>
+      </BlogHeaderWrapper>
       <Layout>
         <BlogArticleWrapper>
-          <BlogHeaderWrapper>
-            <HeadingXL variant="light">{post.frontmatter.title}</HeadingXL>
-            <TextDate>{post.frontmatter.date}</TextDate>
-          </BlogHeaderWrapper>
           <BreadcrumbsWrapper>
-          <Breadcrumbs
-            location={location}
-            label={post.frontmatter.title.toLowerCase()}
-          />
+            <Breadcrumbs
+              location={location}
+              label={post.frontmatter.title.toLowerCase()}
+            />
           </BreadcrumbsWrapper>
           <BlogArticleContent>
             <TextBody dangerouslySetInnerHTML={{ __html: post.html }} />

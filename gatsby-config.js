@@ -1,14 +1,15 @@
 module.exports = {
   siteMetadata: {
-    title: `Lewis Gatsby Starter Blog`,
+    title: `Treder Design – Marcin Treder Personal Website. UX Design, UX Leadership, Product Management, Product Leadership.`,
     description: `A custom Gatsby starter template to start a blog or personal website.`,
-    author: `Lewis Llobera`,
-    twitter: `@lewislbr`,
-    email: `billobera@gmail.com`,
+    author: `Marcin Treder`,
+    twitter: `@marcintreder`,
+    email: `marcintreder@gmail.com`,
     siteUrl: `https://lewis-gatsby-starter-blog.firebaseapp.com/`,
     gitUrl: `https://github.com/lewislbr/lewis-gatsby-starter-blog`
   },
   plugins: [
+    `gatsby-plugin-netlify-cms`,
     `gatsby-plugin-react-helmet`,
     'gatsby-plugin-remove-serviceworker',
     {

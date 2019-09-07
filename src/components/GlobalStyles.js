@@ -148,29 +148,73 @@ export default createGlobalStyle`
     }
     100% { 
       transform: translate(0px);
+      animation-fill-mode: forwards;
     }
   }
 
   .treder-logo:hover {
     .logo-right {
-      animation: hideshow-right-reversed 300ms ease-out;
-      
+      animation: hideshow-right-reversed 500ms ease-out forwards;
     }
     .logo-left {
-      animation: hideshow-left-reversed 300ms ease-out;
+      animation: hideshow-left-reversed 500ms ease-out forwards;
     }
   }
 
   .logo-right {
     /*transform: translate(-2.70px, 9px);*/
-    animation: hideshow-right 300ms ease;
-    &:hover {
-      animation-play-state: running;
-    }
+    animation: hideshow-right 500ms ease-out forwards;
   }
 
   .logo-left {
     /*transform: translate(1.7px, -5.5px);*/
-    animation: hideshow-left 300ms ease;
+    animation: hideshow-left 500ms ease-out forwards;
   }
+
+  /* Circles animation */
+
+@keyframes circles-animation-1 {
+  0% { 
+    transform: translate(-60px, 0);
+  }
+  80% {
+    transform: translate(-30px, 0);
+  }
+  100% { 
+    transform: translate(0px, 0);
+  }
+}
+
+@keyframes circles-animation-2 {
+  0% { 
+    transform: translate(60px, 0);
+  }
+  80% {
+    transform: translate(30px, 0);
+  }
+  100% { 
+    transform: translate(0px, 0);
+  }
+}
+
+.circles:hover {
+  .circle2 {
+    animation: circles-animation-1 800ms ease-in-out forwards;
+  }
+
+  .circle3 {
+    animation: circles-animation-2 800ms ease-in-out forwards;
+  }
+}
+
+.circles {
+  .circle2 {
+    animation: circles-animation-1 800ms ease-in-out forwards;
+  }
+
+  .circle3 {
+    animation: circles-animation-2 800ms ease-in-out forwards;
+  }
+}
+
 `;

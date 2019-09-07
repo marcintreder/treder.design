@@ -19,6 +19,7 @@ const Button = styled.button`
   color: ${props =>
     props.variant === 'gold' ? 'var(--gold-color)' : '#000000'};
   transition: box-shadow 342ms cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
 
   :hover {
     background-color: ${props =>
