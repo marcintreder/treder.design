@@ -174,13 +174,12 @@ const Contact = ({ location, data }) => {
         </BreadCrumbsWrapper>
         <BlogContentWrapper>
           <BlogContent>
-            <Form name="contact" netlify>
-              <input
-                type="hidden"
-                name="bot-field"
-                netlify-honeypot="bot-field"
-                data-netlify="true"
-              />
+            <Form
+              name="contact"
+              netlify-honeypot="bot-field"
+              data-netlify="true"
+            >
+              <input type="hidden" name="bot-field" />
               <label>
                 name
                 <input type="text" name="name" id="name" />
