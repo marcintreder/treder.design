@@ -18,9 +18,9 @@ import Small_Editor from '../images/small_editor.svg';
 import Adele from '../images/adele_gold.svg';
 
 const Hero = styled.div`
-  padding: 100px var(--sides-padding-desktop) 80px var(--sides-padding-desktop);
+  padding: 65px var(--sides-padding-desktop) 80px var(--sides-padding-desktop);
   width: 100%;
-  height: 700px;
+  height: 640px;
   background: black;
 
   h1 {
@@ -48,7 +48,7 @@ const TextHome = styled.p`
   display: block;
   width: fit-content;
   max-width: 548px;
-  margin: 60px auto 40px auto;
+  margin: 80px auto 40px auto;
 
   font-size: 16px;
   font-weight: 100;
@@ -76,7 +76,7 @@ const TextHome = styled.p`
 
 const CricleWrapper = styled.div`
   position: absolute;
-  top: 180px;
+  top: 140px;
   right: 0;
   left: 0;
   margin: auto;
