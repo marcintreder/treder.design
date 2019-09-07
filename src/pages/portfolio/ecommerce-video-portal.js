@@ -356,7 +356,7 @@ const EcommerceVideoPortal = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="light"
         ctaLabel="read this story"
-        destination="/portfolio/homepage-design/"
+        destination="/portfolio/ecommerce-homepage-design/"
         illustration={Homepage}
         illustrationPosition="margin"
         bodyText={
@@ -380,7 +380,7 @@ const EcommerceVideoPortal = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="gold"
         ctaLabel="read this story"
-        destination="/portfolio/mobile-app-design"
+        destination="/portfolio/ecommerce-mobile-app-design"
         illustration={Mobile}
         illustrationPosition="margin"
         bodyText={
@@ -414,6 +414,7 @@ const EcommerceVideoPortal = ({ location, data }) => {
         buttonVariant="gold"
         buttonHoveredLabel="dark"
         ctaLabel="read this story"
+        destination="/portfolio/uxpin-new-editor/"
         illustration={New_Editor}
         illustrationPosition="margin"
         bodyText={
@@ -443,6 +444,7 @@ const EcommerceVideoPortal = ({ location, data }) => {
         ctaVariant="button"
         buttonVariant="dark"
         buttonHoveredLabel="gold"
+        destination="/portfolio/open-source-adventure/"
         ctaLabel="read this story"
         illustration={Adele}
         illustrationPosition="margin"
@@ -481,6 +483,7 @@ const EcommerceVideoPortal = ({ location, data }) => {
         buttonVariant="gold"
         buttonHoveredLabel="dark"
         ctaLabel="read this story"
+        destination="/portfolio/treder-design-branding/"
         illustration={Logo_Sketches}
         illustrationPosition="margin"
         bodyText={
