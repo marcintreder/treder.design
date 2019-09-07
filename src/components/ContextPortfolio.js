@@ -93,15 +93,15 @@ ContextPortfolio.propTypes = {
   id: PropTypes.string,
   contextContent: PropTypes.oneOfType([
     PropTypes.node,
-    PropTypes.instanceOf(Element),
+    PropTypes.instanceOf(PropTypes.element),
   ]),
   objectivesContent: PropTypes.oneOfType([
     PropTypes.node,
-    PropTypes.instanceOf(Element),
+    PropTypes.instanceOf(PropTypes.element),
   ]),
   myRoleContent: PropTypes.oneOfType([
     PropTypes.node,
-    PropTypes.instanceOf(Element),
+    PropTypes.instanceOf(PropTypes.element),
   ]),
 };
 

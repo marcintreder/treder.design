@@ -200,7 +200,7 @@ PortfolioTeaser.propTypes = {
   subHeadingBorder: PropTypes.bool,
   bodyText: PropTypes.oneOfType([
     PropTypes.node,
-    PropTypes.instanceOf(Element),
+    PropTypes.instanceOf(PropTypes.element),
   ]),
   ctaVariant: PropTypes.oneOf(['link', 'button']),
   buttonVariant: PropTypes.oneOf(['gold', 'dark']),

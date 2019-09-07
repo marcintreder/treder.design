@@ -128,9 +128,9 @@ const PortfolioResults = props => {
 };
 
 PortfolioResults.propTypes = {
-  results: PropTypes.oneOfType([PropTypes.node, PropTypes.instanceOf(Element)]),
-  lessons: PropTypes.oneOfType([PropTypes.node, PropTypes.instanceOf(Element)]),
-  tools: PropTypes.oneOfType([PropTypes.node, PropTypes.instanceOf(Element)]),
+  results: PropTypes.oneOfType([PropTypes.node, PropTypes.instanceOf(PropTypes.element)]),
+  lessons: PropTypes.oneOfType([PropTypes.node, PropTypes.instanceOf(PropTypes.element)]),
+  tools: PropTypes.oneOfType([PropTypes.node, PropTypes.instanceOf(PropTypes.element)]),
   quote: PropTypes.string,
 };
 
