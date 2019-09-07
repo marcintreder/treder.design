@@ -44,7 +44,7 @@ const PortfolioHeader = styled.header`
   justify-content: space-between;
   max-width: var(--max-width-desktop);
   padding: 0 var(--sides-padding-desktop);
-  margin: 120px auto;
+  margin: 80px auto;
 
   ${HeadingXL} {
     width: 580px;
