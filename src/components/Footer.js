@@ -64,16 +64,16 @@ const Footer = () => {
     <Container>
       <LinkList>
         <LinkListItem>
-          <Link to="/">About Me</Link>
+          <Link to="/about-marcin-treder">About Me</Link>
         </LinkListItem>
         <LinkListItem>
-          <Link to="/">Portfolio</Link>
+          <Link to="/portfolio">Portfolio</Link>
         </LinkListItem>
         <LinkListItem>
-          <Link to="/">Blog</Link>
+          <Link to="/blog">Blog</Link>
         </LinkListItem>
         <LinkListItem>
-          <Link to="/">Contact</Link>
+          <Link to="/contact">Contact</Link>
         </LinkListItem>
       </LinkList>
       <FooterLogo />

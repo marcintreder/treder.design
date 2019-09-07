@@ -134,10 +134,16 @@ const Home = ({ data }) => {
           <PortfolioTeaser
             variant="dark"
             alignment="left"
-            heading="A radically different design tool"
+            heading="The New Design Tool"
+            subHeading="2015"
+            subHeadingVariant="gold"
+            subHeadingBorder
             headingVariant="gold"
-            ctaVariant="link"
+            ctaVariant="button"
+            buttonVariant="gold"
             ctaLabel="read the story"
+            buttonHoveredLabel="dark"
+            destination="/portfolio/uxpin-new-editor/"
             illustration={Small_Editor}
             illustrationPosition="edge"
             bodyText={
@@ -160,10 +166,16 @@ const Home = ({ data }) => {
           <PortfolioTeaser
             alignment="left"
             heading="The Open Source Adventure"
+            subHeading="2018"
+            subHeadingBorder
+            subHeadingVariant="gold"
             headingVariant="dark"
             variant="light"
             ctaLabel="read the story"
-            ctaVariant="link"
+            ctaVariant="button"
+            buttonVariant="gold"
+            buttonHoveredLabel="light"
+            destination="/portfolio/open-source-adventure/"
             illustration={Adele}
             illustrationPosition="margin"
             bodyText={
@@ -191,11 +203,18 @@ const Home = ({ data }) => {
           />
           <PortfolioTeaser
             alignment="left"
-            heading="Designing for yourself is tough"
+            heading="Treder Design Brand Identity"
             headingVariant="gold"
+            subHeading="2019"
+            subHeadingBorder
+            subHeadingVariant="gold"
             variant="dark"
             ctaLabel="read the story"
-            ctaVariant="link"
+            ctaVariant="button"
+            buttonHoveredLabel="dark"
+            buttonVariant="gold"
+            buttonHoveredLabel="dark"
+            destination="/portfolio/treder-design-branding/"
             illustration={Logo_Sketches}
             illustrationPosition="margin"
             bodyText={

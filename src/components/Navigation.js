@@ -198,16 +198,16 @@ const Navigation = props => {
         <MenuWrapper mobileMenu={mobileMenuState}>
           <Menu variant={props.variant} activeLink={props.activeLink}>
             <MenuItem key="about">
-              <MenuLink to="/about">about</MenuLink>
+              <MenuLink to="/about-marcin-treder">about</MenuLink>
             </MenuItem>
             <MenuItem key="work">
               <MenuLink to="/portfolio">portfolio</MenuLink>
             </MenuItem>
             <MenuItem key="blog">
-              <MenuLink to="/about">blog</MenuLink>
+              <MenuLink to="/blog">blog</MenuLink>
             </MenuItem>
             <MenuItem key="contact">
-              <MenuLink to="/about">contact</MenuLink>
+              <MenuLink to="/contact">contact</MenuLink>
             </MenuItem>
           </Menu>
           <SocialMenu variant={props.variant}>
