@@ -367,6 +367,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="light"
         ctaLabel="read this story"
+        destination="/portfolio/paper-prototyping-redesigned/"
         illustration={Grid}
         illustrationPosition="margin"
         bodyText={<p>The story of the notepad that changed my life</p>}
@@ -383,6 +384,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="gold"
         ctaLabel="read this story"
+        destination="/portfolio/ecommerce-mobile-app-design/"
         illustration={Mobile}
         illustrationPosition="margin"
         bodyText={
@@ -416,6 +418,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="light"
         ctaLabel="read this story"
+        destination="/portfolio/ecommerce-video-portal/"
         illustration={Video}
         illustrationPosition="margin"
         bodyText={
@@ -441,6 +444,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         buttonVariant="gold"
         buttonHoveredLabel="dark"
         ctaLabel="read this story"
+        destination="/portfolio/uxpin-new-editor/"
         illustration={New_Editor}
         illustrationPosition="margin"
         bodyText={
@@ -471,6 +475,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         buttonVariant="dark"
         buttonHoveredLabel="gold"
         ctaLabel="read this story"
+        destination="/portfolio/open-source-adventure/"
         illustration={Adele}
         illustrationPosition="margin"
         bodyText={
@@ -508,6 +513,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         buttonVariant="gold"
         buttonHoveredLabel="dark"
         ctaLabel="read this story"
+        destination="/portfolio/treder-design-branding/"
         illustration={Logo_Sketches}
         illustrationPosition="margin"
         bodyText={
