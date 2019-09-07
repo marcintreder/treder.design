@@ -25,6 +25,7 @@ import Homepage from '../../images/small_homepage.svg';
 import Adele from '../../images/adele.svg';
 import Mobile from '../../images/mobile.svg';
 import Video from '../../images/video.svg';
+
 /* Illustrations used in the main section */
 import UXPinNotepad1 from '../../images/uxpin_notepad_1.png';
 import UXPinNotepad2 from '../../images/uxpin_notepad_2.jpg';
