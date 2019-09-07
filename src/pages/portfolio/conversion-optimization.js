@@ -32,7 +32,7 @@ import Nokaut from '../../images/nokaut_home_page.jpg';
 
 /* Page specific style components */
 const ImageWrapper = styled(PortfolioImageWrapper)`
-  margin: 60px 0 120px 0;
+  margin: 60px auto 120px auto;
 
   img {
     width: 759px;
@@ -319,6 +319,7 @@ const Conversion = ({ location, data }) => {
           buttonVariant="dark"
           buttonHoveredLabel="gold"
           ctaLabel="read this story"
+          destination="/portfolio/paper-prototyping-redesigned/"
           illustration={Grid}
           illustrationPosition="margin"
           bodyText={<p>The story of the notepad that changed my life</p>}
@@ -334,6 +335,7 @@ const Conversion = ({ location, data }) => {
           ctaVariant="button"
           buttonVariant="dark"
           buttonHoveredLabel="light"
+          destination="/portfolio/ecommerce-homepage-design/"
           ctaLabel="read this story"
           illustration={Homepage}
           illustrationPosition="margin"
@@ -357,6 +359,7 @@ const Conversion = ({ location, data }) => {
           ctaVariant="button"
           buttonVariant="dark"
           buttonHoveredLabel="gold"
+          destination="/portfolio/ecommerce-mobile-app-design/"
           ctaLabel="read this story"
           illustration={Mobile}
           illustrationPosition="margin"
@@ -390,6 +393,7 @@ const Conversion = ({ location, data }) => {
           ctaVariant="button"
           buttonVariant="dark"
           buttonHoveredLabel="light"
+          destination="/portfolio/ecommerce-video-portal/"
           ctaLabel="read this story"
           illustration={Video}
           illustrationPosition="margin"
@@ -416,6 +420,7 @@ const Conversion = ({ location, data }) => {
           ctaVariant="button"
           buttonVariant="gold"
           buttonHoveredLabel="dark"
+          destination="/portfolio/uxpin-new-editor/"
           ctaLabel="read this story"
           illustration={New_Editor}
           illustrationPosition="margin"
@@ -446,6 +451,7 @@ const Conversion = ({ location, data }) => {
           ctaVariant="button"
           buttonVariant="dark"
           buttonHoveredLabel="gold"
+          destination="/portfolio/open-source-adventure/"
           ctaLabel="read this story"
           illustration={Adele}
           illustrationPosition="margin"
@@ -485,6 +491,7 @@ const Conversion = ({ location, data }) => {
           buttonVariant="gold"
           buttonHoveredLabel="dark"
           ctaLabel="read this story"
+          destination="/portfolio/treder-design-branding/"
           illustration={Logo_Sketches}
           illustrationPosition="margin"
           bodyText={
