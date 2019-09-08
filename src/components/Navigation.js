@@ -73,6 +73,9 @@ const MobileMenuButton = styled.button`
     text-align: center;
 
     svg {
+      position: absolute;
+      top: 9px;
+      left: 9px;
       margin: 0 auto;
     }
 
