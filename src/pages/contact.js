@@ -146,6 +146,14 @@ const Form = styled.form`
     background-color: #fff;
     border: 1px solid var(--gold-color);
   }
+
+  @media screen and (max-width: 750px) {
+      width: 100%;
+    input,
+    textarea {
+        min-width: 100%;
+    }
+  }
 `;
 
 const BreadCrumbsWrapper = styled.nav`
