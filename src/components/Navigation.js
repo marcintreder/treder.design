@@ -107,7 +107,7 @@ const Menu = styled.ul`
 const MenuItem = styled.li`
   display: inline-block;
   min-width: 60px;
-  padding: 14px 0 18px 0;
+  /* padding: 14px 0 18px 0; */
   &:hover {
     outline: 1px solid var(--gold-color);
     outline-offset: -1px;
@@ -125,6 +125,7 @@ const MenuItem = styled.li`
 `;
 
 const MenuLink = styled(Link)`
+  display: block;
   padding: 14px 12px 18px 12px;
 `;
 
