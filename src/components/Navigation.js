@@ -70,6 +70,11 @@ const MobileMenuButton = styled.button`
     border: none;
     fill: ${props => props.variant === "dark" ? "#ffffff" : props.mobileMenuState ? "#ffffff" : "#000000" };
     z-index: 101;
+    text-align: center;
+
+    svg {
+      margin: 0 auto;
+    }
 
     &:hover,
     &:active {
