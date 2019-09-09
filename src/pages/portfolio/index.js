@@ -9,16 +9,16 @@ import {
   PortfolioTeaser,
   Layout,
   TextBody,
-} from '../components';
+} from '../../components';
 
-import Logo_Sketches from '../images/logos.svg';
-import Conversion from '../images/conversion.svg';
-import Grid from '../images/grid.svg';
-import New_Editor from '../images/new_editor.svg';
-import Homepage from '../images/homepage.svg';
-import Adele from '../images/adele.svg';
-import Mobile from '../images/mobile.svg';
-import Video from '../images/video.svg';
+import Logo_Sketches from '../../images/logos.svg';
+import Conversion from '../../images/conversion.svg';
+import Grid from '../../images/grid.svg';
+import New_Editor from '../../images/new_editor.svg';
+import Homepage from '../../images/homepage.svg';
+import Adele from '../../images/adele.svg';
+import Mobile from '../../images/mobile.svg';
+import Video from '../../images/video.svg';
 
 const PortfolioHeaderWrapper = styled.section`
   display: flex;
