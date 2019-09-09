@@ -27,7 +27,7 @@ const BlogHeaderWrapper = styled.section`
   }
 
   ${PortfolioImageWrapper} {
-      margin-right: 0;
+    margin-right: 0;
   }
 `;
 
@@ -86,9 +86,19 @@ const BlogHeader = styled.header`
   }
 
   @media screen and (max-width: 600px) {
-      ${PortfolioImageWrapper} {
-        margin-right: 0;
-      }
+    margin-bottom: 0;
+
+    ${PortfolioImageWrapper} {
+      margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    height: 340px;
+
+    ${PortfolioImageWrapper} {
+      margin-bottom: 0;
+    }
   }
 `;
 

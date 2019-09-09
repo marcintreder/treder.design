@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql, Link } from 'gatsby';
+import { graphql } from 'gatsby';
 
 import {
   Breadcrumbs,
@@ -55,8 +55,13 @@ const AboutMeWrapper = styled.section`
   }
 
   @media screen and (max-width: 600px) {
+    margin-top: 40px;
     article + div {
       margin: 0 0 40px 0;
+
+      h1 {
+        margin-bottom: 0;
+      }
     }
   }
 `;

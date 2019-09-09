@@ -33,6 +33,12 @@ const PortfolioHeaderWrapper = styled.section`
   div[class*='Breadcrumbs'] {
     margin-bottom: 20px;
   }
+
+  @media screen and (max-width: 700px) {
+    ${ButtonLink} {
+      margin-bottom: 40px;
+    }
+  }
 `;
 
 const PortfolioHeader = styled.header`
@@ -73,6 +79,8 @@ const PortfolioHeader = styled.header`
 
   @media screen and (max-width: 700px) {
     justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 10px;
 
     ${HeadingXL} {
       width: 490px;

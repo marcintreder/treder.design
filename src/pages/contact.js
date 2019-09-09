@@ -1,13 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql, Link } from 'gatsby';
 
 import {
   Button,
   Breadcrumbs,
   Navigation,
-  HeadingM,
-  HeadingL,
   HeadingXL,
   PortfolioImageWrapper,
   Layout,
@@ -95,6 +92,26 @@ const BlogHeader = styled.header`
       width: fit-content;
     }
   }
+
+  @media screen and (max-width: 600px) {
+    margin-bottom: 0;
+
+    ${HeadingXL} {
+      margin-top: 95px;
+    }
+
+    ${PortfolioImageWrapper} {
+      margin-bottom: 0;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    height: 240px;
+
+    ${HeadingXL} {
+      margin-top: 80px;
+    }
+  }
 `;
 
 const BlogContentWrapper = styled.section`
@@ -145,6 +162,8 @@ const Form = styled.form`
     color: #000;
     background-color: #fff;
     border: 1px solid var(--gold-color);
+    border-radius: 0;
+    -webkit-appearance: none;
   }
 
   @media screen and (max-width: 750px) {
@@ -153,6 +172,10 @@ const Form = styled.form`
     textarea {
         min-width: 100%;
     }
+  }
+
+  @media screen and (max-width: 600px) {
+    padding: 0;
   }
 `;
 
