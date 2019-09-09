@@ -34,6 +34,12 @@ const Hero = styled.div`
     height: 640px;
   }
 
+  @media screen and (max-width: 600px) {
+    h1 {
+      margin-top: 20px;
+    }
+  }
+
   @media screen and (max-width: 500px) {
     height: 580px;
   }
@@ -41,6 +47,10 @@ const Hero = styled.div`
   @media screen and (max-width: 400px) {
     padding: 40px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
     height: 500px;
+
+    h1 {
+      margin-top: 0px;
+    }
   }
 `;
 
