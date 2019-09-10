@@ -183,7 +183,7 @@ const Blog = ({ location, data }) => {
             {data.allMarkdownRemark.edges.map(({ node }) => (
               <BlogLink to={node.fields.slug} key={node.id}>
                 <HeadingM variant="light">{node.frontmatter.title}</HeadingM>
-                <time datetime={node.frontmatter.date}>
+                <time dateTime={node.frontmatter.date}>
                   {node.frontmatter.date}
                 </time>
               </BlogLink>

@@ -20,11 +20,21 @@ const BlogArticleContent = styled.article`
   max-width: var(--max-width-desktop);
   margin: 0 auto;
   padding: 20px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
+
+  a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+
+    &:hover {
+      color: var(--gold-color);
+    }
+  }
 `;
 
 const BlogHeaderWrapper = styled.section`
   width: 100%;
   background-color: #000;
+  
 `;
 
 const BlogHeaderContent = styled.article`
