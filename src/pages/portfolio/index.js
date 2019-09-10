@@ -168,7 +168,7 @@ const Portfolio = ({ location, data }) => {
           </PortfolioHeader>
           <ButtonLink
             to="/portfolio/#first"
-            variant="gold"
+            variant="dark"
             hoveredLabelColor="light"
           >
             explore my portfolio
@@ -284,7 +284,7 @@ const Portfolio = ({ location, data }) => {
           heading="eCommerce Video Portal"
           headingVariant="dark"
           subHeading="2011"
-          subHeadingVariant="gold"
+          subHeadingVariant="dark"
           subHeadingBorder
           ctaVariant="button"
           buttonVariant="dark"

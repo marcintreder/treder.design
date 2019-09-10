@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { HeadingL } from '../components';
-import QuotationMark from '../svg_icons/quote.svg';
 
 const QuoteSection = styled.section`
   display: flex;
@@ -29,18 +28,6 @@ const QuoteWrapper = styled.div`
   @media screen and (max-width: 450px) {
     width: 300px;
     margin: auto;
-  }
-`;
-
-const QuotationMarkWrapper = styled.div`
-  position: absolute;
-  top: 1500px;
-  left: 50%;
-  right: 0;
-  margin-left: -165px;
-  z-index: -20;
-  svg {
-    width: 326px;
   }
 `;
 

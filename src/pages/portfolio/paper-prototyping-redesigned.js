@@ -227,7 +227,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         }
       >
         <PortfolioImageWrapper>
-          <img src={UXPinNotepad2} />
+          <img src={UXPinNotepad2} alt="UXPin Paper Prototyping Notepad" />
           <Caption variant="dark">
             The very first picture of the UXPin Paper Prototyping Notepad
           </Caption>
@@ -256,7 +256,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
           </TextBody>
         </ExplorationWrapper>
         <PortfolioImageWrapper>
-          <img src={UXPinNotepadCollection1} />
+          <img src={UXPinNotepadCollection1} alt="UXPin Paper Prototyping Notepad" />
           <Caption variant="dark">
             UXPin was always all about the quality. We checked every single
             notepad, making sure that everything is just right.
@@ -300,8 +300,8 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
             </TextBody>
           </LaunchDescription>
           <LaunchSideImages>
-            <img src={UXPinNotepad6} />
-            <img src={UXPinNotepad5} />
+            <img src={UXPinNotepad6} alt="The first UXPin.com website" />
+            <img src={UXPinNotepad5} alt="Wireframe of the first UXPin.com website"  />
             <Caption variant="dark">
               The original wireframe and the design of the first UXPin website.
             </Caption>
@@ -309,7 +309,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         </LaunchContent>
       </LaunchWrapper>
       <LastImageWrapper>
-        <img src={UXPinNotepadCollection2} />
+        <img src={UXPinNotepadCollection2} alt="UXPin Paper Prototyping Notepad" />
         <Caption variant="dark">
           The first batch of UXPin notepads sold out in 48 hours.
         </Caption>
@@ -441,7 +441,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         heading="eCommerce Video Portal"
         headingVariant="dark"
         subHeading="2011"
-        subHeadingVariant="gold"
+        subHeadingVariant="dark"
         subHeadingBorder
         ctaVariant="button"
         buttonVariant="dark"

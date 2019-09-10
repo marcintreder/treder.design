@@ -261,7 +261,7 @@ const Conversion = ({ location, data }) => {
           }
         >
           <ImageWrapper>
-            <img src={Nokaut} />
+            <img src={Nokaut} alt="An example of Nokaut.pl product page" />
             <Caption variant="dark">
               An example of the Nokaut.pl product page in 2008 - 2009
             </Caption>
@@ -292,7 +292,7 @@ const Conversion = ({ location, data }) => {
               </MiniQuote>
             </MiniQuoteWrapper>
             <ButtonsIllustration>
-              <img src={Buttons} />
+              <img src={Buttons} alt="Buttons used in the test. Blue has increased conversion rate by 24%." />
             </ButtonsIllustration>
             <ToolsWrapper>
               <HeadingM>Tools</HeadingM>
@@ -388,7 +388,7 @@ const Conversion = ({ location, data }) => {
           heading="eCommerce Video Portal"
           headingVariant="dark"
           subHeading="2011"
-          subHeadingVariant="gold"
+          subHeadingVariant="dark"
           subHeadingBorder
           ctaVariant="button"
           buttonVariant="dark"

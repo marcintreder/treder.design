@@ -8,8 +8,6 @@ import {
   HeadingXL,
   PortfolioImageWrapper,
   Layout,
-  TextBody,
-  TrederImage,
   ButtonLink,
 } from '../components';
 
@@ -143,7 +141,7 @@ const Form = styled.form`
 
   label {
     padding-bottom: 60px;
-    color: var(--gold-color);
+    color: #000;
     font-variant: small-caps;
     letter-spacing: 1px;
   }
@@ -227,7 +225,7 @@ const Contact = ({ location, data }) => {
                 message
                 <textarea name="message" id="message" rows="5" />
               </label>
-              <Button type="submit" variant="gold" hoveredLabelColor="light">
+              <Button type="submit" variant="dark" hoveredLabelColor="light">
                 e-mail me
               </Button>
             </Form>

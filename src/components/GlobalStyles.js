@@ -20,6 +20,7 @@ export default createGlobalStyle`
     --dark-color-lighter: hsla(00, 0%, 15%, 0.7);
     --accent-color: hsl(339, 100%, 55%);
     --gold-color: rgba(231,173,122,1);
+    --gold-dark-color: #7e4717;
     --gray-color: #e9e9e9;
     --font-family: Neue Plak, 'Neue Plak', 'NeuePlak', 'Helvetica', sans-serif;
   }

@@ -14,7 +14,7 @@ const AboutMeSection = styled.section`
   a {
     font-size: 16px;
     text-decoration: underline;
-    color: var(--gold-color);
+    color: var(--gold-dark-color);
     &:hover {
       text-decoration: none;
     }

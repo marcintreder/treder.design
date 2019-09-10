@@ -217,7 +217,7 @@ const OpenSourceAdventure = ({ location, data }) => {
             </p>
           </TextBody>
           <PortfolioImageWrapper>
-            <img src={Adele_1} />
+            <img src={Adele_1} alt="Adele Prototype created in UXPin" />
             <Caption variant="dark">
               The early prototype of Adele created in UXPin
             </Caption>
@@ -263,7 +263,7 @@ const OpenSourceAdventure = ({ location, data }) => {
           </ProcessDescription>
         </ProcessContent>
         <PortfolioImageWrapper>
-          <img src={Adele_2} />
+          <img src={Adele_2} alt="Adele homepage" />
           <Caption variant="dark">
             Adele website now contains detailed analyses of over 80 design
             systems.
@@ -451,7 +451,7 @@ const OpenSourceAdventure = ({ location, data }) => {
         heading="eCommerce Video Portal"
         headingVariant="dark"
         subHeading="2011"
-        subHeadingVariant="gold"
+        subHeadingVariant="dark"
         subHeadingBorder
         ctaVariant="button"
         buttonVariant="dark"

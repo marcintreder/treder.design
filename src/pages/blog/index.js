@@ -10,7 +10,6 @@ import {
   PortfolioImageWrapper,
   Layout,
   TextBody,
-  ButtonLink,
 } from '../../components';
 
 import Grid from '../../images/grid.svg';

@@ -250,7 +250,7 @@ const UXPinNewEditor = ({ location, data }) => {
           </TextBody>
         </ExplorationWrapper>
         <PortfolioImageWrapper>
-          <img src={New_Editor_1} />
+          <img src={New_Editor_1} alt="low fidelity prototype of new UXPin design editor" />
           <Caption variant="dark">
             One of the first low fidelity prototypes of new UXPin.
           </Caption>
@@ -263,18 +263,18 @@ const UXPinNewEditor = ({ location, data }) => {
           </ProcessDescription>
         </ProcessContent>
         <ProcessChart>
-          <img src={ProcessNewEditor} />
+          <img src={ProcessNewEditor} alt="Chart used in the process for this project" />
         </ProcessChart>
         <PortfolioImageWrapper>
-          <img src={EditorEvolution} />
+          <img src={EditorEvolution} alt="Different iterations of UXPin interface since 2010" />
           <Caption variant="dark">
             The evolution of UXPin interface over the years.
           </Caption>
         </PortfolioImageWrapper>
         <PortfolioImageWrapper>
-          <img src={EditorLightDark} />
+          <img src={EditorLightDark} alt="Light and dark version of the UXPin design editor" />
           <Caption variant="dark">
-            Light and Dark mode were part of new UXPin from day 1.
+            Light and Dark mode were part of the new UXPin from day 1.
           </Caption>
         </PortfolioImageWrapper>
       </ProcessWrapper>
@@ -438,7 +438,7 @@ const UXPinNewEditor = ({ location, data }) => {
         heading="eCommerce Video Portal"
         headingVariant="dark"
         subHeading="2011"
-        subHeadingVariant="gold"
+        subHeadingVariant="dark"
         subHeadingBorder
         ctaVariant="button"
         buttonVariant="dark"

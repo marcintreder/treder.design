@@ -9,7 +9,7 @@ import Linkedin from '../svg_icons/linkedin.svg';
 import GitHub from '../svg_icons/github.svg';
 import MobileMenuIcon from '../svg_icons/mobile_menu.svg';
 import CloseMobileMenuIcon from '../svg_icons/close_menu.svg';
-import { FixedBar, SEO } from '../components';
+import { SEO } from '../components';
 
 const NavigationWrapper = styled.header`
   display: flex;
@@ -17,7 +17,8 @@ const NavigationWrapper = styled.header`
   justify-content: center;
   width: 100%;
   height: 130px;
-  background-color: ${props => (props.variant === 'dark' ? '#000000' : '#ffffff')};
+  background-color: ${props =>
+    props.variant === 'dark' ? '#000000' : '#ffffff'};
 
   @media screen and (max-width: 600px) {
     justify-content: center;
@@ -65,10 +66,20 @@ const MobileMenuButton = styled.button`
     width: 48px;
     height: 48px;
     padding-top: 5px;
-    background: ${props => props.variant === "dark" ? "#000000" : props.mobileMenuState ? "#000000" : "#ffffff"};
+    background: ${props =>
+      props.variant === 'dark'
+        ? '#000000'
+        : props.mobileMenuState
+        ? '#000000'
+        : '#ffffff'};
     outline: none;
     border: none;
-    fill: ${props => props.variant === "dark" ? "#ffffff" : props.mobileMenuState ? "#ffffff" : "#000000" };
+    fill: ${props =>
+      props.variant === 'dark'
+        ? '#ffffff'
+        : props.mobileMenuState
+        ? '#ffffff'
+        : '#000000'};
     z-index: 101;
     text-align: center;
 
@@ -81,8 +92,7 @@ const MobileMenuButton = styled.button`
 
     &:hover,
     &:active {
-        fill: var(--gold-color);
-
+      fill: var(--gold-color);
     }
   }
 `;
@@ -123,7 +133,7 @@ const MenuItem = styled.li`
   }
   &:active {
     background: var(--gold-color);
-    color: ${props => props.variant === "dark" ? "#000000" : "#ffffff"};
+    color: ${props => (props.variant === 'dark' ? '#000000' : '#ffffff')};
   }
 
   @media screen and (max-width: 600px) {
@@ -191,18 +201,17 @@ const Navigation = props => {
   const [mobileMenuState, showMenu] = useState(false);
   return (
     <NavigationWrapper variant={props.variant}>
-        <NavElement>
+      <NavElement>
         <SEO title={props.seoTitle} />
-        <Logo href="/">
+        <Logo href="/" aria-label="Treder Design Logo">
           <TrederLogo />
         </Logo>
         <MobileMenuButton
           onClick={() => showMenu(!mobileMenuState)}
           mobileMenuState={mobileMenuState}
-          variant={props.variant}>
-            {
-               !mobileMenuState ? <MobileMenuIcon /> : <CloseMobileMenuIcon />
-            }
+          variant={props.variant}
+        >
+          {!mobileMenuState ? <MobileMenuIcon /> : <CloseMobileMenuIcon />}
         </MobileMenuButton>
         <MenuWrapper mobileMenu={mobileMenuState}>
           <Menu variant={props.variant} activeLink={props.activeLink}>
@@ -222,6 +231,7 @@ const Navigation = props => {
           <SocialMenu variant={props.variant}>
             <SocialMenuItem>
               <SocialMenuLink
+                aria-label="Linkedin Link"
                 href="http://linkedin.com/in/marcintreder"
                 target="_blank"
               >
@@ -230,6 +240,7 @@ const Navigation = props => {
             </SocialMenuItem>
             <SocialMenuItem>
               <SocialMenuLink
+                aria-label="Twitter Link"
                 href="http://twitter.com/marcintreder"
                 target="_blank"
               >
@@ -238,6 +249,7 @@ const Navigation = props => {
             </SocialMenuItem>
             <SocialMenuItem>
               <SocialMenuLink
+                aria-label="Github Link"
                 href="http://github.com/marcintreder"
                 target="_blank"
               >
@@ -246,7 +258,7 @@ const Navigation = props => {
             </SocialMenuItem>
           </SocialMenu>
         </MenuWrapper>
-        </NavElement>
+      </NavElement>
     </NavigationWrapper>
   );
 };

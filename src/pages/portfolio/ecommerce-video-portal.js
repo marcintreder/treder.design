@@ -225,10 +225,10 @@ const EcommerceVideoPortal = ({ location, data }) => {
           </TextBody>
         </ExplorationWrapper>
         <PortfolioImageWrapper>
-          <img src={Nokauttv1} />
+          <img src={Nokauttv1} alt="Nokaut.tv video intro snapshot" />
         </PortfolioImageWrapper>
         <PortfolioImageWrapper>
-          <img src={Nokauttv2} />
+          <img src={Nokauttv2} alt="Second Nokaut.tv video intro snapshot" />
           <Caption variant="dark">
             The dynamic, vibrant, brand image of Nokaut.tv
           </Caption>
@@ -252,10 +252,10 @@ const EcommerceVideoPortal = ({ location, data }) => {
           </ProcessDescription>
         </ProcessContent>
         <ProcessChart>
-          <img src={ProcessNokautTv} />
+          <img src={ProcessNokautTv} alt="Chart representing the process used in this project." />
         </ProcessChart>
         <PortfolioImageWrapper>
-          <img src={Nokauttv3} />
+          <img src={Nokauttv3} alt="Screenshot of Nokaut.tv homepage" />
           <Caption variant="dark">The homepage of Nokaut.tv</Caption>
         </PortfolioImageWrapper>
       </ProcessWrapper>

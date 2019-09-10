@@ -6,7 +6,6 @@ import {
   Breadcrumbs,
   HeadingXL,
   Layout,
-  SEO,
   TextBody,
   TextDate,
   Navigation,

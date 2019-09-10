@@ -1,18 +1,15 @@
 import React from 'react';
-import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import Logo_Sketches from '../images/logos.svg';
-
 import {
   Navigation,
   HeadingXL,
   Layout,
-  Button,
   ButtonLink,
   AboutMe,
   PortfolioTeaser,
   Quote,
 } from '../components';
+import Logo_Sketches from '../images/logos.svg';
 import Circles from '../svg_icons/circles.svg';
 import Small_Editor from '../images/small_editor.svg';
 import Adele from '../images/adele_gold.svg';
@@ -181,12 +178,12 @@ const Home = ({ data }) => {
             heading="The Open Source Adventure"
             subHeading="2018"
             subHeadingBorder
-            subHeadingVariant="gold"
+            subHeadingVariant="dark"
             headingVariant="dark"
             variant="light"
             ctaLabel="read the story"
             ctaVariant="button"
-            buttonVariant="gold"
+            buttonVariant="dark"
             buttonHoveredLabel="light"
             destination="/portfolio/open-source-adventure/"
             illustration={Adele}
@@ -224,7 +221,6 @@ const Home = ({ data }) => {
             variant="dark"
             ctaLabel="read the story"
             ctaVariant="button"
-            buttonHoveredLabel="dark"
             buttonVariant="gold"
             buttonHoveredLabel="dark"
             destination="/portfolio/treder-design-branding/"
@@ -258,35 +254,3 @@ const Home = ({ data }) => {
 };
 
 export default Home;
-
-export const query = graphql`
-  query {
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-      edges {
-        node {
-          id
-          frontmatter {
-            title
-            date(formatString: "MMMM DD, YYYY")
-          }
-          fields {
-            slug
-          }
-          excerpt
-        }
-      }
-    }
-  }
-`;
-
-/*
-        {data.allMarkdownRemark.edges.map(({ node }) => (
-          <Link to={node.fields.slug}>
-            <Post key={node.id}>
-              <HeadingL>{node.frontmatter.title}</HeadingL>
-              <TextBody>{node.excerpt}</TextBody>
-              <TextDate>{node.frontmatter.date}</TextDate>
-            </Post>
-          </Link>
-        ))}
-*/

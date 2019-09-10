@@ -234,7 +234,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         }
       >
         <ImageWrapper>
-          <img src={NokautHomepage} />
+          <img src={NokautHomepage} alt="Nokaut.pl homepage after the redesign in 2011" />
           <Caption variant="dark">
             Nokaut.pl Homepage after the 2011 redesign.
           </Caption>
@@ -263,7 +263,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
             </TextBody>
           </ProcessDescription>
           <AdPlaceImage>
-            <img src={NokautHomepageHead} />
+            <img src={NokautHomepageHead} alt="Header of Nokaut.pl homepage" />
             <Caption variant="dark">
               Negotiating ad placements and presenting the value of Nokaut.pl
               were important for key stakeholders. Above you can see multiple
@@ -274,7 +274,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
           </AdPlaceImage>
         </ProcessContent>
         <ProcessChart>
-          <img src={ProcessChartHomepage} />
+          <img src={ProcessChartHomepage} alt="Chart showing the process used in the project" />
         </ProcessChart>
       </ProcessWrapper>
       <PortfolioResults
@@ -412,7 +412,7 @@ const eCommerceHomepageDesign = ({ location, data }) => {
         heading="eCommerce Video Portal"
         headingVariant="dark"
         subHeading="2011"
-        subHeadingVariant="gold"
+        subHeadingVariant="dark"
         subHeadingBorder
         ctaVariant="button"
         buttonVariant="dark"

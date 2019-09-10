@@ -34,7 +34,7 @@ const Breadcrumbs = props => (
     <Breadcrumb
       location={props.location}
       crumbLabel={props.label}
-      crumbActiveStyle={{ color: '#e7ad7a' }}
+      crumbActiveStyle={{ color: '#7e4717' }}
       style={{
         fontSize: '14px',
         fontVariant: 'small-caps',

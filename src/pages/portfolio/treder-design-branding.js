@@ -42,7 +42,7 @@ const ExplorationWrapper = styled.article`
   padding: 0 var(--sides-padding-desktop);
 
   ${PortfolioImageWrapper} {
-      margin: 80px auto;
+    margin: 80px auto;
   }
 
   @media screen and (min-width: 1440px) {
@@ -176,7 +176,11 @@ const TrederDesignBranding = ({ location, data }) => {
             </p>
           </TextBody>
           <PortfolioImageWrapper>
-            <img src={Logo_Sketches_White} style={{width: "80%"}}/>
+            <img
+              src={Logo_Sketches_White}
+              style={{ width: '80%' }}
+              alt="Sketches of Treder Design Logo"
+            />
             <Caption variant="dark">
               Examples of signs created in the exploration phase of the process.
             </Caption>
@@ -196,7 +200,7 @@ const TrederDesignBranding = ({ location, data }) => {
             </p>
           </TextBody>
           <PortfolioImageWrapper>
-            <img src={Logo_Sign} style={{ width: '280px', height: '280px' }} />
+            <img src={Logo_Sign} style={{ width: '280px', height: '280px' }} alt="The final logo for Treder Design" />
             <Caption variant="dark">
               The final sign. Simplicity of values and leadership creating space
               for collaboration.
@@ -217,9 +221,9 @@ const TrederDesignBranding = ({ location, data }) => {
           </TextBody>
 
           <PortfolioImageWrapper>
-            <img src={LogoTypes} />
+            <img src={LogoTypes} alt="Four variants of the Treder Design logotype." />
             <Caption variant="dark">
-              Four variants of Treder Design logotype
+              Four variants of the Treder Design logotype
             </Caption>
           </PortfolioImageWrapper>
           <TextBody variant="dark">
@@ -368,13 +372,13 @@ const TrederDesignBranding = ({ location, data }) => {
           </>
         }
       />
-            <PortfolioTeaser
+      <PortfolioTeaser
         variant="light"
         alignment="left"
         heading="eCommerce Video Portal"
         headingVariant="dark"
         subHeading="2011"
-        subHeadingVariant="gold"
+        subHeadingVariant="dark"
         subHeadingBorder
         ctaVariant="button"
         buttonVariant="dark"
@@ -425,7 +429,7 @@ const TrederDesignBranding = ({ location, data }) => {
           </>
         }
       />
-        <PortfolioTeaser
+      <PortfolioTeaser
         variant="gold"
         alignment="left"
         heading="The Open Source Adventure"

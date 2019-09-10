@@ -279,7 +279,7 @@ const eCommerceMobileAppDesign = ({ location, data }) => {
         }
       >
         <ImageWrapper>
-          <img src={NokautSkaner} />
+          <img src={NokautSkaner} alt="Screenshot of Nokaut Skaner application" />
           <Caption variant="dark">
             Nokaut Skaner with a central position of the scanner button
             ("skanuj" means "scan it" in Polish)
@@ -304,7 +304,7 @@ const eCommerceMobileAppDesign = ({ location, data }) => {
           </ProcessDescription>
         </ProcessContent>
         <ProcessChart>
-          <img src={ProcessChartMobile} />
+          <img src={ProcessChartMobile} alt="Chart showing the process used in the project" />
         </ProcessChart>
       </ProcessWrapper>
       <PortfolioResults 
