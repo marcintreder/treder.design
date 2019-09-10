@@ -36,7 +36,7 @@ import UXPinNotepadCollection2 from '../../images/uxpin_notepad_collection_2.png
 
 /* Page specific style components */
 const LastImageWrapper = styled(PortfolioImageWrapper)`
-    margin-bottom: 80px;
+  margin-bottom: 80px;
 `;
 
 const ExplorationWrapper = styled.article`
@@ -139,7 +139,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
             <p>
               In 2010 I got promoted to the role of Head of Design at Grupa
               Nokaut. I felt a great sense of pride and commitment to the
-              company. And yet, being as young as I were at that time, I had
+              company. And yet, being as young as I were at that time, I had the
               endless energy to work long hours. I challenged myself to do more
               and more. I engaged in design work for a series of early–stage
               startups. Not a single one ended up successful. In the summer of
@@ -179,7 +179,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
               sketch a solution to problems uncovered by the research.
             </p>
             <p>
-              The first iteration of this workshop was only somehow successful.
+              The first iteration of this workshop was only somewhat successful.
               The team was engaged, but many people struggled with sketching and
               felt concerned about their ability to express themselves visually.
             </p>
@@ -187,12 +187,10 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
               On a subsequent edition of the workshop instead of blank pieces of
               paper and pencils team received sticky notes with printed,
               essential components from our style guide. Instead of sketching
-              the solution, the team was asked to build the interface with
+              the solution, the team was asked to design the interface with
               sticky notes.
             </p>
-            <p>
-              This playful approach turned out to be an overwhelming success.
-            </p>
+            <p>This playful approach turned out to be successful.</p>
             <p>
               Soon after, together with two friends, I decided to turn this
               positive experience into a product. The problem felt real, and it
@@ -237,26 +235,30 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
           <TextBody variant="dark">
             <p>
               To kick off the process, together with my co–founders, we've
-              started to attempt to define a small set of user interface
-              elements (today, we would say – atoms) that was sufficient and
-              universal enough to build any website. For hours we would cut out
-              elements from sticky notes and try to recreate popular websites –
-              eBay, Facebook, MySpace...
+              started to work on defining a small set of user interface elements
+              (today, we would say–atoms) that were sufficient and universal
+              enough to build any website. For hours we would cut out elements
+              from sticky notes and try to recreate popular websites–eBay,
+              Facebook, MySpace, among others.
             </p>
             <p>
-              Once we felt that we have something that works for us, we've
-              started to run tests with our friends – designers. After dozens of
-              iterations, we finally felt that we had a design that works for a
-              majority of cases. Excited, we've started to look for a producer.
-              It turned out that producing notepads with a sufficiently strong
-              glue was quite a challenge. After 2 months of intense
-              negotiations, we've found a printing house able to produce the
-              first series of UXPin notepads – 400 pieces.
+              Once we had a set that worked for us, we've started to run tests
+              with our designers-friends. After dozens of iterations, we finally
+              felt that we had a design that works for a majority of cases.
+              Excited, we've started to look for a manufacturer (printing
+              house). We quickly learned that producing sticky notes in
+              different shapes and a sufficiently strong glue was quite a
+              challenge. After 2 months of intense negotiations, we found a
+              printing house able to produce the first series of UXPin
+              notepads–400 pieces.
             </p>
           </TextBody>
         </ExplorationWrapper>
         <PortfolioImageWrapper>
-          <img src={UXPinNotepadCollection1} alt="UXPin Paper Prototyping Notepad" />
+          <img
+            src={UXPinNotepadCollection1}
+            alt="UXPin Paper Prototyping Notepad"
+          />
           <Caption variant="dark">
             UXPin was always all about the quality. We checked every single
             notepad, making sure that everything is just right.
@@ -270,26 +272,26 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
             <TextBody variant="dark">
               <p>
                 In early November the printing house completed our order of 400
-                UXPin Notepads – in theory, we were ready to launch. The
-                practice has been somehow more complicated, though. Now we had
-                to find time to build the UXPin website and store.
+                UXPin Notepads–in theory, we were ready to launch. In practice
+                things have been more complicated. We had to find time to build
+                the UXPin website and store.
               </p>
               <p>
-                To motivated ourselves, we've set a fixed launch deadline –
-                November 11th 2010. November 11th is simultaneously celebrated
-                as the World Usability Day and Poland Independence Day (public
+                To motivate ourselves, we set a fixed launch deadline – November
+                11th 2010. November 11th is simultaneously celebrated as the
+                World Usability Day and Poland Independence Day (public
                 holiday). Seemed like a great day to launch UXPin!
               </p>
               <p>
                 Unfortunately, we were busy with other commitments until the
-                very launch day, and we didn't manage to do nearly anything.
+                very launch day, and we didn't manage to finish nearly anything.
               </p>
               <p>
-                Young and excited, instead of rescheduling the launch we've
-                worked for 24 hours non–stop. The entire website was designed
-                and build in one day. We had to accept some significant
-                compromises (e.g., WordPress served us as the eCommerce
-                platform). A price worth paying for keeping our word!
+                Instead of rescheduling the launch we've worked for 24 hours
+                non-stop. The entire website was designed and build in one day.
+                We had to accept some significant compromises (e.g., WordPress
+                served us as the eCommerce platform). A price worth paying for
+                keeping our word and delivering UXPin on time!
               </p>
               <p>
                 In the late evening of November 11th we were ready to launch.
@@ -301,7 +303,10 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
           </LaunchDescription>
           <LaunchSideImages>
             <img src={UXPinNotepad6} alt="The first UXPin.com website" />
-            <img src={UXPinNotepad5} alt="Wireframe of the first UXPin.com website"  />
+            <img
+              src={UXPinNotepad5}
+              alt="Wireframe of the first UXPin.com website"
+            />
             <Caption variant="dark">
               The original wireframe and the design of the first UXPin website.
             </Caption>
@@ -309,7 +314,10 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         </LaunchContent>
       </LaunchWrapper>
       <LastImageWrapper>
-        <img src={UXPinNotepadCollection2} alt="UXPin Paper Prototyping Notepad" />
+        <img
+          src={UXPinNotepadCollection2}
+          alt="UXPin Paper Prototyping Notepad"
+        />
         <Caption variant="dark">
           The first batch of UXPin notepads sold out in 48 hours.
         </Caption>
@@ -371,9 +379,8 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
             the Nokaut.pl product page. Together with the engineering team,
             we've worked out a series of hypotheses based on factors affecting
             human attention (contrast, color, movement, pattern...) and we've
-            performed a series of multivariable split tests (multiple variants
-            of product pages were being served randomly to users. The result?
-            24% increase in the conversion rate.
+            performed a series of multivariable split tests. The result? 24%
+            increase in the conversion rate.
           </p>
         }
       />
@@ -394,10 +401,10 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         illustrationPosition="margin"
         bodyText={
           <p>
-            TIn 2011 I led the process of the redesign of the Nokaut.pl
-            Homepage. At that time, Nokaut.pl was attracting 2.5 million users a
-            month and the owner of Nokaut.pl – Grupa Nokaut was preparing their
-            IPO. Intense project!
+            In 2011 I led the process of the redesign of Nokaut.pl Homepage. At
+            that time, Nokaut.pl was attracting 2.5 million users a month and
+            the owner of Nokaut.pl – Grupa Nokaut was preparing their IPO. An
+            intense project!
           </p>
         }
       />
@@ -419,13 +426,13 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         bodyText={
           <>
             <p>
-              Web products of Groupa Nokaut had been dominant (2.5 million
-              unique visitors per month in 2011), but the company didn't have
-              much success on the mobile market. Our mobile offering, at the
-              time, was limited to a dated mobile version of the core service
-              built for old cell phones. This service was a highly popular
-              couple of years earlier, but with the growing popularity of smart
-              phones users expected richer experiences.
+              Web products of Grupa Nokaut had been dominant (2.5 million unique
+              visitors per month in 2011), but the company didn't have much
+              success on the mobile market. Our mobile offering, at the time,
+              was limited to a dated mobile version of the core service built
+              for old cell phones. This service was highly popular couple of
+              years earlier, but with the growing popularity of smart phones
+              users expected "richer" experiences.
             </p>
             <p>
               In 2010 Grupa Nokaut asked me to lead the process of designing and
@@ -452,12 +459,12 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
         illustrationPosition="margin"
         bodyText={
           <p>
-            For over two years I worked as part of the R&D Group at Groupa
-            Nokaut. We were tasked with coming up with new product ideas that
-            address the most critical strategic problems of the business. One of
-            the projects that we realized in 2011 was Nokaut.tv – an eCommerve
-            Video Portal that quickly attracted over 100,000 viewers. I had a
-            pleasure to lead the design and product development process.
+            I worked in the Grupa Nokaut R&D Group for over two years. We were
+            tasked with coming up with new product ideas that addressed the most
+            critical strategic problems of the business. One of the projects
+            that we realized in 2011 was Nokaut.tv – an eCommerce Video Portal
+            that quickly attracted over 100,000 viewers. I had the pleasure to
+            lead design and product development process.
           </p>
         }
       />
@@ -484,10 +491,10 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
               Ventures and Jeff Veen – former VP of Design at Adobe).
             </p>
             <p>
-              We weren't happy though. We knew that we have to do even more to
-              realize our mission and help the design tools industry move
-              forward. We started a design process that changed the entire
-              industry.
+              We knew that this is not enough. We knew that we have to do even
+              more to realize our mission and help the design tools industry
+              move forward. Soon, we've started a design process that changed
+              the entire industry.
             </p>
           </>
         }
@@ -513,19 +520,18 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
               Since 2012 I'm operating as a full–time CEO of a growing startup –
               UXPin (over 50 employees, profitable). Despite that, I've never
               stopped being a designer, coder, and a product person. To relax
-              and contribute either to UXPin or the overall design and
-              engineering community, I tend to take on side projects.
+              and contribute to UXPin and the overall design and engineering
+              community, I tend to take on side projects.
             </p>
             <p>
-              In 2017, after talking to a bunch of friends working on Design
-              Systems, I decided to devote my weekends to the creation of an
+              In 2017, after talking to a bunch of friends working on design
+              systems, I decided to devote my weekends to the creation of an
               open source repository of analyzed design systems.
             </p>
             <p>
               For two subsequent weekends in January 2018, I designed and coded
-              (React.js and Node.js for tooling) the repository. The popularity
-              of this project exceeded my most optimistic expectations. In 2017,
-              after talking to a bunch of friends working on Design
+              (React.js and Node.js) the repository. The popularity of this
+              project exceeded my most optimistic expectations.
             </p>
           </>
         }
@@ -549,7 +555,7 @@ const PaperPrototypingRedesigned = ({ location, data }) => {
           <>
             <p>
               I've spent way over a decade designing all sorts of products, but
-              hardly ever – brand identities. Neverthless, I have a deep
+              hardly ever – brand identities. Nevertheless, I have a deep
               affection for the very special connection between art and
               storytelling always present in great brand design.
             </p>

@@ -124,13 +124,12 @@ const EcommerceVideoPortal = ({ location, data }) => {
           illustrationPosition="margin"
           bodyText={
             <p>
-              For over two years I worked as part of the R&D Group at Groupa
-              Nokaut. We were tasked with coming up with new product ideas that
-              address the most critical strategic problems of the business. One
-              of the projects that we realized in 2011 was Nokaut.tv – an
-              eCommerve Video Portal that quickly attracted over 100,000
-              viewers. I had a pleasure to lead the design and product
-              development process.
+              I worked in the Grupa Nokaut R&D Group for over two years. We were
+              tasked with coming up with new product ideas that addressed the
+              most critical strategic problems of the business. One of the
+              projects that we realized in 2011 was Nokaut.tv – an eCommerce
+              Video Portal that quickly attracted over 100,000 viewers. I had
+              the pleasure to lead design and product development process.
             </p>
           }
         />
@@ -152,12 +151,7 @@ const EcommerceVideoPortal = ({ location, data }) => {
               simultaneously, I worked in a small R&D team reporting directly to
               the founders of the company. The R&D team was created to solve the
               critical strategic problems of Grupa Nokaut and create
-              future–facing product concepts.
-            </p>
-            <p>
-              After reviewing the results of the research, the entire group was
-              being divided into small interdisciplinary teams and asked to
-              sketch a solution to problems uncovered by the research.
+              future-facing product concepts.
             </p>
             <p>
               One of the initiatives that the R&D team took on in late 2011 was
@@ -178,7 +172,7 @@ const EcommerceVideoPortal = ({ location, data }) => {
               awareness.
             </li>
             <li>
-              Finding a way to appeal to a younger audience and presenting
+              Finding a way to appeal to a younger audience by presenting
               Nokaut.pl as "cool" and vibrant company.
             </li>
           </ol>
@@ -186,14 +180,13 @@ const EcommerceVideoPortal = ({ location, data }) => {
         myRoleContent={
           <ul>
             <li>
-              Working on the original concept of the service alongside 3 other
-              members of the R&D team.
+              Working on the concept of the service alongside 3 other members of
+              the R&D team.
             </li>
             <li>
               Wireframing and prototyping the original version of the service.
             </li>
             <li>Managing internal and external visual designers.</li>
-            <li>Wireframing and prototyping key experiences</li>
             <li>
               Coordinating collaboration with the external development partner.
             </li>
@@ -242,17 +235,16 @@ const EcommerceVideoPortal = ({ location, data }) => {
               <p>
                 The chart below represents the process for this project. It's an
                 accurate representation of how my team and I used to run design
-                and product work at Grupa Nokaut at that time. An important, and
-                unique, part of this particular process are the field tests in
-                local supermarkets. The goal was to observe user behavior in the
-                real environment. These studies informed many of our design
-                decisions.
+                and product work at Grupa Nokaut at that time.
               </p>
             </TextBody>
           </ProcessDescription>
         </ProcessContent>
         <ProcessChart>
-          <img src={ProcessNokautTv} alt="Chart representing the process used in this project." />
+          <img
+            src={ProcessNokautTv}
+            alt="Chart representing the process used in this project."
+          />
         </ProcessChart>
         <PortfolioImageWrapper>
           <img src={Nokauttv3} alt="Screenshot of Nokaut.tv homepage" />
@@ -278,11 +270,11 @@ const EcommerceVideoPortal = ({ location, data }) => {
               wasn't at the company at that time).
             </li>
             <li>
-              Coordination of content and development partners at the same time
-              increases the overall level of risk for the project.
+              The need to coordinate multiple partners (content, development)
+              increases the overall risk for the project.
             </li>
             <li>
-              Changing a brand perception of an established product is
+              Changing the brand perception of an established product is very
               difficult.
             </li>
           </ol>
@@ -321,9 +313,8 @@ const EcommerceVideoPortal = ({ location, data }) => {
             the Nokaut.pl product page. Together with the engineering team,
             we've worked out a series of hypotheses based on factors affecting
             human attention (contrast, color, movement, pattern...) and we've
-            performed a series of multivariable split tests (multiple variants
-            of product pages were being served randomly to users. The result?
-            24% increase in the conversion rate.
+            performed a series of multivariable split tests. The result? 24%
+            increase in the conversion rate.
           </p>
         }
       />
@@ -361,10 +352,10 @@ const EcommerceVideoPortal = ({ location, data }) => {
         illustrationPosition="margin"
         bodyText={
           <p>
-            TIn 2011 I led the process of the redesign of the Nokaut.pl
-            Homepage. At that time, Nokaut.pl was attracting 2.5 million users a
-            month and the owner of Nokaut.pl – Grupa Nokaut was preparing their
-            IPO. Intense project!
+            In 2011 I led the process of the redesign of Nokaut.pl Homepage. At
+            that time, Nokaut.pl was attracting 2.5 million users a month and
+            the owner of Nokaut.pl – Grupa Nokaut was preparing their IPO. An
+            intense project!
           </p>
         }
       />
@@ -386,13 +377,13 @@ const EcommerceVideoPortal = ({ location, data }) => {
         bodyText={
           <>
             <p>
-              Web products of Groupa Nokaut had been dominant (2.5 million
-              unique visitors per month in 2011), but the company didn't have
-              much success on the mobile market. Our mobile offering, at the
-              time, was limited to a dated mobile version of the core service
-              built for old cell phones. This service was a highly popular
-              couple of years earlier, but with the growing popularity of smart
-              phones users expected richer experiences.
+              Web products of Grupa Nokaut had been dominant (2.5 million unique
+              visitors per month in 2011), but the company didn't have much
+              success on the mobile market. Our mobile offering, at the time,
+              was limited to a dated mobile version of the core service built
+              for old cell phones. This service was highly popular couple of
+              years earlier, but with the growing popularity of smart phones
+              users expected "richer" experiences.
             </p>
             <p>
               In 2010 Grupa Nokaut asked me to lead the process of designing and
@@ -425,10 +416,10 @@ const EcommerceVideoPortal = ({ location, data }) => {
               Ventures and Jeff Veen – former VP of Design at Adobe).
             </p>
             <p>
-              We weren't happy though. We knew that we have to do even more to
-              realize our mission and help the design tools industry move
-              forward. We started a design process that changed the entire
-              industry.
+              We knew that this is not enough. We knew that we have to do even
+              more to realize our mission and help the design tools industry
+              move forward. Soon, we've started a design process that changed
+              the entire industry.
             </p>
           </>
         }
@@ -454,19 +445,18 @@ const EcommerceVideoPortal = ({ location, data }) => {
               Since 2012 I'm operating as a full–time CEO of a growing startup –
               UXPin (over 50 employees, profitable). Despite that, I've never
               stopped being a designer, coder, and a product person. To relax
-              and contribute either to UXPin or the overall design and
-              engineering community, I tend to take on side projects.
+              and contribute to UXPin and the overall design and engineering
+              community, I tend to take on side projects.
             </p>
             <p>
-              In 2017, after talking to a bunch of friends working on Design
-              Systems, I decided to devote my weekends to the creation of an
+              In 2017, after talking to a bunch of friends working on design
+              systems, I decided to devote my weekends to the creation of an
               open source repository of analyzed design systems.
             </p>
             <p>
               For two subsequent weekends in January 2018, I designed and coded
-              (React.js and Node.js for tooling) the repository. The popularity
-              of this project exceeded my most optimistic expectations. In 2017,
-              after talking to a bunch of friends working on Design
+              (React.js and Node.js) the repository. The popularity of this
+              project exceeded my most optimistic expectations.
             </p>
           </>
         }
@@ -490,7 +480,7 @@ const EcommerceVideoPortal = ({ location, data }) => {
           <>
             <p>
               I've spent way over a decade designing all sorts of products, but
-              hardly ever – brand identities. Neverthless, I have a deep
+              hardly ever – brand identities. Nevertheless, I have a deep
               affection for the very special connection between art and
               storytelling always present in great brand design.
             </p>

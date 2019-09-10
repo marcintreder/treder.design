@@ -197,9 +197,8 @@ const Portfolio = ({ location, data }) => {
               of the Nokaut.pl product page. Together with the engineering team,
               we've worked out a series of hypotheses based on factors affecting
               human attention (contrast, color, movement, pattern...) and we've
-              performed a series of multivariable split tests (multiple variants
-              of product pages were being served randomly to users. The result?
-              24% increase in the conversion rate.
+              performed a series of multivariable split tests. The result? 24%
+              increase in the conversion rate.
             </p>
           }
         />
@@ -237,10 +236,10 @@ const Portfolio = ({ location, data }) => {
           illustrationPosition="margin"
           bodyText={
             <p>
-              TIn 2011 I led the process of the redesign of the Nokaut.pl
-              Homepage. At that time, Nokaut.pl was attracting 2.5 million users
-              a month and the owner of Nokaut.pl – Grupa Nokaut was preparing
-              their IPO. Intense project!
+              In 2011 I led the process of the redesign of Nokaut.pl Homepage.
+              At that time, Nokaut.pl was attracting 2.5 million users a month
+              and the owner of Nokaut.pl – Grupa Nokaut was preparing their IPO.
+              An intense project!
             </p>
           }
         />
@@ -262,13 +261,13 @@ const Portfolio = ({ location, data }) => {
           bodyText={
             <>
               <p>
-                Web products of Groupa Nokaut had been dominant (2.5 million
+                Web products of Grupa Nokaut had been dominant (2.5 million
                 unique visitors per month in 2011), but the company didn't have
                 much success on the mobile market. Our mobile offering, at the
                 time, was limited to a dated mobile version of the core service
-                built for old cell phones. This service was a highly popular
+                built for old cell phones. This service was highly popular
                 couple of years earlier, but with the growing popularity of
-                smart phones users expected richer experiences.
+                smart phones users expected "richer" experiences.
               </p>
               <p>
                 In 2010 Grupa Nokaut asked me to lead the process of designing
@@ -295,13 +294,12 @@ const Portfolio = ({ location, data }) => {
           illustrationPosition="margin"
           bodyText={
             <p>
-              For over two years I worked as part of the R&D Group at Groupa
-              Nokaut. We were tasked with coming up with new product ideas that
-              address the most critical strategic problems of the business. One
-              of the projects that we realized in 2011 was Nokaut.tv – an
-              eCommerve Video Portal that quickly attracted over 100,000
-              viewers. I had a pleasure to lead the design and product
-              development process.
+              I worked in the Grupa Nokaut R&D Group for over two years. We were
+              tasked with coming up with new product ideas that addressed the
+              most critical strategic problems of the business. One of the
+              projects that we realized in 2011 was Nokaut.tv – an eCommerce
+              Video Portal that quickly attracted over 100,000 viewers. I had
+              the pleasure to lead design and product development process.
             </p>
           }
         />
@@ -328,10 +326,10 @@ const Portfolio = ({ location, data }) => {
                 Ventures and Jeff Veen – former VP of Design at Adobe).
               </p>
               <p>
-                We weren't happy though. We knew that we have to do even more to
-                realize our mission and help the design tools industry move
-                forward. We started a design process that changed the entire
-                industry.
+                We knew that this is not enough. We knew that we have to do even
+                more to realize our mission and help the design tools industry
+                move forward. Soon, we've started a design process that changed
+                the entire industry.
               </p>
             </>
           }
@@ -357,20 +355,18 @@ const Portfolio = ({ location, data }) => {
                 Since 2012 I'm operating as a full–time CEO of a growing startup
                 – UXPin (over 50 employees, profitable). Despite that, I've
                 never stopped being a designer, coder, and a product person. To
-                relax and contribute either to UXPin or the overall design and
+                relax and contribute to UXPin and the overall design and
                 engineering community, I tend to take on side projects.
               </p>
               <p>
-                In 2017, after talking to a bunch of friends working on Design
-                Systems, I decided to devote my weekends to the creation of an
+                In 2017, after talking to a bunch of friends working on design
+                systems, I decided to devote my weekends to the creation of an
                 open source repository of analyzed design systems.
               </p>
               <p>
                 For two subsequent weekends in January 2018, I designed and
-                coded (React.js and Node.js for tooling) the repository. The
-                popularity of this project exceeded my most optimistic
-                expectations. In 2017, after talking to a bunch of friends
-                working on Design
+                coded (React.js and Node.js) the repository. The popularity of
+                this project exceeded my most optimistic expectations.
               </p>
             </>
           }
@@ -394,7 +390,7 @@ const Portfolio = ({ location, data }) => {
             <>
               <p>
                 I've spent way over a decade designing all sorts of products,
-                but hardly ever – brand identities. Neverthless, I have a deep
+                but hardly ever – brand identities. Nevertheless, I have a deep
                 affection for the very special connection between art and
                 storytelling always present in great brand design.
               </p>

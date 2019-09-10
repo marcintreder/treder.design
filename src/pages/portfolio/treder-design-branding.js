@@ -114,8 +114,8 @@ const TrederDesignBranding = ({ location, data }) => {
               plans for the future.
             </p>
             <p>
-              I started with the highest possible level – the level of values. I
-              consider myself a principled man with solid self–awareness, and
+              I started with the highest possible level–the level of values. I
+              consider myself a principled man with solid self-awareness, and
               yet I struggled with naming my values. I had to take a deep dive
               into the stories of my past and ambitions for the future. After
               this exercise, I identified: <strong>loyalty</strong>,{' '}
@@ -169,8 +169,8 @@ const TrederDesignBranding = ({ location, data }) => {
             <p>
               I started by sketching geometrical signs that, on some level,
               represented my story. I designed nearly a hundred different signs
-              – some of them where more esoterical, some, very straightforward.
-              I took a lot of inspiration from the modernist era. I strived for
+              – some of them where more esoteric, some, very straightforward. I
+              took a lot of inspiration from the modernist era. I strived for
               similar simplicity and compelling message, as well as the clean
               aesthetics.
             </p>
@@ -200,7 +200,11 @@ const TrederDesignBranding = ({ location, data }) => {
             </p>
           </TextBody>
           <PortfolioImageWrapper>
-            <img src={Logo_Sign} style={{ width: '280px', height: '280px' }} alt="The final logo for Treder Design" />
+            <img
+              src={Logo_Sign}
+              style={{ width: '280px', height: '280px' }}
+              alt="The final logo for Treder Design"
+            />
             <Caption variant="dark">
               The final sign. Simplicity of values and leadership creating space
               for collaboration.
@@ -221,7 +225,10 @@ const TrederDesignBranding = ({ location, data }) => {
           </TextBody>
 
           <PortfolioImageWrapper>
-            <img src={LogoTypes} alt="Four variants of the Treder Design logotype." />
+            <img
+              src={LogoTypes}
+              alt="Four variants of the Treder Design logotype."
+            />
             <Caption variant="dark">
               Four variants of the Treder Design logotype
             </Caption>
@@ -291,9 +298,8 @@ const TrederDesignBranding = ({ location, data }) => {
             the Nokaut.pl product page. Together with the engineering team,
             we've worked out a series of hypotheses based on factors affecting
             human attention (contrast, color, movement, pattern...) and we've
-            performed a series of multivariable split tests (multiple variants
-            of product pages were being served randomly to users. The result?
-            24% increase in the conversion rate.
+            performed a series of multivariable split tests. The result? 24%
+            increase in the conversion rate.
           </p>
         }
       />
@@ -331,10 +337,10 @@ const TrederDesignBranding = ({ location, data }) => {
         illustrationPosition="margin"
         bodyText={
           <p>
-            TIn 2011 I led the process of the redesign of the Nokaut.pl
-            Homepage. At that time, Nokaut.pl was attracting 2.5 million users a
-            month and the owner of Nokaut.pl – Grupa Nokaut was preparing their
-            IPO. Intense project!
+            In 2011 I led the process of the redesign of Nokaut.pl Homepage. At
+            that time, Nokaut.pl was attracting 2.5 million users a month and
+            the owner of Nokaut.pl – Grupa Nokaut was preparing their IPO. An
+            intense project!
           </p>
         }
       />
@@ -356,13 +362,13 @@ const TrederDesignBranding = ({ location, data }) => {
         bodyText={
           <>
             <p>
-              Web products of Groupa Nokaut had been dominant (2.5 million
-              unique visitors per month in 2011), but the company didn't have
-              much success on the mobile market. Our mobile offering, at the
-              time, was limited to a dated mobile version of the core service
-              built for old cell phones. This service was a highly popular
-              couple of years earlier, but with the growing popularity of smart
-              phones users expected richer experiences.
+              Web products of Grupa Nokaut had been dominant (2.5 million unique
+              visitors per month in 2011), but the company didn't have much
+              success on the mobile market. Our mobile offering, at the time,
+              was limited to a dated mobile version of the core service built
+              for old cell phones. This service was highly popular couple of
+              years earlier, but with the growing popularity of smart phones
+              users expected "richer" experiences.
             </p>
             <p>
               In 2010 Grupa Nokaut asked me to lead the process of designing and
@@ -389,12 +395,12 @@ const TrederDesignBranding = ({ location, data }) => {
         illustrationPosition="margin"
         bodyText={
           <p>
-            For over two years I worked as part of the R&D Group at Groupa
-            Nokaut. We were tasked with coming up with new product ideas that
-            address the most critical strategic problems of the business. One of
-            the projects that we realized in 2011 was Nokaut.tv – an eCommerve
-            Video Portal that quickly attracted over 100,000 viewers. I had a
-            pleasure to lead the design and product development process.
+            I worked in the Grupa Nokaut R&D Group for over two years. We were
+            tasked with coming up with new product ideas that addressed the most
+            critical strategic problems of the business. One of the projects
+            that we realized in 2011 was Nokaut.tv – an eCommerce Video Portal
+            that quickly attracted over 100,000 viewers. I had the pleasure to
+            lead design and product development process.
           </p>
         }
       />
@@ -421,10 +427,10 @@ const TrederDesignBranding = ({ location, data }) => {
               Ventures and Jeff Veen – former VP of Design at Adobe).
             </p>
             <p>
-              We weren't happy though. We knew that we have to do even more to
-              realize our mission and help the design tools industry move
-              forward. We started a design process that changed the entire
-              industry.
+              We knew that this is not enough. We knew that we have to do even
+              more to realize our mission and help the design tools industry
+              move forward. Soon, we've started a design process that changed
+              the entire industry.
             </p>
           </>
         }
@@ -450,19 +456,18 @@ const TrederDesignBranding = ({ location, data }) => {
               Since 2012 I'm operating as a full–time CEO of a growing startup –
               UXPin (over 50 employees, profitable). Despite that, I've never
               stopped being a designer, coder, and a product person. To relax
-              and contribute either to UXPin or the overall design and
-              engineering community, I tend to take on side projects.
+              and contribute to UXPin and the overall design and engineering
+              community, I tend to take on side projects.
             </p>
             <p>
-              In 2017, after talking to a bunch of friends working on Design
-              Systems, I decided to devote my weekends to the creation of an
+              In 2017, after talking to a bunch of friends working on design
+              systems, I decided to devote my weekends to the creation of an
               open source repository of analyzed design systems.
             </p>
             <p>
               For two subsequent weekends in January 2018, I designed and coded
-              (React.js and Node.js for tooling) the repository. The popularity
-              of this project exceeded my most optimistic expectations. In 2017,
-              after talking to a bunch of friends working on Design
+              (React.js and Node.js) the repository. The popularity of this
+              project exceeded my most optimistic expectations.
             </p>
           </>
         }

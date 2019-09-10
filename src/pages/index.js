@@ -66,6 +66,15 @@ const TextHome = styled.p`
   line-height: 29px;
   color: #fff;
 
+  a {
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+
+    &:hover {
+      color: var(--gold-color);
+    }
+  }
+
   @media screen and (max-width: 700px) {
     max-width: 468px;
   }
@@ -129,8 +138,8 @@ const Home = ({ data }) => {
             Design +<br /> Product
           </HeadingXL>
           <TextHome>
-            I'm Marcin Treder – product & design leader, coding designer and
-            founding CEO at UXPin – one of the world leading design tools.
+            I'm Marcin Treder – product and design leader, coding designer and
+            founding CEO at <a href="http://uxpin.com" target="__blank">UXPin</a> – one of the world leading design tools.
           </TextHome>
           <ButtonLink variant="gold" hoveredLabelColor="dark" to="/portfolio">
             explore my portfolio
@@ -167,7 +176,7 @@ const Home = ({ data }) => {
                 </p>
                 <p>
                   This is the story of this enormous process and my role in it –
-                  from estabilishing the first principles to the launch.
+                  from establishing the first principles to the launch.
                 </p>
               </>
             }
@@ -197,7 +206,7 @@ const Home = ({ data }) => {
                   open source adventure.
                 </p>
                 <p>
-                  In January 2018, I've decided to buils Adele – an open source
+                  In January 2018, I've decided to build Adele – an open source
                   repository of thoroughly analyzed design systems. I didn't
                   have any expectations. I just felt that this is a project that
                   should exist in the design systems community. Soon after the
@@ -205,8 +214,8 @@ const Home = ({ data }) => {
                   contributors.
                 </p>
                 <p>
-                  Today Adele is mantained by the community and deliveres
-                  analyses to over 80,000 people a year.
+                  Today Adele is maintained by the community and delivers
+                  design systems analyses to over 80,000 people a year.
                 </p>
               </>
             }
@@ -229,8 +238,8 @@ const Home = ({ data }) => {
             bodyText={
               <>
                 <p>
-                  I've spent way over a decade designing all sorts of products,
-                  but hardly ever – brand identities. Neverthless, I have a deep
+                  I've spent over a decade designing all sorts of products,
+                  but hardly ever – brand identities. Nevertheless, I have a deep
                   affection for the very special connection between art and
                   storytelling always present in great brand design.
                 </p>

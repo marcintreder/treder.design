@@ -90,7 +90,7 @@ const AboutMe = props => {
                 helping people found theirs.
               </p>
             </TextBody>
-            <Link to="/">Learn More About Me</Link>
+            <Link to="/about-marcin-treder">Learn More About Me</Link>
           </TextWrapper>
             <TrederImage />
         </ContentWrapper>

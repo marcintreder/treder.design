@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { graphql } from 'gatsby';
 
 import {
   Breadcrumbs,
@@ -227,7 +226,7 @@ const About = ({ location, data }) => {
                 source of love, energy and fulfillment. It's everything.
               </p>
               <p>
-                Things weren't always that clear. Athough I started designing
+                Things weren't always that clear. Although I started designing
                 and coding as soon as I got my first PC (at 14 years old – times
                 were different), I haven't started really considering myself a
                 "designer" until I turned 21.
@@ -252,24 +251,23 @@ const About = ({ location, data }) => {
               <HeadingM>Background</HeadingM>
               <TextBody variant="light">
                 <p>
-                  For the past 12 years I've been working in the fields of
-                  design and product. I've started as an UX designer and I
+                  For the past 12 years I've been working in digital design and
+                  product management. I've started as a UX designer and I
                   quickly progressed to various roles in design and product
                   leadership.
                 </p>
                 <p>
-                  Back in 2010 I co–founded UXPin – one of the world leading
-                  design & prototyping tools. Today UXPin is proudly profitable
-                  with +50 great teammates aboard. I continue to work on UXPin's
-                  product and design strategies, as well as investors
-                  relationships, and top executive coaching.
+                  Back in 2010 I co-founded UXPin – one of the world leading
+                  design and prototyping tools. Today UXPin is proudly
+                  profitable with more than 50 great teammates aboard. I
+                  continue to work on UXPin's product and design strategies, as
+                  well as investor–relationships, and top executive coaching.
                 </p>
                 <p>
                   I'm a frequent public speaker (over 50 talks in the last 5
                   years, 3 continents covered!) and writer. I'm deeply
-                  passionate about the intersection of design and technology. I
-                  like to say that design is my profession but coding is my
-                  hobby.
+                  passionate about the intersection of design and technology.
+                  Design is my profession but coding is my hobby.
                 </p>
               </TextBody>
             </Background>
@@ -294,7 +292,7 @@ const About = ({ location, data }) => {
             <Values>
               <HeadingM>Values</HeadingM>
               <TextBody variant="light">
-                Over the years I found out that self-awarness is one of the keys
+                Over the years I understood that self-awareness is one of the keys
                 to being a good leader and a good person. On my quest to
                 understand myself I identified the following core values:
               </TextBody>
@@ -303,9 +301,9 @@ const About = ({ location, data }) => {
                   <ValueHeader>discipline</ValueHeader>
                   <TextBody variant="light">
                     I take a great pride in being highly disciplined. If I
-                    commit to a certain task, there's nothing that can stop me
+                    commit to a task, there's nothing that can stop me
                     from completing it. Whether we're talking about work, sports
-                    or hobbies – I'm acting with total committment and
+                    or hobbies – I'm acting with total commitment and
                     unbreakable discipline.
                   </TextBody>
                 </ValueItem>
@@ -336,15 +334,3 @@ const About = ({ location, data }) => {
 };
 
 export default About;
-
-export const query = graphql`
-  query {
-    RandomPhoto: file(relativePath: { eq: "RandomPhoto.jpg" }) {
-      childImageSharp {
-        fluid(maxWidth: 1400) {
-          ...GatsbyImageSharpFluid_withWebp
-        }
-      }
-    }
-  }
-`;

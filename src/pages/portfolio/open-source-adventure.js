@@ -114,24 +114,20 @@ const OpenSourceAdventure = ({ location, data }) => {
           bodyText={
             <>
               <p>
-                Since 2012 I'm operating as a full–time CEO of a growing startup
-                – UXPin (over 50 employees, profitable). Despite that, I've
-                never stopped being a designer, coder, and a product person. To
-                relax and contribute either to UXPin or the overall design and
-                engineering community, I tend to take on side projects.
-              </p>
-              <p>
-                To relax and contribute either to UXPin or the overall design
-                and engineering community, I tend to take on side projects.
+                Since 2012 I'm the full–time CEO of a growing startup – UXPin
+                (over 50 employees, profitable). Despite that, I've never
+                stopped being a designer, coder, and a product person. To relax
+                and contribute to UXPin and the overall design and engineering
+                community, I take on side projects.
               </p>
               <p>
                 In 2017, after talking to a bunch of friends working on Design
-                Systems, I decided to devote my weekend to the creation of an
-                open source repository of analyzed design systems.
+                Systems, I decided to devote my weekends to the creation of an
+                open source repository of design systems analyses.
               </p>
               <p>
                 For two subsequent weekends in January 2018, I designed and
-                coded (React.js and Node.js for tooling) the repository.
+                coded (React.js and Node.js) the repository.
               </p>
               <p>
                 The popularity of this project exceeded my most optimistic
@@ -159,15 +155,15 @@ const OpenSourceAdventure = ({ location, data }) => {
               solved specific problems. When we kicked off work on our design
               system at UXPin, I'd have to constantly visit repositories of
               systems like IBM Carbon or Shopify Polaris to check how they
-              approached, e.g. icons or colors in their respective systems.
-              Every visit like that is time–consumign and distracting.
+              approached, e.g. icons or colors in their systems. Every visit
+              like that is time–consuming and distracting.
             </p>
             <p>
-              I decided to solve this problem by creating an open platform where
-              members of the community can share their analyses of design
-              systems. Every system can be described with metadata spanning
-              dozens of categories and covering everything from the depth of
-              used technologies to the structure of the documentation.
+              I decided to solve this problem by creating an open source
+              platform where members of the community could share their analyses
+              of design systems. Every system can be described with metadata
+              spanning dozens of categories and covering everything from the
+              depth of used technologies to the structure of the documentation.
             </p>
           </>
         }
@@ -200,11 +196,11 @@ const OpenSourceAdventure = ({ location, data }) => {
           <TextBody variant="dark">
             <p>
               After documenting my hypotheses and sketching initial interface
-              concepts, I talked to multiple friends in the industry, trying to
+              concepts, I talked to several friends in the industry, trying to
               understand whether I'm thinking about the problem in the right
               way. My initial idea has been confirmed, but it became clear that
               the entire project has to be open sourced, so anybody can
-              contribute straight from GitHub and, subsequently, the relevant
+              contribute right from GitHub and, as a result, the relevant
               tooling has to be built to create an easy maintenance process.
             </p>
             <p>
@@ -212,7 +208,7 @@ const OpenSourceAdventure = ({ location, data }) => {
               project, I felt that I might struggle with the tooling part. It
               seemed that the tooling (generators of file format, file builders
               etc.) has to be built in Node.js and at that time, I had a very
-              rudimentary ability to use Node. I decided to treat as an
+              rudimentary ability to use Node. I decided to treat it as an
               excellent opportunity to become a better programmer!
             </p>
           </TextBody>
@@ -231,24 +227,17 @@ const OpenSourceAdventure = ({ location, data }) => {
             <TextBody variant="dark">
               <p>
                 Before investing time into coding, I prototyped the entire
-                experience in UXPin. In the way of casual research, I showed
-                invited 10 friends to test the prototype. After correcting
-                multiple small errors, I've concluded the study and moved to
-                code.
+                experience in UXPin. I invited 10 friends to test the prototype.
+                After correcting multiple small errors, I've concluded the study
+                and moved to coding.
               </p>
               <p>
-                I have chosen React.js as the foundation of my approach to
-                JavaScript. I felt comfortable with this library (we use it
-                across UXPin), and I felt that the popularity of React.js will
-                make a future contribution to Adele easier. For CSS, I've
-                decided to use Styled Components. New at the time, styled
-                components provided an easy way to dynamically manipulate
-                styling within encapsulated components. Another safety check for
-                future contributors.
-              </p>
-              <p>
-                While writing the code of all the components, I added tests in
-                Jest.
+                I have chosen React.js to build the website. I felt comfortable
+                with this library (we use it across UXPin), and I felt that the
+                popularity of React.js will make the community contributions to
+                Adele easier. For CSS, I've decided to use Styled Components.
+                New at the time, styled components provided an easy way to
+                dynamically manipulate styling within encapsulated components.
               </p>
               <p>
                 The biggest challenge turned out to be completely unexpected.
@@ -333,9 +322,8 @@ const OpenSourceAdventure = ({ location, data }) => {
             the Nokaut.pl product page. Together with the engineering team,
             we've worked out a series of hypotheses based on factors affecting
             human attention (contrast, color, movement, pattern...) and we've
-            performed a series of multivariable split tests (multiple variants
-            of product pages were being served randomly to users. The result?
-            24% increase in the conversion rate.
+            performed a series of multivariable split tests. The result? 24%
+            increase in the conversion rate.
           </p>
         }
       />
@@ -373,10 +361,10 @@ const OpenSourceAdventure = ({ location, data }) => {
         illustrationPosition="margin"
         bodyText={
           <p>
-            TIn 2011 I led the process of the redesign of the Nokaut.pl
-            Homepage. At that time, Nokaut.pl was attracting 2.5 million users a
-            month and the owner of Nokaut.pl – Grupa Nokaut was preparing their
-            IPO. Intense project!
+            In 2011 I led the process of the redesign of Nokaut.pl Homepage. At
+            that time, Nokaut.pl was attracting 2.5 million users a month and
+            the owner of Nokaut.pl – Grupa Nokaut was preparing their IPO. An
+            intense project!
           </p>
         }
       />
@@ -398,13 +386,13 @@ const OpenSourceAdventure = ({ location, data }) => {
         bodyText={
           <>
             <p>
-              Web products of Groupa Nokaut had been dominant (2.5 million
-              unique visitors per month in 2011), but the company didn't have
-              much success on the mobile market. Our mobile offering, at the
-              time, was limited to a dated mobile version of the core service
-              built for old cell phones. This service was a highly popular
-              couple of years earlier, but with the growing popularity of smart
-              phones users expected richer experiences.
+              Web products of Grupa Nokaut had been dominant (2.5 million unique
+              visitors per month in 2011), but the company didn't have much
+              success on the mobile market. Our mobile offering, at the time,
+              was limited to a dated mobile version of the core service built
+              for old cell phones. This service was highly popular couple of
+              years earlier, but with the growing popularity of smart phones
+              users expected "richer" experiences.
             </p>
             <p>
               In 2010 Grupa Nokaut asked me to lead the process of designing and
@@ -437,15 +425,15 @@ const OpenSourceAdventure = ({ location, data }) => {
               Ventures and Jeff Veen – former VP of Design at Adobe).
             </p>
             <p>
-              We weren't happy though. We knew that we have to do even more to
-              realize our mission and help the design tools industry move
-              forward. We started a design process that changed the entire
-              industry.
+              We knew that this is not enough. We knew that we have to do even
+              more to realize our mission and help the design tools industry
+              move forward. Soon, we've started a design process that changed
+              the entire industry.
             </p>
           </>
         }
       />
-           <PortfolioTeaser
+      <PortfolioTeaser
         variant="light"
         alignment="left"
         heading="eCommerce Video Portal"
@@ -462,12 +450,12 @@ const OpenSourceAdventure = ({ location, data }) => {
         illustrationPosition="margin"
         bodyText={
           <p>
-            For over two years I worked as part of the R&D Group at Groupa
-            Nokaut. We were tasked with coming up with new product ideas that
-            address the most critical strategic problems of the business. One of
-            the projects that we realized in 2011 was Nokaut.tv – an eCommerve
-            Video Portal that quickly attracted over 100,000 viewers. I had a
-            pleasure to lead the design and product development process.
+            I worked in the Grupa Nokaut R&D Group for over two years. We were
+            tasked with coming up with new product ideas that addressed the most
+            critical strategic problems of the business. One of the projects
+            that we realized in 2011 was Nokaut.tv – an eCommerce Video Portal
+            that quickly attracted over 100,000 viewers. I had the pleasure to
+            lead design and product development process.
           </p>
         }
       />
@@ -490,7 +478,7 @@ const OpenSourceAdventure = ({ location, data }) => {
           <>
             <p>
               I've spent way over a decade designing all sorts of products, but
-              hardly ever – brand identities. Neverthless, I have a deep
+              hardly ever – brand identities. Nevertheless, I have a deep
               affection for the very special connection between art and
               storytelling always present in great brand design.
             </p>

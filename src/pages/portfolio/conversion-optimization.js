@@ -163,8 +163,7 @@ const Conversion = ({ location, data }) => {
                 team, we've worked out a series of hypotheses based on factors
                 affecting human attention (contrast, color, movement,
                 pattern...) and we've performed a series of multivariable split
-                tests (multiple variants of product pages were being served
-                randomly to users. The result? 24% increase in the conversion
+                tests. The result was amazing. 24% increase in the conversion
                 rate.
               </p>
             }
@@ -180,50 +179,50 @@ const Conversion = ({ location, data }) => {
               <p>
                 In 2008 I was hired as the first in-house product designer at a
                 Polish eCommerce startup – <strong>Nokaut.pl</strong> (later
-                known as Grupa Nokaut). Before I joined the company, all design
-                tasks were either outsourced or performed by engineers. Shortly
-                after I joined, I noticed that most of the team seemed to
-                consider design to be mere decoration.
+                known as Grupa Nokaut). Before I joined, all the design tasks
+                were either outsourced or performed by engineers. Shortly after
+                I came on board, I noticed that most of the team seemed to
+                consider design to be a mere decoration.
               </p>
               <p>
                 Nokaut.pl was a consumer–focused company, and this disregard for
-                design, started to harm the business.To help Nokaut.pl grow, I
-                had to introduce a proper design process and prove the value of
-                design. Beginnings were not easy, but ultimately (thanks to my
-                mentor – the co-founder and VP of Product) I found my way to
-                prove the value of design. A combination of direct collaboration
-                with engineers and constant work on improving business metrics
-                brought outstanding results.
+                design, started to harm the business. To help Nokaut.pl grow, I
+                had to introduce a proper design process (UCD) and prove the
+                value of design. Beginnings were not easy, but ultimately,thanks
+                to my mentor – the co-founder and VP of Product, I found my way
+                to prove the value of design. A combination of direct
+                collaboration with engineers and constant work on improving
+                business metrics brought outstanding results.
               </p>
               <p>
                 One of the initiatives that helped me establish design at
                 Nokaut.pl was a series of projects focused on{' '}
                 <strong>optimizing the conversion rate</strong>. I tried to use
-                my knowledge about human cognition to optimize key aspects of
-                the user interface. For the team, it was an opportunity to
-                observe (and participate!) how design hypotheses can lead to
-                real, measurable, change.
+                my knowledge about human cognition to optimize the key aspects
+                of user interface. For the team, it was an opportunity to
+                observe how design hypotheses can lead to real, measurable,
+                change.
               </p>
               <p>
-                There are very few documents and screenshots of my old work.
-                After all, it was, 10 – 11 years ago and Grupa Nokatu, after a
+                There are very few documents and assets of my old work. After
+                all, it was, 10 – 11 years ago and Grupa Nokaut, after a
                 successful <strong>IPO</strong>, ultimately failed and seized to
-                exist (years after I left). However, one study survived thanks
-                to a bunch of talks that I had at local meetups and conferences.
+                exist (years after I left). However, one case study of my early
+                work survived thanks to talks that I had at local meetups and
+                conferences.
               </p>
               <p>
                 In 2009 I was trusted with the optimization of critical elements
                 of the Nokaut.pl product page. A product page was really a
                 collection of millions of individual pages representing every
-                product listed in Nokuat.pl. Collectively, they had the most
-                significant impact on the overall conversion rate.
+                product listed in Nokuat.pl. Collectively, those pages had the
+                most significant impact on the overall conversion rate.
               </p>
               <p>
-                Together withthe engineering team, we've worked out a series of
+                Together with the engineering team, we've worked out a series of
                 hypotheses based on factors affecting human attention (contrast,
                 color, movement, pattern...) and we've performed a series of
-                multivariable split tests (multiple variants of product pages
-                were being served randomly to users.
+                multivariable split tests.
               </p>
             </>
           }
@@ -231,11 +230,11 @@ const Conversion = ({ location, data }) => {
             <ol>
               <li>
                 Increase the conversion rate on the "go to store" button (CPC
-                business model, every click generated transaction!)
+                business model, every click generated a transaction)
               </li>
               <li>
-                Engage engineers in the design process and show them the power
-                of design.
+                Engage engineers in the design process and prove the power of
+                design.
               </li>
             </ol>
           }
@@ -243,20 +242,18 @@ const Conversion = ({ location, data }) => {
             <ul>
               <li>
                 Helping the engineering team understand the value of design
-                through leading a series of workshops.
+                through a series of workshops.
               </li>
               <li>
-                Helping the engineering team understand how the knowledge about
+                Helping engineering team understand how the knowledge about
                 human cognition can lead to better business results.
               </li>
               <li>
-                Leading the collaborative "state design hypothesis" exercise.
+                Leading the collaborative "state the design hypothesis"
+                exercise.
               </li>
-              <li>
-                Wireframing and prototyping solutions connected to the design
-                hypotheses stated by the team.
-              </li>
-              <li>Conducting and analysing multivariable split tests.</li>
+              <li>Wireframing and prototyping.</li>
+              <li>Conducting and analyzing multivariable split tests.</li>
             </ul>
           }
         >
@@ -273,14 +270,13 @@ const Conversion = ({ location, data }) => {
               <HeadingM>Results</HeadingM>
               <ul>
                 <li>
-                  One of the tests – the test of a contrasting color of buttons,
+                  One of the tests – the test of a contrast of color of buttons,
                   led to 24% conversion rate growth and changed Nokaut.pl
                   forever.
                 </li>
                 <li>
-                  The change was exciting for the entire team and was definitely
-                  essential in establishing the place of design in the
-                  organization.
+                  The change was exciting for the entire team and was essential
+                  in establishing design process in the organization.
                 </li>
                 <li>Soon after, I was promoted to the leadership team.</li>
               </ul>
@@ -292,7 +288,10 @@ const Conversion = ({ location, data }) => {
               </MiniQuote>
             </MiniQuoteWrapper>
             <ButtonsIllustration>
-              <img src={Buttons} alt="Buttons used in the test. Blue has increased conversion rate by 24%." />
+              <img
+                src={Buttons}
+                alt="Buttons used in the test. Blue has increased conversion rate by 24%."
+              />
             </ButtonsIllustration>
             <ToolsWrapper>
               <HeadingM>Tools</HeadingM>
@@ -300,7 +299,7 @@ const Conversion = ({ location, data }) => {
                 <li>Axure (wireframing, prototyping)</li>
                 <li>Notable (comments on visual design)</li>
                 <li>Photoshop (visual design)</li>
-                <li>Propriatory multiveriable split testing tool</li>
+                <li>Proprietary multiveriable split testing tool</li>
                 <li>Google Analytics</li>
               </ul>
             </ToolsWrapper>
@@ -341,10 +340,10 @@ const Conversion = ({ location, data }) => {
           illustrationPosition="margin"
           bodyText={
             <p>
-              TIn 2011 I led the process of the redesign of the Nokaut.pl
+              In 2011 I led the process of the redesign of the Nokaut.pl
               Homepage. At that time, Nokaut.pl was attracting 2.5 million users
               a month and the owner of Nokaut.pl – Grupa Nokaut was preparing
-              their IPO. Intense project!
+              their IPO. An intense project!
             </p>
           }
         />
@@ -372,7 +371,7 @@ const Conversion = ({ location, data }) => {
                 time, was limited to a dated mobile version of the core service
                 built for old cell phones. This service was a highly popular
                 couple of years earlier, but with the growing popularity of
-                smart phones users expected richer experiences.
+                smart phones users expected "richer" experiences.
               </p>
               <p>
                 In 2010 Grupa Nokaut asked me to lead the process of designing
@@ -399,11 +398,11 @@ const Conversion = ({ location, data }) => {
           illustrationPosition="margin"
           bodyText={
             <p>
-              For over two years I worked as part of the R&D Group at Groupa
+              For over two years I worked as part of the R&D Group at Grupa
               Nokaut. We were tasked with coming up with new product ideas that
               address the most critical strategic problems of the business. One
-              of the projects that we realized in 2011 was Nokaut.tv – an
-              eCommerve Video Portal that quickly attracted over 100,000
+              of the projects that we realized in 2011 was Nokaut.tv – the
+              eCommerce Video Portal that quickly attracted over 100,000
               viewers. I had a pleasure to lead the design and product
               development process.
             </p>
@@ -432,10 +431,10 @@ const Conversion = ({ location, data }) => {
                 Ventures and Jeff Veen – former VP of Design at Adobe).
               </p>
               <p>
-                We weren't happy though. We knew that we have to do even more to
-                realize our mission and help the design tools industry move
-                forward. We started a design process that changed the entire
-                industry.
+                We knew that this is not enough. We knew that we have to do even
+                more to realize our mission and help the design tools industry
+                move forward. Soon, we've started a design process that changed
+                the entire industry.
               </p>
             </>
           }
@@ -461,20 +460,18 @@ const Conversion = ({ location, data }) => {
                 Since 2012 I'm operating as a full–time CEO of a growing startup
                 – UXPin (over 50 employees, profitable). Despite that, I've
                 never stopped being a designer, coder, and a product person. To
-                relax and contribute either to UXPin or the overall design and
+                relax and contribute to UXPin and the overall design and
                 engineering community, I tend to take on side projects.
               </p>
               <p>
-                In 2017, after talking to a bunch of friends working on Design
-                Systems, I decided to devote my weekends to the creation of an
+                In 2017, after talking to a bunch of friends working on design
+                systems, I decided to devote my weekends to the creation of an
                 open source repository of analyzed design systems.
               </p>
               <p>
                 For two subsequent weekends in January 2018, I designed and
-                coded (React.js and Node.js for tooling) the repository. The
-                popularity of this project exceeded my most optimistic
-                expectations. In 2017, after talking to a bunch of friends
-                working on Design
+                coded (React.js and Node.js) the repository. The popularity of
+                this project exceeded my most optimistic expectations.
               </p>
             </>
           }
@@ -498,7 +495,7 @@ const Conversion = ({ location, data }) => {
             <>
               <p>
                 I've spent way over a decade designing all sorts of products,
-                but hardly ever – brand identities. Neverthless, I have a deep
+                but hardly ever – brand identities. Nevertheless, I have a deep
                 affection for the very special connection between art and
                 storytelling always present in great brand design.
               </p>
