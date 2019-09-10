@@ -17,7 +17,7 @@ const AboutMeWrapper = styled.section`
   flex-direction: row;
   justify-content: space-between;
   padding: 0 var(--sides-padding-desktop);
-  margin: 100px auto 50px auto;
+  margin: 80px auto 50px auto;
   max-width: var(--max-width-desktop);
 
   ${HeadingXL} {
@@ -55,13 +55,23 @@ const AboutMeWrapper = styled.section`
   }
 
   @media screen and (max-width: 600px) {
-    margin-top: 40px;
-    article + div {
-      margin: 0 0 40px 0;
+    margin-top: 20px;
+    margin-bottom: 0;
+
+    article {
+      margin-bottom: 0;
 
       h1 {
         margin-bottom: 0;
       }
+    }
+
+    article + div {
+      margin: 0 0 40px 0;
+    }
+
+    div[class*='TrederImage'] {
+      margin-bottom: 10px;
     }
   }
 `;
@@ -79,8 +89,8 @@ const DescriptionWrapper = styled.article`
   }
 
   @media screen and (max-width: 1140px) {
-      margin-bottom: 40px;
-    }
+    margin-bottom: 40px;
+  }
 `;
 
 const DetailsWrapper = styled.section`
@@ -105,6 +115,10 @@ const DetailsContent = styled.div`
   @media screen and (min-width: 1440px) {
     padding: 60px 115px;
   }
+
+  @media screen and (max-width: 600px) {
+    padding-top: 30px;
+  }
 `;
 
 const Background = styled.article`
@@ -113,7 +127,7 @@ const Background = styled.article`
 `;
 
 const Values = styled.article`
-  width: 695px;  
+  width: 695px;
 
   ${TextBody} {
     margin-bottom: 40px;
@@ -145,14 +159,14 @@ const ValueItem = styled.li`
 `;
 
 const ValueHeader = styled.h4`
-    margin-left: 34px;
+  margin-left: 34px;
 
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 24px;
-    color: var(--gold-color);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+  color: var(--gold-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 `;
 
 const GoodAt = styled.article``;
@@ -177,8 +191,9 @@ const GoodAtItem = styled.li`
   height: 40px;
   margin: 18px 18px 0 0;
   padding: 11px;
-  border: 1px solid ${props => props.level === "gold" ? "var(--gold-color)" : "#d9d9d9"};
-  color: ${props => props.level === "gold" ? "var(--gold-color)" : "#d9d9d9"};
+  border: 1px solid
+    ${props => (props.level === 'gold' ? 'var(--gold-color)' : '#d9d9d9')};
+  color: ${props => (props.level === 'gold' ? 'var(--gold-color)' : '#d9d9d9')};
   font-size: 12px;
   line-height: 18px;
   font-weight: 400;
@@ -193,7 +208,7 @@ const GoodAtItem = styled.li`
   @media screen and (max-width: 450px) {
     &:nth-child(-n + 2) {
       margin-top: 18px;
-  }
+    }
   }
 `;
 
@@ -259,7 +274,7 @@ const About = ({ location, data }) => {
               </TextBody>
             </Background>
             <GoodAt>
-            <HeadingM>What am I good at?</HeadingM>
+              <HeadingM>What am I good at?</HeadingM>
               <GoodAtList>
                 <GoodAtItem level="gold">design leadership</GoodAtItem>
                 <GoodAtItem level="gold">product leadership</GoodAtItem>

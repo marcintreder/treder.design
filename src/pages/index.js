@@ -32,6 +32,9 @@ const Hero = styled.div`
 
   @media screen and (max-width: 700px) {
     height: 640px;
+    h1 {
+      margin-top: 10px;
+    }
   }
 
   @media screen and (max-width: 600px) {

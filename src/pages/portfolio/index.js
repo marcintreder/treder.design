@@ -34,9 +34,15 @@ const PortfolioHeaderWrapper = styled.section`
     margin-bottom: 20px;
   }
 
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 1300px) {
     ${ButtonLink} {
       margin-bottom: 40px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    ${ButtonLink} {
+      margin-bottom: 10px;
     }
   }
 `;
@@ -66,6 +72,7 @@ const PortfolioHeader = styled.header`
   @media screen and (max-width: 1300px) {
     justify-content: center;
     margin-top: 50px;
+    margin-bottom: 20px;
 
     ${HeadingXL} {
       width: 580px;
@@ -79,7 +86,7 @@ const PortfolioHeader = styled.header`
 
   @media screen and (max-width: 700px) {
     justify-content: center;
-    margin-top: 30px;
+    margin-top: 20px;
     margin-bottom: 10px;
 
     ${HeadingXL} {

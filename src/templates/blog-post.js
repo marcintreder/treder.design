@@ -20,7 +20,7 @@ const BlogArticleContent = styled.article`
   width: 100%;
   max-width: var(--max-width-desktop);
   margin: 0 auto;
-  padding: 40px var(--sides-padding-desktop);
+  padding: 20px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
 `;
 
 const BlogHeaderWrapper = styled.section`
@@ -32,12 +32,24 @@ const BlogHeaderContent = styled.article`
   width: 100%;
   max-width: var(--max-width-desktop);
   margin: 0 auto;
-  padding: 60px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
+  padding: 30px var(--sides-padding-desktop) 60px var(--sides-padding-desktop);
   background-color: #000;
+
+  @media screen and (max-width: 1285px) {
+    padding: 20px var(--sides-padding-desktop) 50px var(--sides-padding-desktop);
+  }
+
+  @media screen and (max-width: 600px) {
+    padding: 10px var(--sides-padding-desktop) 40px var(--sides-padding-desktop);
+  }
 `;
 
 const BreadcrumbsWrapper = styled.section`
   margin-top: 20px;
+
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export default ({ location, data }) => {
@@ -49,7 +61,7 @@ export default ({ location, data }) => {
       <BlogHeaderWrapper>
         <BlogHeaderContent>
           <HeadingXL variant="light">{post.frontmatter.title}</HeadingXL>
-          <TextDate>{post.frontmatter.date}</TextDate>
+          <TextDate variant="light">{post.frontmatter.date}</TextDate>
         </BlogHeaderContent>
       </BlogHeaderWrapper>
       <Layout>

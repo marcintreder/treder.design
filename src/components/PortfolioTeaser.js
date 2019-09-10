@@ -78,6 +78,11 @@ const TextContentWrapper = styled.div`
     margin-bottom: 30px;
   }
 
+  @media screen and (max-width: 1050px) {
+    padding-top: 40px;
+    padding-bottom: ${props => (props.alignment === 'left' ? '40px' : '0px')};
+  }
+
   @media screen and (max-width: 700px) {
     width: 100%;
   }
@@ -112,7 +117,7 @@ const IllustrationWrapper = styled.div`
     width: ${props => (props.alignment === 'left' ? '0px' : '60%')};
     height: inherit;
     margin: ${props =>
-      props.alignment === 'left' ? '0 0 0 20px' : '0 auto 80px auto'};
+      props.alignment === 'left' ? '0 0 0 20px' : '0 auto 50px auto'};
 
     ${ButtonLink} {
       margin: 0;
@@ -120,7 +125,8 @@ const IllustrationWrapper = styled.div`
   }
 
   @media screen and (max-width: 700px) {
-    margin: 0 0 80px 0;
+    margin-left: 0;
+    margin-right: 0;
   }
 `;
 
