@@ -13,6 +13,12 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     'gatsby-plugin-remove-serviceworker',
     {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: "UA-147518502-1",
+      },
+    },
+    {
       resolve: `gatsby-plugin-breadcrumb`,
       options: {
         defaultCrumb: {
