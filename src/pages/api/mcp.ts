@@ -1,7 +1,6 @@
 import type { APIRoute } from 'astro';
 import { sql, hasDatabase } from '../../lib/db';
 import { handleRpc, type JsonRpcRequest, type ToolDefinition, PROTOCOL_VERSION } from '../../lib/mcp';
-import { autoExcerpt } from '../../lib/markdown';
 // Shared with the browser admin so a post written in either place gets the same
 // slug and the same read_minutes estimate.
 import { slugify, estimateMinutes } from '../../lib/posts';
@@ -156,7 +155,7 @@ const tools: ToolDefinition[] = [
       const rows = await sql()`
         INSERT INTO posts (slug, title, excerpt, body_md, kind, status, featured, tags, cover_image, read_minutes, published_at)
         VALUES (
-          ${finalSlug}, ${title}, ${excerpt ?? autoExcerpt(body_md)}, ${body_md}, ${kind}, ${status},
+          ${finalSlug}, ${title}, ${excerpt ?? null}, ${body_md}, ${kind}, ${status},
           ${featured}, ${tags}, ${cover_image}, ${estimateMinutes(body_md)},
           ${status === 'published' ? new Date().toISOString() : null}
         )

@@ -98,10 +98,15 @@ const excerpt = post.excerpt ?? autoExcerpt(post.bodyMd);
   }
 
   /* ------------------------------------------------------------- featured */
+  /* 16:9 rather than a fixed height. A fixed 340px forced whatever the author
+     uploaded into roughly 2.35:1, which silently sliced the top and bottom off
+     a normal 16:9 cover — and title-card covers carry their text up there. */
   .pc--featured .pc__cover {
     width: 100%;
-    height: 340px;
+    aspect-ratio: 16 / 9;
+    height: auto;
     object-fit: cover;
+    object-position: center;
   }
 
   .pc__cover--placeholder {

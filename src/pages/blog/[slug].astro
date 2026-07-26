@@ -54,7 +54,15 @@ const view =
   post &&
   (() => {
     const { quote, rest } = splitPullQuote(post.bodyMd);
-    const excerpt = post.excerpt ?? autoExcerpt(rest);
+
+    /* Two different jobs, deliberately not the same value.
+       `standfirst` is the line printed under the title, and only exists when
+       the author wrote one. `metaDescription` always needs *something* for
+       search and social cards, so it falls back to the opening paragraph.
+       Using the fallback for both meant a post with no excerpt printed its own
+       first sentence back at the reader, truncated — which read as a bug. */
+    const standfirst = post.excerpt?.trim() || null;
+    const metaDescription = standfirst ?? autoExcerpt(rest);
     const canonical = new URL(`/blog/${post.slug}`, site.url).href;
 
     return {
@@ -62,13 +70,14 @@ const view =
       date: formatDate(post.publishedAt),
       read: readingTime(post),
       pullQuote: quote,
-      excerpt,
+      excerpt: standfirst,
+      metaDescription,
       body: renderMarkdown(rest),
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
         headline: post.title,
-        description: excerpt,
+        description: metaDescription,
         datePublished: post.publishedAt ?? post.createdAt,
         dateModified: post.updatedAt,
         mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
@@ -109,7 +118,7 @@ const view =
   post && view && (
     <BaseLayout
       title={post.title}
-      description={view.excerpt}
+      description={view.metaDescription}
       ogImage={post.coverImage ?? undefined}
       article={{ publishedAt: post.publishedAt, kind: post.kind }}
     >
@@ -144,7 +153,7 @@ const view =
             src={post.coverImage}
             alt=""
             width="760"
-            height="300"
+            height="428"
             decoding="async"
           />
         ) : (
@@ -259,10 +268,14 @@ const view =
     color: var(--text-on-light-muted);
   }
 
+  /* See PostCard: 16:9 so a cover is shown as composed rather than cropped to
+     a letterbox that cuts off any text in the artwork. */
   .post__cover {
     width: 100%;
-    height: 300px;
+    aspect-ratio: 16 / 9;
+    height: auto;
     object-fit: cover;
+    object-position: center;
     border: 1px solid var(--rule-light);
     margin-bottom: 50px;
   }
