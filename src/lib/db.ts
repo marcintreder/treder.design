@@ -1,4 +1,5 @@
 import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
+import { getSecret } from 'astro:env/server';
 
 /**
  * Neon's HTTP driver — one round trip per query, no pooling to manage, which
@@ -13,7 +14,7 @@ let client: NeonQueryFunction<false, false> | null = null;
 
 export function sql(): NeonQueryFunction<false, false> {
   if (!client) {
-    const url = import.meta.env.DATABASE_URL ?? process.env.DATABASE_URL;
+    const url = getSecret('DATABASE_URL');
     if (!url) {
       throw new Error('DATABASE_URL is not set — the blog cannot reach Postgres.');
     }
@@ -22,5 +23,4 @@ export function sql(): NeonQueryFunction<false, false> {
   return client;
 }
 
-export const hasDatabase = (): boolean =>
-  Boolean(import.meta.env.DATABASE_URL ?? process.env.DATABASE_URL);
+export const hasDatabase = (): boolean => Boolean(getSecret('DATABASE_URL'));

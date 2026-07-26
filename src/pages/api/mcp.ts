@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { sql, hasDatabase } from '../../lib/db';
 import { handleRpc, type JsonRpcRequest, type ToolDefinition, PROTOCOL_VERSION } from '../../lib/mcp';
 import { autoExcerpt } from '../../lib/markdown';
+import { getSecret } from 'astro:env/server';
 
 export const prerender = false;
 
@@ -18,7 +19,7 @@ const slugify = (s: string): string =>
 
 const estimateMinutes = (md: string): number => Math.max(1, Math.round(md.split(/\s+/).length / 220));
 
-const token = (): string | null => import.meta.env.BLOG_API_TOKEN ?? process.env.BLOG_API_TOKEN ?? null;
+const token = (): string | null => getSecret('BLOG_API_TOKEN') ?? null;
 
 /**
  * The request is authorised if it presents the shared secret either as a bearer

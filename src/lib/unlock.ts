@@ -8,19 +8,21 @@
  * of unlocking is an HMAC-signed cookie that the client cannot forge.
  */
 
+import { getSecret } from 'astro:env/server';
+
 const COOKIE = 'case_unlock';
 const MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
 const enc = new TextEncoder();
 
 const secret = (): string => {
-  const s = import.meta.env.SESSION_SECRET ?? process.env.SESSION_SECRET;
+  const s = getSecret('SESSION_SECRET');
   if (!s) throw new Error('SESSION_SECRET is not set — cannot verify case-study unlocking.');
   return s;
 };
 
 const expectedPassword = (): string | null =>
-  import.meta.env.CASE_STUDY_PASSWORD ?? process.env.CASE_STUDY_PASSWORD ?? null;
+  getSecret('CASE_STUDY_PASSWORD') ?? null;
 
 async function hmac(value: string): Promise<string> {
   const key = await crypto.subtle.importKey(
