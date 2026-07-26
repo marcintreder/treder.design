@@ -1,0 +1,83 @@
+/*
+ * Design tokens.
+ *
+ * Every value here was lifted from the original site's GlobalStyles.js and the
+ * 2026 design pass, so the palette and type ramp are the brand's, not invented.
+ * Components reference these variables only — no raw hex in component files.
+ */
+
+:root {
+  /* ---- brand ---- */
+  --gold: #e7ad7a;
+  --gold-deep: #c98d4f;
+  --rust: #7e4717;
+
+  /* ---- light surfaces ---- */
+  --paper: #fcfbf9;
+  --paper-warm: #f7f4ef;
+  --paper-sand: #f2eae0;
+  --paper-hover: #f6efe6;
+  --rule-light: #eae3d9;
+  --border-input: #d8cfc1;
+
+  /* ---- dark surfaces ---- */
+  --ink: #141414;
+  --ink-deep: #0a0a0a;
+  --ink-raised: #1c1a16;
+  --ink-raised-alt: #232019;
+  --rule-dark: #2c2924;
+  --border-dark: #4a453e;
+
+  /* ---- text ---- */
+  --text-on-light: #141414;
+  --text-on-light-muted: #5a544b;
+  --text-on-light-soft: #6f665c;
+  --text-on-light-faint: #b0a695;
+  --text-on-dark: #f7f4ef;
+  --text-on-dark-muted: #c9c3ba;
+  --text-on-dark-soft: #b4aea4;
+  --text-on-dark-faint: #8f877c;
+
+  /* ---- type ---- */
+  --font-sans: 'Neue Plak', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --w-light: 300;
+  --w-regular: 400;
+  --w-medium: 500;
+  --w-bold: 700;
+  --w-black: 900;
+
+  /* Fluid display sizes — these clamp() ramps are the design's, kept verbatim
+     so the typography scales exactly as it did in the prototype. */
+  --size-hero: clamp(64px, 14.2vw, 224px);
+  --size-hero-outline: clamp(40px, 7.4vw, 124px);
+  --size-page-title: clamp(44px, 7vw, 104px);
+  --size-h2: clamp(30px, 4vw, 52px);
+  --size-h2-sm: clamp(28px, 3.4vw, 44px);
+  --size-h3: clamp(20px, 2.4vw, 30px);
+
+  /* ---- layout ---- */
+  --container: 1320px;
+  --container-reading: 760px;
+  --gutter: 40px;
+  --gutter-md: 28px;
+  --gutter-sm: 20px;
+
+  /* ---- motion ---- */
+  --t-fast: 160ms ease;
+  --t-logo-in: 500ms ease-out;
+  --t-logo-out: 700ms ease-out;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --gutter: var(--gutter-md);
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --gutter: var(--gutter-sm);
+  }
+}

@@ -1,0 +1,105 @@
+[
+  {
+    "slug": "intelligence-as-prediction-the-idea-that-reframed-the-whole-book",
+    "kind": "book-note",
+    "num": "NOTE 07",
+    "title": "Intelligence as prediction: the idea that reframed the whole book",
+    "excerpt": "Newell & Simon called it problem-solving. Piaget called it adaptation. Friston calls it prediction. Choosing which one to believe quietly decides how every AI product behaves.",
+    "quote": "A definition of intelligence is never neutral. It is a product decision in disguise.",
+    "date": "June 28, 2026",
+    "dateISO": "2026-06-28",
+    "read": "6 min",
+    "body": [
+      "When I started outlining The AI Handbook for Product Design, I assumed Chapter 1 would be a warm-up — a bit of history before the \"real\" material on machine learning. I was wrong. The first chapter turned out to be the spine of the entire book.",
+      "Here is the problem. There is no single, agreed definition of intelligence. Newell and Simon framed it as problem-solving. Piaget saw it as adaptation to an environment. Karl Friston reframed the brain as a prediction machine that spends its life minimizing surprise. Each of these is a serious, defensible position — and each one, once you adopt it, pushes you toward a completely different kind of system.",
+      "If intelligence is problem-solving, you build expert systems and explicit rules. If it is adaptation, you build things that learn from feedback loops. If it is prediction, you build models that minimize error against a stream of data — which is, more or less, the entire modern deep-learning project.",
+      "That is why this belongs at the front of a book about UX. The definition you pick does not stay in the lab. It leaks into the product. A prediction-first system feels intuitive precisely because it aligns with how our own brains constantly anticipate what comes next. A problem-solving system feels rigid and literal. Users feel the philosophy long before they can name it.",
+      "So the note I keep returning to as I write: before you design an intelligent interface, decide — out loud, on paper — what kind of intelligence you think you are building. Everything downstream inherits that choice."
+    ]
+  },
+  {
+    "slug": "rag-is-a-ux-pattern-not-just-an-architecture",
+    "kind": "book-note",
+    "num": "NOTE 06",
+    "title": "RAG is a UX pattern, not just an architecture",
+    "excerpt": "Retrieval-augmented generation gets discussed as plumbing. But the moment a model can cite its sources, trust stops being a feeling and becomes something you can design.",
+    "quote": "Provenance is the interface. Everything else is implementation.",
+    "date": "June 14, 2026",
+    "dateISO": "2026-06-14",
+    "read": "5 min",
+    "body": [
+      "Chapter 5 was supposed to be the most technical chapter in Part 2. Instead it became one of the most human. RAG — retrieval-augmented generation — is usually explained as a pipeline: query encoder, retriever, generator. True, but it buries the point.",
+      "The reason RAG matters for the people building products is that it changes the trust contract with the user. A pure language model answers with confidence whether or not it is right. A grounded model can show its work — cite a document, surface a snippet, link a source. That single capability turns trust from a vibe into a designable surface.",
+      "Once you see it that way, the design questions get concrete. Where do citations live? How do you show a confidence gradient without drowning the answer in footnotes? What happens when retrieval finds nothing — do you fail loudly or hallucinate quietly? These are interface decisions, and they matter more than the model choice.",
+      "I have a running argument in the manuscript that the best AI interfaces of the next few years will be the ones that make provenance feel effortless — where showing the source is not a compliance checkbox but the most natural thing the product does."
+    ]
+  },
+  {
+    "slug": "chain-of-thought-and-the-quiet-return-of-the-self-explaining-ui",
+    "kind": "book-note",
+    "num": "NOTE 05",
+    "title": "Chain-of-thought and the quiet return of the self-explaining UI",
+    "excerpt": "We spent a decade hiding complexity behind clean surfaces. Reasoning models are asking us to do the opposite — to show the thinking, carefully.",
+    "quote": "Users trust what they can follow. Reasoning is the new affordance.",
+    "date": "May 30, 2026",
+    "dateISO": "2026-05-30",
+    "read": "4 min",
+    "body": [
+      "For fifteen years, good interface design meant hiding the machinery. Progressive disclosure. Sensible defaults. Never make the user look at the gears. Chapter 6 is where that instinct collides with reasoning models — and mostly loses.",
+      "Chain-of-thought prompting made models show intermediate steps, and something surprising happened: users trusted the output more when they could see the deliberation. Visible reasoning mirrors a deep human need for justification. We do not just want the answer; we want to know it was arrived at honestly.",
+      "The design challenge is dosage. Show everything and you overwhelm. Show nothing and you are back to the black box. The interesting patterns — expandable rationales, confidence overlays, \"show your work\" toggles — are all about giving the user control over how much thinking they see.",
+      "This is the note that made me reorganize Part 2. Explainability is not a feature you bolt on at the end. It is a property you either design in from the reasoning layer up, or you never really get."
+    ]
+  },
+  {
+    "slug": "why-i-am-writing-a-book-about-ai-as-a-designer-not-an-engineer",
+    "kind": "book-note",
+    "num": "NOTE 04",
+    "title": "Why I am writing a book about AI as a designer, not an engineer",
+    "excerpt": "The industry has plenty of people who can explain the math and plenty who can sketch the screens. Almost no one is doing both at once. That gap is the book.",
+    "quote": "You cannot design for a technology you refuse to understand.",
+    "date": "May 12, 2026",
+    "dateISO": "2026-05-12",
+    "read": "7 min",
+    "body": [
+      "People keep asking why a design leader is writing what looks, from the table of contents, like an AI engineering book. Fair question. The honest answer is that I got tired of the two halves of this field talking past each other.",
+      "On one side, brilliant engineers who can derive attention from scratch but treat the interface as an afterthought. On the other, thoughtful designers producing beautiful mockups of AI features they cannot actually reason about. Both groups ship weaker products because of the gap between them.",
+      "The AI Handbook for Product Design is my attempt to close that gap from the design side. I go deep enough into how AI actually works — classical ML, deep learning, diffusion, RAG, agents — that a product person can make real decisions, and then I connect every concept back to interaction, trust, and experience.",
+      "My own path made this feel non-optional. I studied cognitive psychology, built and sold a design tool company, and went back for a masters in AI at CU Boulder while running a UX organization. The book is the thing I wish I could have handed my past self."
+    ]
+  },
+  {
+    "slug": "disrupt-yourself-or-be-disrupted",
+    "kind": "essay",
+    "num": "ESSAY",
+    "title": "Disrupt yourself, or be disrupted",
+    "excerpt": "At the critical moment I hesitated to disrupt our own enterprise business. That hesitation handed competitors the opening. The most expensive lesson I ever paid for.",
+    "quote": "The market does not wait for you to feel ready.",
+    "date": "April 22, 2026",
+    "dateISO": "2026-04-22",
+    "read": "6 min",
+    "body": [
+      "This is a lesson I paid full price for. At UXPin, we had done the hard thing — rebuilt the rendering engine, moved upmarket, landed real enterprise contracts with Samsung, TATA, Panasonic. We had won. And winning is exactly when the trap springs.",
+      "There was a moment when a completely different technical approach was becoming possible, and it would have meant disrupting the enterprise business we had just spent two years building. I hesitated. It felt reckless to threaten the thing that was finally working.",
+      "That hesitation created the opening. Competition that was willing to disrupt itself outgrew us in the window I left open. The lesson was not subtle: the moment you are most comfortable is the moment you are most exposed.",
+      "I carry it into every organization I lead now. Build a culture where deliberate forward movement is the default and self-disruption is expected — because the alternative is having it done to you, on someone else’s timeline."
+    ]
+  },
+  {
+    "slug": "design-is-the-soul-of-the-product",
+    "kind": "essay",
+    "num": "ESSAY",
+    "title": "Design is the soul of the product",
+    "excerpt": "A principle I wrote for my team at UXPin, and still believe running UX for two billion gamers at Google Play.",
+    "quote": "Craft excellence is not a phase of the work. It is the work.",
+    "date": "March 30, 2026",
+    "dateISO": "2026-03-30",
+    "read": "5 min",
+    "body": [
+      "I keep a set of design principles I wrote years ago for the UXPin team. Most have aged well, but one has only gotten truer: design is the soul of the product. Not the skin. The soul.",
+      "It is easy to say and hard to live. Living it means a leader who stays close to the actual craft — reviewing the real screens, feeling the real friction, not managing design from a dashboard. I lead by example because I do not know another way to keep a bar high.",
+      "At Google Play, leading UX for over two billion gamers, the stakes of that principle scale up but the principle itself does not change. The delightful carousel, the achievement cluster, the AI avatar millions of people use to express who they are — every one of them is a place where craft either shows up or it does not.",
+      "Great software lives at the exact point where technology aligns with human intent. Finding and defending that point, over and over, is what design leadership actually is."
+    ]
+  }
+]

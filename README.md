@@ -1,90 +1,105 @@
+# treder.design
 
-<h1 align="center">
-  Lewis Gatsby Starter Blog
-</h1>
+Portfolio, writing and book of Marcin Treder.
 
-<br>
-<br>
+Built with [Astro](https://astro.build), deployed on Netlify. Most of the site is
+static HTML; the blog and the confidential case studies render per request.
 
-Kick off your project with this blog boilerplate. This starter ships with the main Gatsby configuration files you might need to get up and running blazing fast with the blazing fast app generator for React.
+```bash
+npm install
+cp .env.example .env   # then fill it in — see below
+npm run dev            # http://localhost:4321
+```
 
-<br>
-<br>
+## How it fits together
 
-## 🚀 Quick start
+| Route | Rendering | Source |
+|---|---|---|
+| `/`, `/about`, `/book`, `/portfolio`, `/404` | Prerendered at build | `src/data/*.ts` |
+| `/portfolio/[slug]` | On demand | `src/data/cases.ts` (+ password gate) |
+| `/blog`, `/blog/[slug]`, `/rss.xml` | On demand | Neon Postgres |
+| `/admin` | On demand | Neon Postgres (password gated) |
+| `/api/mcp` | On demand | MCP server for publishing |
 
-1.  **Create a Gatsby site.**
+Case studies, the book outline and the ethos cards are **content in the repo** —
+they change rarely and belong in version control. Blog posts live in **Postgres**,
+so publishing does not require a rebuild.
 
-    Use the Gatsby CLI to create a new site, specifying the blog starter.
+```
+src/
+  components/   UI pieces (header, footer, logo, case rows, post cards…)
+  data/         case studies, book structure, ethos — typed, committed
+  layouts/      BaseLayout: <head>, header, footer, SEO/OG tags
+  lib/          db, posts, markdown, mcp, and the two auth gates
+  pages/        routes
+  styles/       tokens.css (design tokens) + global.css (base + utilities)
+migrations/     SQL schema and the seed data for the original six posts
+scripts/seed.mjs
+```
 
-    ```sh
-    # create a new Gatsby site using the blog starter
-    gatsby new my-blog https://github.com/lewislbr/lewis-gatsby-starter-blog
-    ```
+### Styling
 
-1.  **Start developing.**
+`src/styles/tokens.css` holds every colour, weight and size the design uses.
+Components reference the variables, never raw hex. If a brand colour changes,
+it changes in one place.
 
-    Navigate into your new site’s directory and start it up.
+## Environment
 
-    ```sh
-    cd my-blog/
-    gatsby develop
-    ```
+Set these in **Netlify → Site configuration → Environment variables**, and in a
+local `.env` for development. `.env` is gitignored — none of these belong in the repo.
 
-1.  **Open the source code and start editing!**
+| Variable | What it does |
+|---|---|
+| `DATABASE_URL` | Neon Postgres connection string (blog storage) |
+| `BLOG_API_TOKEN` | Bearer token Claude presents to publish. Treat as a password. |
+| `ADMIN_PASSWORD` | Password for `/admin` |
+| `CASE_STUDY_PASSWORD` | Unlocks the confidential Google case studies |
+| `SESSION_SECRET` | Signs the admin and case-study cookies |
 
-    Your site is now running at `http://localhost:8000`!
+Generate the secrets with `openssl rand -hex 32`.
 
-    _Note: You'll also see a second link: _`http://localhost:8000/___graphql`_. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql)._
+Every gate **fails closed**: if a variable is missing, the thing it protects stays
+locked rather than falling open.
 
-    Open the `my-blog` directory in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
+## Publishing from Claude
 
-<br>
-<br>
+`/api/mcp` is a [Model Context Protocol](https://modelcontextprotocol.io) server.
+Add it once in claude.ai under **Settings → Connectors → Add custom connector**:
 
-## 🧐 What's inside?
+```
+https://treder.design/api/mcp?k=YOUR_BLOG_API_TOKEN
+```
 
-A quick look at the top-level files and directories you'll see in a Gatsby project.
+Then, in any chat: *"publish this to my blog as a book note."*
 
-    .
-    ├── node_modules
-    ├── src
-    ├── .gitignore
-    ├── .prettierrc
-    ├── gatsby-config.js
-    ├── gatsby-node.js
-    ├── LICENSE
-    ├── package.json
-    ├── README.md
-    └── yarn.lock
+Tools exposed: `list_posts`, `get_post`, `publish_post`, `update_post`,
+`unpublish_post`, `delete_post`. Post bodies are Markdown. A published post is
+live immediately — the blog reads the database on each request.
 
-1.  **`/node_modules`**: This directory contains all of the modules of code that your project depends on (npm packages) are automatically installed.
+> The token in that URL **is** the credential, because MCP clients cannot always
+> send custom headers. Anyone with the URL can publish. Do not share it; rotate
+> it by changing `BLOG_API_TOKEN` in Netlify. The endpoint also accepts a normal
+> `Authorization: Bearer <token>` header, which is preferable where supported.
 
-2.  **`/src`**: This directory will contain all of the code related to what you will see on the front-end of your site (what you see in the browser) such as your site header or a page template. `src` is a convention for “source code”.
+Prefer a browser? `/admin` does the same things with buttons, including deletion
+with a two-step confirmation.
 
-3.  **`.gitignore`**: This file tells git which files it should not track / not maintain a version history for.
+## Database
 
-4.  **`.prettierrc`**: This is a configuration file for [Prettier](https://prettier.io/). Prettier is a tool to help keep the formatting of your code consistent.
+```bash
+psql "$DATABASE_URL" -f migrations/001_init.sql   # schema
+DATABASE_URL="…" node scripts/seed.mjs            # original six posts, idempotent
+```
 
-5.  **`gatsby-config.js`**: This is the main configuration file for a Gatsby site. This is where you can specify information about your site (metadata) like the site title and description, which Gatsby plugins you’d like to include, etc. (Check out the [config docs](https://www.gatsbyjs.org/docs/gatsby-config/) for more detail).
+## The confidential case studies
 
-6.  **`gatsby-node.js`**: This file is where Gatsby expects to find any usage of the [Gatsby Node APIs](https://www.gatsbyjs.org/docs/node-apis/) (if any). These allow customization/extension of default Gatsby settings affecting pieces of the site build process.
+Two case studies (Google Play, Google Cloud) are marked `confidential` in
+`src/data/cases.ts`. Their body is **never sent to the browser** unless the
+request carries a valid unlock cookie — the check is server-side, responses are
+`Cache-Control: private, no-store`, and the password is not present in any
+client bundle.
 
-7.  **`LICENSE`**: Gatsby is licensed under the MIT license.
+## Deploying
 
-8. **`package.json`**: A manifest file for Node.js projects, which includes things like metadata (the project’s name, author, etc). This manifest is how npm knows which packages to install for your project.
-
-9. **`README.md`**: A text file containing useful reference information about your project.
-
-10. **`yarn.lock`** This is an automatically generated file based on the exact versions of your npm dependencies that were installed for your project. **(You won’t change this file directly).**
-
-<br>
-<br>
-
-## 🎓 Learning Gatsby
-
-Looking for more guidance? Full documentation for Gatsby lives [on the website](https://www.gatsbyjs.org/). Here are some places to start:
-
-- **For most developers, we recommend starting with our [in-depth tutorial for creating a site with Gatsby](https://www.gatsbyjs.org/tutorial/).** It starts with zero assumptions about your level of ability and walks through every step of the process.
-
-- **To dive straight into code samples, head [to our documentation](https://www.gatsbyjs.org/docs/).** In particular, check out the _Guides_, _API Reference_, and _Advanced Tutorials_ sections in the sidebar.
+Netlify builds from `netlify.toml` (`npm run build` → `dist`). Pull requests get
+a Deploy Preview; `master` publishes to production.

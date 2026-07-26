@@ -1,0 +1,115 @@
+---
+import { nav, elsewhere, site } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div>
+        <p class="site-footer__pitch">Let’s build something<br />worth using.</p>
+        <p class="site-footer__meta">{site.author} — {site.location}</p>
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Site</p>
+        {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      </div>
+
+      <div class="site-footer__col">
+        <p class="site-footer__heading">Elsewhere</p>
+        <a class="is-gold" href={elsewhere.substack} target="_blank" rel="noopener noreferrer">Newsletter ↗</a>
+        <a href={elsewhere.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a href={elsewhere.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="site-footer__bottom">
+      <span>&copy; {year} {site.author}. All rights reserved.</span>
+      <span class="site-footer__wordmark">TREDER&middot;DESIGN</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink-deep);
+    color: var(--text-on-dark);
+    padding-block: 70px 50px;
+  }
+
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid var(--rule-dark);
+  }
+
+  .site-footer__pitch {
+    font-weight: var(--w-black);
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .site-footer__meta {
+    font-size: 14px;
+    color: #8a8178;
+  }
+
+  .site-footer__col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .site-footer__heading {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #8a8178;
+    margin-bottom: 6px;
+  }
+
+  .site-footer__col a {
+    font-size: 15px;
+    color: var(--text-on-dark-muted);
+  }
+
+  .site-footer__col a:hover {
+    color: var(--gold);
+  }
+
+  .site-footer__col a.is-gold {
+    color: var(--gold);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 28px;
+    font-size: 13px;
+    color: #8a8178;
+  }
+
+  .site-footer__wordmark {
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 860px) {
+    .site-footer__top {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .site-footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  }
+</style>

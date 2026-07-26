@@ -1,0 +1,299 @@
+---
+/**
+ * The Substack pitch + signup.
+ *
+ * The prototype captured the address in component state and then opened
+ * Substack in a new tab. Here the same thing happens with no JavaScript: a
+ * plain GET form to Substack's own /subscribe endpoint sends the address as the
+ * `email` query parameter, and `target="_blank"` keeps this site in place.
+ */
+import { elsewhere } from '../lib/site';
+
+interface Props {
+  /** 'light' sits on paper (home); 'dark' sits on the near-black sections (blog, book). */
+  tone?: 'light' | 'dark';
+}
+
+const { tone = 'light' } = Astro.props;
+const subscribeUrl = `${elsewhere.substack}/subscribe`;
+
+const cards = [
+  {
+    n: '01',
+    title: 'Subscriber-only posts',
+    text: 'Exclusive notes from writing The AI Handbook for Product Design, plus the full archive — the decisions, the rewrites and the dead ends.',
+  },
+  {
+    n: '02',
+    title: 'The reading list',
+    text: 'Curated lists of the white-papers and books I actually use while writing, and why each earned its place.',
+  },
+  {
+    n: '03',
+    title: 'The community',
+    text: 'Post comments and think through the ideas alongside other people building with AI.',
+  },
+] as const;
+---
+
+<section
+  class:list={[
+    'newsletter',
+    tone === 'dark' ? 'section--black' : 'section--paper',
+    tone === 'dark' && 'newsletter--dark',
+  ]}
+>
+  <div class="container newsletter__inner">
+    <div class="newsletter__top">
+      <div>
+        <p class:list={['eyebrow', 'newsletter__eyebrow', tone === 'dark' && 'eyebrow--gold']}>
+          The newsletter
+        </p>
+        <h2 class="newsletter__title">
+          Augmentation<span class="newsletter__colon">:</span> UX, Product, AI
+        </h2>
+        <p class="newsletter__pitch">
+          Notes from writing <span class="newsletter__accent">The AI Handbook for Product Design</span>
+          — and what I keep learning about designing software that augments people instead of
+          replacing them.
+        </p>
+      </div>
+
+      <div>
+        <form
+          class="newsletter__form"
+          action={subscribeUrl}
+          method="get"
+          target="_blank"
+        >
+          <label class="newsletter__label" for="newsletter-email">Email address</label>
+          <input
+            class="newsletter__input"
+            id="newsletter-email"
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="you@company.com"
+          />
+          <button
+            class:list={['btn', 'newsletter__submit', tone === 'dark' ? 'btn--gold' : 'btn--dark']}
+            type="submit">Subscribe</button
+          >
+        </form>
+
+        <p class="newsletter__terms">
+          <span>Free tier available</span><span aria-hidden="true">&middot;</span><span
+            >$8/month</span
+          ><span aria-hidden="true">&middot;</span><span>$80/year</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="card-strip card-strip--3 newsletter__cards">
+      {
+        cards.map((card) => (
+          <div class="newsletter__card">
+            <p class="numeral newsletter__card-n">{card.n}</p>
+            <h3 class="newsletter__card-title">{card.title}</h3>
+            <p class="newsletter__card-text">{card.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .newsletter {
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .newsletter__inner {
+    padding-block: 84px;
+  }
+
+  .newsletter__top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: end;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .newsletter__eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .newsletter__title {
+    margin-bottom: 18px;
+    font-weight: var(--w-black);
+    font-size: clamp(20px, 2.4vw, 36px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    white-space: nowrap;
+  }
+
+  .newsletter__colon,
+  .newsletter__accent {
+    color: var(--rust);
+  }
+
+  .newsletter__pitch {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+    max-width: 44ch;
+  }
+
+  .newsletter__form {
+    display: flex;
+    border: 1px solid var(--border-input);
+    /* Deliberately brighter than --paper so the field reads as an affordance. */
+    background: #ffffff;
+  }
+
+  .newsletter__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .newsletter__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    padding-inline: 18px;
+    min-height: 58px;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--text-on-light);
+  }
+
+  .newsletter__submit {
+    min-height: 58px;
+  }
+
+  .newsletter__terms {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--text-on-light-soft);
+  }
+
+  /* The strip tucks under the rule above it, so it drops its own top border. */
+  .newsletter__cards {
+    border-top: none;
+  }
+
+  .newsletter__card {
+    padding: 34px 30px;
+  }
+
+  .newsletter__card-n {
+    margin-bottom: 20px;
+  }
+
+  .newsletter__card-title {
+    margin-bottom: 12px;
+    font-weight: var(--w-bold);
+    font-size: 19px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--text-on-light);
+  }
+
+  .newsletter__card-text {
+    font-size: 15px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+  }
+
+  /* ---- dark tone ----
+     Same structure, inverted surface. Only the colour-bearing rules change. */
+  .newsletter--dark {
+    border-bottom: none;
+  }
+
+  .newsletter--dark .newsletter__top {
+    border-bottom-color: var(--rule-dark);
+  }
+
+  .newsletter--dark .newsletter__title {
+    color: var(--text-on-dark);
+  }
+
+  .newsletter--dark .newsletter__colon,
+  .newsletter--dark .newsletter__accent {
+    color: var(--gold);
+  }
+
+  .newsletter--dark .newsletter__pitch,
+  .newsletter--dark .newsletter__card-text {
+    color: var(--text-on-dark-soft);
+  }
+
+  .newsletter--dark .newsletter__form {
+    border-color: var(--border-dark);
+    background: var(--ink-raised);
+  }
+
+  .newsletter--dark .newsletter__input {
+    color: var(--text-on-dark);
+  }
+
+  .newsletter--dark .newsletter__terms {
+    color: var(--text-on-dark-faint);
+  }
+
+  .newsletter--dark .newsletter__card-title {
+    color: var(--text-on-dark);
+  }
+
+  .newsletter--dark .card-strip {
+    background: var(--rule-dark);
+    border-color: var(--rule-dark);
+  }
+
+  .newsletter--dark .card-strip > * {
+    background: var(--ink-deep);
+  }
+
+  @media (max-width: 860px) {
+    .newsletter__top {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .newsletter__title {
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .newsletter__form {
+      flex-wrap: wrap;
+    }
+
+    .newsletter__input {
+      flex: 1 1 100%;
+      min-height: 52px;
+    }
+
+    .newsletter__submit {
+      flex: 1 1 100%;
+    }
+  }
+</style>

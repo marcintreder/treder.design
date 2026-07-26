@@ -1,0 +1,454 @@
+@import './tokens.css';
+
+/* ------------------------------------------------------------------ fonts */
+/* Neue Plak, self-hosted. Only the five weights the site actually uses are
+   declared, so we ship five files instead of the full family. */
+@font-face {
+  font-family: 'Neue Plak';
+  src: url('/fonts/39FEA2_5_0.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Plak';
+  src: url('/fonts/39FEA2_7_0.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Plak';
+  src: url('/fonts/39FEA2_6_0.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Plak';
+  src: url('/fonts/39FEA2_3_0.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Plak';
+  src: url('/fonts/39FEA2_2_0.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------------ reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--text-on-light);
+  font-family: var(--font-sans);
+  font-weight: var(--w-light);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--rust);
+  text-decoration: none;
+  transition: color var(--t-fast);
+}
+
+a:hover {
+  color: var(--gold);
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    color var(--t-fast),
+    background-color var(--t-fast),
+    border-color var(--t-fast),
+    opacity var(--t-fast);
+}
+
+input::placeholder {
+  color: #9a9187;
+  opacity: 1;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------- structure */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.container--reading {
+  max-width: var(--container-reading);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.section--dark {
+  background: var(--ink);
+  color: var(--text-on-dark);
+}
+
+.section--black {
+  background: var(--ink-deep);
+  color: var(--text-on-dark);
+}
+
+.section--paper {
+  background: var(--paper);
+  color: var(--text-on-light);
+}
+
+.rule-top {
+  border-top: 1px solid var(--rule-light);
+}
+.rule-bottom {
+  border-bottom: 1px solid var(--rule-light);
+}
+.section--dark .rule-top,
+.section--black .rule-top {
+  border-top-color: var(--rule-dark);
+}
+.section--dark .rule-bottom,
+.section--black .rule-bottom {
+  border-bottom-color: var(--rule-dark);
+}
+
+/* ------------------------------------------------------------ typography */
+.eyebrow {
+  font-size: 12px;
+  font-weight: var(--w-medium);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+
+.eyebrow--gold {
+  color: var(--gold);
+}
+
+.eyebrow--muted {
+  color: var(--text-on-dark-faint);
+}
+
+.label {
+  font-size: 11px;
+  font-weight: var(--w-bold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.numeral {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-on-light-faint);
+}
+
+.h1 {
+  font-weight: var(--w-black);
+  font-size: var(--size-page-title);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+}
+
+.h2 {
+  font-weight: var(--w-black);
+  font-size: var(--size-h2);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.h2--sm {
+  font-size: var(--size-h2-sm);
+  line-height: 1.02;
+}
+
+.h3 {
+  font-weight: var(--w-black);
+  font-size: var(--size-h3);
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+.lede {
+  font-size: 19px;
+  font-weight: var(--w-light);
+  line-height: 1.6;
+  color: var(--text-on-light-muted);
+}
+
+.prose p {
+  font-size: 17px;
+  font-weight: var(--w-light);
+  line-height: 1.75;
+  color: var(--text-on-light-muted);
+}
+
+.prose p + p {
+  margin-top: 22px;
+}
+
+/* ---------------------------------------------------------------- buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding-inline: 28px;
+  line-height: 1;
+  font-size: 12px;
+  font-weight: var(--w-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.btn--gold {
+  background: var(--gold);
+  color: var(--ink);
+}
+.btn--gold:hover {
+  background: var(--paper-warm);
+  color: var(--ink);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-on-dark);
+  border: 1px solid var(--border-dark);
+}
+.btn--ghost:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.btn--ghost-light {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--border-input);
+}
+.btn--ghost-light:hover {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.btn--dark {
+  background: var(--ink);
+  color: var(--text-on-dark);
+}
+.btn--dark:hover {
+  background: var(--rust);
+  color: var(--text-on-dark);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* Underlined text link with the gold rule, used for "Learn more" affordances */
+.link-underline {
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 4px;
+  font-size: 14px;
+  font-weight: var(--w-medium);
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+.link-underline:hover {
+  color: var(--rust);
+}
+
+/* ------------------------------------------------------------------ grids */
+.grid {
+  display: grid;
+  gap: 64px;
+}
+
+.grid--halves {
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid--thirds {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Hairline-separated card strip: the 1px gap plus a background is what draws
+   the rules between cells, so cards need no borders of their own. */
+.card-strip {
+  display: grid;
+  gap: 1px;
+  background: var(--rule-light);
+  border: 1px solid var(--rule-light);
+}
+
+.card-strip--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.card-strip--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.card-strip > * {
+  background: var(--paper);
+}
+
+.section--dark .card-strip {
+  background: var(--rule-dark);
+  border-color: var(--rule-dark);
+}
+.section--dark .card-strip > * {
+  background: var(--ink);
+}
+
+@media (max-width: 860px) {
+  .grid--halves,
+  .grid--thirds,
+  .card-strip--3 {
+    grid-template-columns: 1fr;
+  }
+  .grid {
+    gap: 36px;
+  }
+}
+
+@media (max-width: 640px) {
+  .card-strip--2 {
+    grid-template-columns: 1fr;
+  }
+  .grid {
+    gap: 32px;
+  }
+}
+
+/* --------------------------------------------------------- logo animation */
+/* Ported verbatim from the original GlobalStyles.js: the two counter-shifting
+   halves of the mark settle into place on load and replay on hover. */
+@keyframes logo-right {
+  0% {
+    transform: translate(-2.7px, 9px);
+  }
+  80% {
+    transform: translate(0, 9px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes logo-left {
+  0% {
+    transform: translate(1.7px, -5.5px);
+  }
+  80% {
+    transform: translate(0, -5.5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes logo-right-rev {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(0, 9px);
+  }
+  50% {
+    transform: translate(-2.7px, 9px);
+  }
+  75% {
+    transform: translate(0, 9px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes logo-left-rev {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(0, -5.5px);
+  }
+  50% {
+    transform: translate(1.7px, -5.5px);
+  }
+  75% {
+    transform: translate(0, -5.5px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------- touch ergonomics */
+@media (hover: none), (max-width: 860px) {
+  input,
+  button[type='submit'] {
+    font-size: 16px;
+  }
+}

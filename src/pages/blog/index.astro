@@ -1,0 +1,328 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
+import PostCard from '../../components/PostCard.astro';
+import { listPosts } from '../../lib/posts';
+import { elsewhere } from '../../lib/site';
+
+/* Database-backed: a post published through the MCP endpoint has to appear on
+   the next request, not on the next deploy. */
+export const prerender = false;
+
+const posts = await listPosts();
+const bookNotes = posts.filter((p) => p.kind === 'book-note');
+const essays = posts.filter((p) => p.kind === 'essay');
+
+/** "NOTE 07" — newest note carries the highest number. */
+const noteNum = (i: number) => `NOTE ${String(bookNotes.length - i).padStart(2, '0')}`;
+
+---
+
+<BaseLayout
+  title="Blog"
+  description="Organized Musings — notes on design, product leadership, and building for the age of AI, including an ongoing stream of observations from writing The AI Handbook for Product Design."
+>
+  <section class="container blog-intro">
+    <p class="eyebrow">The Blog</p>
+    <h1 class="h1">Organized Musings</h1>
+    <p class="lede blog-intro__lede">
+      Notes on design, product leadership, and building for the age of AI — including an ongoing
+      stream of observations from writing my book.
+    </p>
+  </section>
+
+  <!-- ------------------------------------------------------- book notes -->
+  <section class="section--dark notes">
+    <div class="container">
+      <div class="notes__head">
+        <div>
+          <p class="eyebrow eyebrow--gold">A dedicated stream</p>
+          <h2 class="h2 h2--sm">Book Notes</h2>
+        </div>
+        <a class="notes__more" href="/book">About the book &rarr;</a>
+      </div>
+
+      <p class="notes__blurb">
+        Observations, decisions and dead-ends from writing <span class="is-gold"
+          >The AI Handbook for Product Design</span
+        > — thinking out loud, chapter by chapter.
+      </p>
+
+      {
+        bookNotes.length > 0 ? (
+          <div class="card-strip notes__strip">
+            {bookNotes.map((post, i) => (
+              <PostCard post={post} variant="card" num={noteNum(i)} />
+            ))}
+          </div>
+        ) : (
+          <p class="empty empty--dark">
+            No book notes yet — the first chapter observations land here as the manuscript moves.
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <NewsletterSignup tone="dark" />
+
+  <!-- ----------------------------------------------------------- essays -->
+  <section class="container essays">
+    <p class="eyebrow essays__head">Essays &amp; observations</p>
+    {
+      essays.length > 0 ? (
+        essays.map((post) => <PostCard post={post} variant="row" />)
+      ) : (
+        <p class="empty">No essays yet. The long-form pieces will show up here.</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .is-gold {
+    color: var(--gold);
+  }
+
+  .empty {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-soft);
+    padding: 40px 0;
+  }
+
+  .empty--dark {
+    color: var(--text-on-dark-soft);
+    border: 1px solid var(--rule-dark);
+    padding: 40px 24px;
+  }
+
+  /* ----------------------------------------------------------- intro */
+  .blog-intro {
+    padding-block: 90px 40px;
+  }
+
+  .blog-intro .eyebrow {
+    margin-bottom: 28px;
+  }
+
+  .blog-intro .h1 {
+    margin-bottom: 24px;
+  }
+
+  .blog-intro__lede {
+    max-width: 60ch;
+  }
+
+  /* ------------------------------------------------------ book notes */
+  .notes {
+    margin-top: 30px;
+    padding-block: 70px 76px;
+  }
+
+  .notes__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .notes__head .eyebrow {
+    margin-bottom: 14px;
+  }
+
+  .notes__more {
+    font-size: 13px;
+    font-weight: var(--w-medium);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+    padding-bottom: 6px;
+  }
+
+  .notes__more:hover {
+    color: var(--text-on-dark);
+  }
+
+  .notes__blurb {
+    max-width: 60ch;
+    margin-bottom: 40px;
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.65;
+    color: var(--text-on-dark-soft);
+  }
+
+  .notes__strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* ------------------------------------------------------ newsletter */
+  .substack {
+    padding-block: 84px;
+  }
+
+  .substack__top {
+    align-items: end;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--rule-dark);
+  }
+
+  .substack__title {
+    margin: 20px 0 18px;
+    font-weight: var(--w-black);
+    font-size: clamp(20px, 2.4vw, 36px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    white-space: nowrap;
+  }
+
+  .substack__lede {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-dark-soft);
+    max-width: 44ch;
+  }
+
+  .substack__form {
+    display: flex;
+    border: 1px solid var(--border-dark);
+    background: var(--ink-deep);
+  }
+
+  .substack__form input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    padding: 0 18px;
+    min-height: 58px;
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--text-on-dark);
+    outline: none;
+  }
+
+  .substack__form input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
+  .substack__form .btn {
+    min-height: 58px;
+  }
+
+  .substack__terms {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--text-on-dark-faint);
+  }
+
+  .substack__perks {
+    border-top: none;
+  }
+
+  .perk {
+    padding: 34px 30px;
+    background: var(--ink-deep);
+  }
+
+  .perk__num {
+    color: var(--gold-deep);
+    margin-bottom: 20px;
+  }
+
+  .perk__title {
+    font-weight: var(--w-bold);
+    font-size: 19px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--text-on-dark);
+    margin-bottom: 12px;
+  }
+
+  .perk__copy {
+    font-size: 15px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-dark-soft);
+  }
+
+  /* The perks strip sits on the black section, so its cells and rules follow
+     the deeper ink rather than .section--dark's default. */
+  .substack .card-strip {
+    background: var(--rule-dark);
+    border-color: var(--rule-dark);
+  }
+
+  /* ---------------------------------------------------------- essays */
+  .essays {
+    padding-block: 80px 60px;
+  }
+
+  .essays__head {
+    margin-bottom: 34px;
+    border-bottom: 1px solid var(--rule-light);
+    padding-bottom: 22px;
+  }
+
+  /* ------------------------------------------------------ responsive */
+  @media (max-width: 1024px) {
+    .notes__strip {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .substack__top {
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .substack__title {
+      white-space: normal;
+    }
+
+    .substack__perks {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .notes__strip {
+      grid-template-columns: 1fr;
+    }
+
+    .notes__head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .substack__form {
+      flex-direction: column;
+    }
+
+    .substack__form .btn {
+      width: 100%;
+    }
+  }
+</style>
