@@ -144,7 +144,16 @@ const kinds: PostKind[] = ['essay', 'book-note'];
       spellcheck="true"
       required
       aria-describedby={errors.body ? 'err-body' : 'hint-body'}>{values.body}</textarea>
-    <p class="field__hint" id="hint-body">Markdown. Inline HTML is allowed.</p>
+
+    {/* Filled in by the paste handler when a pasted image points at a source
+        that will not last — Google's CDN, a data: URI. Empty and hidden until
+        then, and never rendered on the server. */}
+    <p class="field__warn" id="paste-warn" role="status" aria-live="polite" hidden></p>
+
+    <p class="field__hint" id="hint-body">
+      Markdown. Inline HTML is allowed. Pasting from Google Docs, Word or a web page converts the
+      formatting for you — headings, bold, lists and links all come across.
+    </p>
     {
       errors.body && (
         <p class="field__error" id="err-body" role="alert">
@@ -257,6 +266,8 @@ const kinds: PostKind[] = ['essay', 'book-note'];
    * and are only revealed once this script runs, the cover field stays an
    * ordinary text input, and a failed upload leaves the form exactly as it was.
    */
+  import { htmlToMarkdown, PLACEHOLDER_PREFIX } from '../lib/rich-paste';
+
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
 
   const coverBlock = $<HTMLDivElement>('cover-block');
@@ -266,6 +277,7 @@ const kinds: PostKind[] = ['essay', 'book-note'];
   const coverClear = $<HTMLButtonElement>('cover-clear');
   const coverStatus = $<HTMLParagraphElement>('cover-status');
 
+  const pasteWarn = $<HTMLParagraphElement>('paste-warn');
   const bodyBlock = $<HTMLDivElement>('body-uploader');
   const bodyFile = $<HTMLInputElement>('body-file');
   const bodyArea = $<HTMLTextAreaElement>('post-body');
@@ -398,6 +410,89 @@ const kinds: PostKind[] = ['essay', 'book-note'];
       }
     });
   }
+
+  /* ------------------------------------------------------------ rich paste */
+  /**
+   * The body is a Markdown field, but the drafts arrive from Google Docs. When
+   * the clipboard carries an HTML flavour we convert it and insert that; when
+   * it does not — a code snippet, a URL, anything copied as plain text — this
+   * handler returns before `preventDefault` and the browser pastes as always.
+   */
+  if (bodyArea) {
+    /** Insert at the caret, replacing the selection, keeping undo if we can. */
+    const insertAtCaret = (text: string) => {
+      bodyArea.focus();
+
+      // execCommand is deprecated but it is still the only way to write into a
+      // textarea and leave the undo stack intact. Where it is gone, splice the
+      // value directly and tell the page the field changed.
+      let inserted = false;
+      try {
+        inserted = document.execCommand('insertText', false, text);
+      } catch {
+        inserted = false;
+      }
+      if (inserted) return;
+
+      const start = bodyArea.selectionStart ?? bodyArea.value.length;
+      const end = bodyArea.selectionEnd ?? start;
+      bodyArea.value = bodyArea.value.slice(0, start) + text + bodyArea.value.slice(end);
+      const caret = start + text.length;
+      bodyArea.setSelectionRange(caret, caret);
+      bodyArea.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+
+    const warnAboutImages = (count: number) => {
+      if (!pasteWarn) return;
+      if (count < 1) {
+        pasteWarn.hidden = true;
+        pasteWarn.textContent = '';
+        return;
+      }
+      const plural = count === 1 ? 'image' : 'images';
+      pasteWarn.textContent =
+        `${count} pasted ${plural} could not be brought across: Google Docs serves them from ` +
+        `links that stop working. Each one is marked ${PLACEHOLDER_PREFIX}N in the text — put the ` +
+        `caret on it and use Insert image to upload the real file.`;
+      pasteWarn.hidden = false;
+    };
+
+    bodyArea.addEventListener('paste', (event) => {
+      const clipboard = event.clipboardData;
+      if (!clipboard) return;
+
+      const html = clipboard.getData('text/html');
+      if (!html.trim()) return; // plain text — nothing to convert
+
+      let markdown = '';
+      let volatileImages = 0;
+      try {
+        ({ markdown, volatileImages } = htmlToMarkdown(html));
+      } catch {
+        return; // a paste is never worth breaking over; let the browser do it
+      }
+      if (!markdown) return;
+
+      // Plenty of apps put an HTML flavour on the clipboard for what is really
+      // plain text — a code editor colouring a snippet, a browser wrapping a
+      // URL in a styled span. If the conversion carries no markup the text
+      // flavour did not already have, stepping in would only add backslashes
+      // in front of the Markdown characters and cost the browser's own undo
+      // entry. Compare with the escaping and the line wrapping taken out.
+      const bare = (value: string) =>
+        value
+          .replace(/\\([\\`*_{}[\]()#+\-.!~<>|])/g, '$1')
+          .replace(/\s+/g, ' ')
+          .trim();
+      const plain = clipboard.getData('text/plain');
+      if (plain && bare(plain) === bare(markdown)) return;
+
+      event.preventDefault();
+      insertAtCaret(markdown);
+      warnAboutImages(volatileImages);
+      say(bodyStatus, 'Pasted formatting converted to Markdown.', 'ok');
+    });
+  }
 </script>
 
 <style>
@@ -508,6 +603,16 @@ const kinds: PostKind[] = ['essay', 'book-note'];
     padding-left: 12px;
     border-left: 3px solid var(--rust);
     color: var(--rust);
+  }
+
+  /* Softer than .field__error — the save is fine, the images are not. */
+  .field__warn {
+    font-size: 13px;
+    font-weight: var(--w-light);
+    line-height: 1.5;
+    padding-left: 12px;
+    border-left: 3px solid var(--gold);
+    color: var(--text-on-light-muted);
   }
 
   /* ------------------------------------------------------------- uploader */
