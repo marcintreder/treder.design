@@ -1,0 +1,978 @@
+---
+/**
+ * Prepare a post for Substack.
+ *
+ * Substack has no write API, so this screen cannot publish anything — it exists
+ * to take the friction out of the one manual paste: the title, the subtitle, the
+ * body already rendered to HTML with every relative URL made absolute, and the
+ * handful of settings that are easy to forget once the text is in.
+ *
+ * Reads the row directly rather than through `getPost`, which only ever returns
+ * published posts — a draft is exactly the thing you want to stage over there
+ * before it goes live here. Same gate as the rest of the console: nothing is
+ * queried until the session checks out, so a locked response contains no post.
+ */
+export const prerender = false;
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { isAdmin, ADMIN_COOKIE } from '../../../lib/admin';
+import { sql, hasDatabase } from '../../../lib/db';
+import { renderMarkdown, autoExcerpt } from '../../../lib/markdown';
+import { kindLabel, type PostKind, type PostStatus } from '../../../lib/posts';
+import { site, elsewhere } from '../../../lib/site';
+
+let authed = false;
+try {
+  authed = await isAdmin(Astro.cookies.get(ADMIN_COOKIE)?.value);
+} catch {
+  authed = false;
+}
+
+// Never let a CDN or shared cache hand an authenticated page to the next visitor.
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Vary', 'Cookie');
+
+const showError = Astro.url.searchParams.get('error') === '1';
+const slug = Astro.params.slug ?? '';
+
+const SUBSTACK_NEW_POST = 'https://substack.com/publish/post?type=newsletter';
+
+/**
+ * Rewrite relative `src` and `href` values against the live site.
+ *
+ * Substack fetches images out of the pasted HTML, so `/media/abc.png` does not
+ * resolve on their side — it silently becomes a broken image, and a relative
+ * link becomes a dead one. Anything already absolute, protocol-relative, an
+ * in-page anchor or another scheme (mailto:, tel:, data:) is left alone.
+ */
+const absolutise = (html: string): string =>
+  html.replace(/\s(src|href)=("|')(.*?)\2/gi, (match, attr: string, quote: string, value: string) => {
+    const raw = value.trim();
+    if (!raw || raw.startsWith('#') || raw.startsWith('//') || /^[a-z][a-z0-9+.-]*:/i.test(raw)) {
+      return match;
+    }
+    try {
+      return ` ${attr}=${quote}${new URL(raw, site.url).href}${quote}`;
+    } catch {
+      return match;
+    }
+  });
+
+interface PreparedPost {
+  title: string;
+  subtitle: string;
+  bodyMd: string;
+  bodyHtml: string;
+  kind: PostKind;
+  status: PostStatus;
+  tags: string[];
+  canonical: string;
+  coverImage: string | null;
+}
+
+const dbMissing = authed && !hasDatabase();
+let post: PreparedPost | null = null;
+
+if (authed && !dbMissing) {
+  // Drafts included on purpose — cross-posting is often staged before the post
+  // goes public here, so `getPost`'s published-only filter would be wrong.
+  const rows = await sql()`SELECT * FROM posts WHERE slug = ${slug} LIMIT 1`;
+
+  if (rows.length) {
+    const p = rows[0];
+    const bodyMd: string = p.body_md ?? '';
+
+    post = {
+      title: p.title,
+      subtitle: p.excerpt || autoExcerpt(bodyMd),
+      bodyMd,
+      bodyHtml: absolutise(renderMarkdown(bodyMd)),
+      kind: p.kind as PostKind,
+      status: p.status as PostStatus,
+      tags: p.tags ?? [],
+      canonical: new URL(`/blog/${p.slug}`, site.url).href,
+      coverImage: p.cover_image ? new URL(p.cover_image, site.url).href : null,
+    };
+  }
+}
+
+if (authed && !dbMissing && !post) Astro.response.status = 404;
+
+const publication = elsewhere.substack.replace(/^https?:\/\//, '');
+---
+
+<BaseLayout title="Prepare for Substack" description="Blog administration.">
+  <meta slot="head" name="robots" content="noindex, nofollow, noarchive" />
+
+  {
+    !authed ? (
+      <section class="container--reading gate">
+        <p class="eyebrow">Restricted</p>
+        <h1 class="gate__title">Admin</h1>
+        <p class="gate__copy">This area manages the blog. Enter the admin password to continue.</p>
+
+        <form class="gate__form" method="post" action="/api/admin/login">
+          <input type="hidden" name="redirect" value="/admin" />
+          <label class="field__label" for="admin-password">
+            Password
+          </label>
+          <input
+            class="field__input"
+            id="admin-password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          />
+          <button class="btn btn--dark" type="submit">
+            Sign in
+          </button>
+        </form>
+
+        {showError && (
+          <p class="msg msg--error" role="alert">
+            That password is not right. Try again.
+          </p>
+        )}
+      </section>
+    ) : (
+      <section class="container admin">
+        <header class="admin__head">
+          <div>
+            <p class="eyebrow">Blog administration</p>
+            <h1 class="admin__title">Prepare for Substack</h1>
+            {post && (
+              <p class="admin__count">
+                <span class:list={['pill', `pill--${post.status}`]}>{post.status}</span>
+                <span class="admin__kind">{kindLabel(post.kind)}</span>
+                <code class="admin__slug">/blog/{slug}</code>
+              </p>
+            )}
+          </div>
+
+          <div class="admin__tools">
+            <a class="btn btn--ghost-light" href={`/admin/edit/${slug}`}>
+              Edit
+            </a>
+            <a class="btn btn--ghost-light" href="/admin">
+              All posts
+            </a>
+          </div>
+        </header>
+
+        {dbMissing && (
+          <p class="msg msg--error" role="alert">
+            DATABASE_URL is not set, so there is nothing to prepare here.
+          </p>
+        )}
+
+        {!dbMissing && !post ? (
+          <p class="msg msg--error" role="alert">
+            No post with that slug. It may have been deleted or renamed.
+          </p>
+        ) : (
+          post && (
+            <>
+              <p class="msg">
+                Substack has no write API, so this is a paste, not a publish. Copy each piece below,
+                open a new post on <a href={elsewhere.substack} target="_blank" rel="noopener">{publication}</a>,
+                and work down the checklist at the end.
+              </p>
+
+              {/* ------------------------------------------------------ title */}
+              <section class="block">
+                <div class="block__head">
+                  <h2 class="field__label">Title</h2>
+                  <button class="act" type="button" data-copy="val-title" data-status="st-title" hidden>
+                    Copy
+                  </button>
+                </div>
+                <p class="block__value" id="val-title">{post.title}</p>
+                <p class="status" id="st-title" role="status" aria-live="polite" />
+              </section>
+
+              {/* --------------------------------------------------- subtitle */}
+              <section class="block">
+                <div class="block__head">
+                  <h2 class="field__label">Subtitle</h2>
+                  <button
+                    class="act"
+                    type="button"
+                    data-copy="val-subtitle"
+                    data-status="st-subtitle"
+                    hidden
+                  >
+                    Copy
+                  </button>
+                </div>
+                <p class="block__value block__value--soft" id="val-subtitle">
+                  {post.subtitle || '— this post has no excerpt, so there is no subtitle to paste.'}
+                </p>
+                <p class="block__note">Substack calls the excerpt the subtitle.</p>
+                <p class="status" id="st-subtitle" role="status" aria-live="polite" />
+              </section>
+
+              {/* ------------------------------------------------------- body */}
+              <section class="block">
+                <div class="block__head">
+                  <h2 class="field__label">Body</h2>
+                  <div class="block__actions">
+                    <button class="act act--wide" type="button" id="copy-body" hidden>
+                      Copy formatted
+                    </button>
+                    <a class="act act--go" href={SUBSTACK_NEW_POST} target="_blank" rel="noopener">
+                      Open Substack new post
+                    </a>
+                  </div>
+                </div>
+
+                <p class="block__note">
+                  Every relative link and image has been rewritten against <code>{site.url}</code>,
+                  so images resolve once Substack fetches them. Copy → open → paste.
+                </p>
+                <p class="status" id="st-body" role="status" aria-live="polite" />
+
+                <div class="preview" set:html={post.bodyHtml} />
+
+                {/* Manual fallbacks: both are plain, selectable text, so the
+                    screen still does its job with JavaScript switched off. */}
+                <details class="fallback">
+                  <summary class="fallback__summary">Prepared HTML</summary>
+                  <textarea class="fallback__area" id="prepared-html" rows="14" readonly spellcheck="false">{post.bodyHtml}</textarea>
+                </details>
+
+                <details class="fallback">
+                  <summary class="fallback__summary">Original Markdown</summary>
+                  <textarea class="fallback__area" rows="14" readonly spellcheck="false">{post.bodyMd}</textarea>
+                </details>
+              </section>
+
+              {/* ------------------------------------------------------ cover */}
+              {post.coverImage && (
+                <section class="block">
+                  <div class="block__head">
+                    <h2 class="field__label">Cover image</h2>
+                    <button class="act" type="button" data-copy="val-cover" data-status="st-cover" hidden>
+                      Copy URL
+                    </button>
+                  </div>
+                  <div class="cover">
+                    <img class="cover__thumb" src={post.coverImage} alt="" />
+                    <div>
+                      <code class="block__url" id="val-cover">{post.coverImage}</code>
+                      <p class="block__note">
+                        Substack's cover is set separately — it is not part of the pasted body.
+                      </p>
+                    </div>
+                  </div>
+                  <p class="status" id="st-cover" role="status" aria-live="polite" />
+                </section>
+              )}
+
+              {/* -------------------------------------------------- checklist */}
+              <section class="block block--last">
+                <div class="block__head">
+                  <h2 class="field__label">Before you send</h2>
+                </div>
+
+                <ul class="checks">
+                  <li class="check">
+                    <h3 class="check__title">Set the audience</h3>
+                    <p class="check__copy">
+                      Everyone (free) or paid subscribers only. This post is a{' '}
+                      <strong>{kindLabel(post.kind).toLowerCase()}</strong> — book notes tend to go
+                      out free, essays are the ones worth holding back for paying subscribers.
+                    </p>
+                  </li>
+
+                  <li class="check">
+                    <h3 class="check__title">Set the canonical URL</h3>
+                    <p class="check__copy">
+                      Point it at the original on treder.design so the cross-post does not compete
+                      with your own page in search.
+                    </p>
+                    <div class="check__row">
+                      <code class="block__url" id="val-canonical">{post.canonical}</code>
+                      <button
+                        class="act"
+                        type="button"
+                        data-copy="val-canonical"
+                        data-status="st-canonical"
+                        hidden
+                      >
+                        Copy
+                      </button>
+                    </div>
+                    <p class="status" id="st-canonical" role="status" aria-live="polite" />
+                  </li>
+
+                  <li class="check">
+                    <h3 class="check__title">Check the images came through</h3>
+                    <p class="check__copy">
+                      Scroll the pasted draft. Substack re-hosts what it can fetch; anything that
+                      failed shows as a broken frame and has to be uploaded by hand.
+                    </p>
+                  </li>
+
+                  <li class="check">
+                    <h3 class="check__title">Add the section and tags</h3>
+                    <p class="check__copy">
+                      {post.tags.length ? (
+                        <>
+                          This post is tagged{' '}
+                          {post.tags.map((tag, i) => (
+                            <>
+                              {i > 0 && ', '}
+                              <code>{tag}</code>
+                            </>
+                          ))}{' '}
+                          here. Mirror whichever of those you use over there.
+                        </>
+                      ) : (
+                        <>
+                          This post has no tags here. Pick the section on Substack if your
+                          publication uses them.
+                        </>
+                      )}
+                    </p>
+                  </li>
+                </ul>
+              </section>
+            </>
+          )
+        )}
+      </section>
+    )
+  }
+</BaseLayout>
+
+<script>
+  /**
+   * Copy buttons, layered on top of a page that already works without them.
+   *
+   * Every value on this screen is plain selectable text — the buttons start
+   * hidden and are only revealed once this script runs, so with JavaScript off
+   * nothing on the page is a dead control.
+   */
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
+
+  const say = (el: HTMLElement | null, message: string, state: 'ok' | 'error' | '' = '') => {
+    if (!el) return;
+    el.textContent = message;
+    if (state) el.dataset.state = state;
+    else delete el.dataset.state;
+  };
+
+  /* ---------------------------------------------------- plain text copies */
+  document.querySelectorAll<HTMLButtonElement>('button[data-copy]').forEach((button) => {
+    const source = $(button.dataset.copy ?? '');
+    const status = $(button.dataset.status ?? '');
+    if (!source) return;
+
+    button.hidden = false;
+    button.addEventListener('click', async () => {
+      const text = (source.textContent ?? '').trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        say(status, 'Copied.', 'ok');
+      } catch {
+        say(status, 'Could not copy — select the text and copy it by hand.', 'error');
+      }
+    });
+  });
+
+  /* ------------------------------------------------------------ rich body */
+  const bodyButton = $<HTMLButtonElement>('copy-body');
+  const bodySource = $<HTMLTextAreaElement>('prepared-html');
+  const bodyStatus = $('st-body');
+
+  if (bodyButton && bodySource) {
+    bodyButton.hidden = false;
+
+    bodyButton.addEventListener('click', async () => {
+      // The textarea holds the prepared HTML verbatim, which is also the manual
+      // fallback below — one source of truth for both routes.
+      const html = bodySource.value;
+
+      try {
+        if (typeof ClipboardItem !== 'undefined' && navigator.clipboard?.write) {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              'text/html': new Blob([html], { type: 'text/html' }),
+              'text/plain': new Blob([html], { type: 'text/plain' }),
+            }),
+          ]);
+          say(bodyStatus, 'Copied as formatted HTML — paste straight into the Substack editor.', 'ok');
+          return;
+        }
+
+        // No ClipboardItem: the clipboard gets the markup as text, which
+        // Substack will show literally unless it is pasted into an HTML view.
+        await navigator.clipboard.writeText(html);
+        say(
+          bodyStatus,
+          'Copied as raw HTML source — this browser cannot copy formatted text, so paste it somewhere that accepts HTML.',
+          'ok'
+        );
+      } catch {
+        say(
+          bodyStatus,
+          'Could not copy — open “Prepared HTML” below and copy it by hand.',
+          'error'
+        );
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Same vocabulary as the rest of the console: hairline rules, uppercase
+     micro-labels, one column, no colour that is not in the tokens. */
+
+  /* ------------------------------------------------------------- gate */
+  .gate {
+    padding-block: 90px 120px;
+    max-width: 460px;
+  }
+
+  .gate .eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .gate__title {
+    font-weight: var(--w-black);
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .gate__copy {
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+    margin-bottom: 32px;
+  }
+
+  .gate__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .field__label {
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-on-light-soft);
+  }
+
+  .field__input {
+    min-height: 52px;
+    padding-inline: 16px;
+    border: 1px solid var(--border-input);
+    background: var(--paper);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--text-on-light);
+    outline: none;
+  }
+
+  .field__input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
+  .gate__form .btn {
+    margin-top: 6px;
+  }
+
+  /* ---------------------------------------------------------- messages */
+  .msg {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    border-left: 3px solid var(--gold);
+    background: var(--paper-warm);
+    color: var(--text-on-light-muted);
+  }
+
+  .msg a {
+    color: var(--rust);
+    border-bottom: 1px solid var(--gold);
+  }
+
+  .msg--error {
+    border-left-color: var(--rust);
+    color: var(--rust);
+  }
+
+  .gate .msg {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+
+  /* ------------------------------------------------------------ layout */
+  .admin {
+    padding-block: 70px 100px;
+  }
+
+  .admin__head,
+  .msg,
+  .block {
+    max-width: 780px;
+  }
+
+  .admin__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 26px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .admin__head .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .admin__title {
+    font-weight: var(--w-black);
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .admin__count {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    margin-top: 14px;
+  }
+
+  .admin__kind {
+    font-size: 13px;
+    font-weight: var(--w-light);
+    color: var(--text-on-light-soft);
+  }
+
+  .admin__slug {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text-on-light-faint);
+    overflow-wrap: anywhere;
+  }
+
+  .pill {
+    font-size: 10px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid var(--border-input);
+    color: var(--text-on-light-soft);
+  }
+
+  .pill--published {
+    border-color: var(--gold-deep);
+    color: var(--rust);
+  }
+
+  .admin__tools {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .admin__head .btn {
+    min-height: 44px;
+    flex: none;
+  }
+
+  /* ------------------------------------------------------------ blocks */
+  .block {
+    padding-block: 26px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .block--last {
+    border-bottom: none;
+  }
+
+  .block__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin-bottom: 14px;
+  }
+
+  .block__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .block__value {
+    font-size: 20px;
+    font-weight: var(--w-medium);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--text-on-light);
+  }
+
+  .block__value--soft {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.55;
+    color: var(--text-on-light-muted);
+  }
+
+  .block__note {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: var(--w-light);
+    line-height: 1.5;
+    color: var(--text-on-light-soft);
+  }
+
+  .block__note code,
+  .block__url {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-on-light-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .block__url {
+    display: block;
+    font-size: 13px;
+  }
+
+  .status {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: var(--w-light);
+    line-height: 1.5;
+    color: var(--text-on-light-soft);
+  }
+
+  .status[data-state='error'] {
+    font-weight: var(--w-medium);
+    color: var(--rust);
+  }
+
+  /* ------------------------------------------------------------ actions */
+  .act {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding-inline: 14px;
+    border: 1px solid var(--border-input);
+    background: transparent;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-on-light);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .act:hover {
+    border-color: var(--rust);
+    color: var(--rust);
+  }
+
+  /* The copy is the step that matters, so it carries the weight and the open
+     link sits beside it in the order the flow actually runs. */
+  .act--wide {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .act--wide:hover {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: var(--paper);
+  }
+
+  .act--go:hover {
+    border-color: var(--gold-deep);
+  }
+
+  /* Flex beats the `hidden` attribute the copy buttons start life with. */
+  [hidden] {
+    display: none !important;
+  }
+
+  /* ------------------------------------------------------------ preview */
+  /* A rough read of the pasted result, not a facsimile of Substack — enough to
+     see that headings, lists, links and images all survived the render.
+     `:global()` is required because `set:html` output carries no scope. */
+  .preview {
+    padding: 24px 26px;
+    border: 1px solid var(--rule-light);
+    background: var(--paper);
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.7;
+    color: var(--text-on-light);
+  }
+
+  .preview :global(p) {
+    margin: 0 0 20px;
+  }
+
+  .preview :global(h1),
+  .preview :global(h2) {
+    margin: 32px 0 14px;
+    font-weight: var(--w-black);
+    font-size: 25px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .preview :global(h3),
+  .preview :global(h4) {
+    margin: 26px 0 12px;
+    font-weight: var(--w-bold);
+    font-size: 19px;
+    line-height: 1.2;
+  }
+
+  .preview :global(ul),
+  .preview :global(ol) {
+    margin: 0 0 20px;
+    padding-left: 24px;
+  }
+
+  .preview :global(li) {
+    margin-bottom: 8px;
+  }
+
+  .preview :global(li::marker) {
+    color: var(--gold-deep);
+  }
+
+  .preview :global(blockquote) {
+    margin: 24px 0;
+    padding: 2px 0 2px 20px;
+    border-left: 3px solid var(--gold);
+    color: var(--text-on-light-muted);
+  }
+
+  .preview :global(a) {
+    color: var(--rust);
+    border-bottom: 1px solid var(--gold);
+  }
+
+  .preview :global(strong) {
+    font-weight: var(--w-bold);
+  }
+
+  .preview :global(em) {
+    font-style: italic;
+  }
+
+  .preview :global(img) {
+    width: 100%;
+    height: auto;
+    margin: 24px 0;
+    border: 1px solid var(--rule-light);
+  }
+
+  .preview :global(hr) {
+    margin: 28px 0;
+    border: none;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .preview :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    padding: 2px 6px;
+    background: var(--paper-sand);
+    color: var(--rust);
+  }
+
+  .preview :global(pre) {
+    margin: 0 0 20px;
+    padding: 16px;
+    overflow-x: auto;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule-light);
+  }
+
+  .preview :global(pre code) {
+    padding: 0;
+    background: none;
+    color: var(--text-on-light);
+  }
+
+  .preview :global(*:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* ---------------------------------------------------------- fallbacks */
+  .fallback {
+    margin-top: 16px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .fallback__summary {
+    padding-block: 10px;
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-on-light-soft);
+    cursor: pointer;
+  }
+
+  .fallback__summary:hover {
+    color: var(--rust);
+  }
+
+  .fallback__area {
+    width: 100%;
+    margin-block: 6px 14px;
+    padding: 14px;
+    resize: vertical;
+    border: 1px solid var(--border-input);
+    background: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+    outline: none;
+  }
+
+  .fallback__area:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
+  /* -------------------------------------------------------------- cover */
+  .cover {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .cover__thumb {
+    width: 128px;
+    height: 96px;
+    flex: none;
+    object-fit: cover;
+    border: 1px solid var(--rule-light);
+    background: var(--paper-warm);
+  }
+
+  /* ---------------------------------------------------------- checklist */
+  .checks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .check {
+    padding-block: 18px;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .check:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .check__title {
+    margin-bottom: 8px;
+    font-weight: var(--w-medium);
+    font-size: 16px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .check__copy {
+    font-size: 15px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+    max-width: 62ch;
+  }
+
+  .check__copy code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .check__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
+    margin-top: 12px;
+  }
+
+  .check__row .block__url {
+    flex: 1 1 320px;
+  }
+
+  /* -------------------------------------------------------- responsive */
+  @media (max-width: 720px) {
+    .admin {
+      padding-block: 50px 80px;
+    }
+
+    .admin__head {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .admin__tools > * {
+      flex: 1;
+    }
+
+    .admin__tools .btn {
+      width: 100%;
+    }
+
+    .admin__title {
+      font-size: 32px;
+    }
+
+    .act {
+      min-height: 44px;
+    }
+
+    .block__actions {
+      width: 100%;
+    }
+
+    .block__actions .act {
+      flex: 1;
+    }
+
+    .preview {
+      padding: 18px;
+    }
+
+    .cover {
+      flex-direction: column;
+    }
+  }
+</style>

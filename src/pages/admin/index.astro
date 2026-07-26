@@ -201,6 +201,10 @@ const draftCount = posts.length - publishedCount;
                     View
                   </a>
 
+                  <a class="act" href={`/admin/substack/${post.slug}`}>
+                    Substack
+                  </a>
+
                   <form method="post" action="/api/admin/toggle">
                     <input type="hidden" name="slug" value={post.slug} />
                     <button class="act" type="submit">
