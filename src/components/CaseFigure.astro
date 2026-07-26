@@ -1,0 +1,124 @@
+---
+/**
+ * One figure inside a case-study section.
+ *
+ * The prototype drew every figure as a `background-image` on a `role="img"`
+ * div. Here each one is a real `<img>` inside an aspect-ratio frame: the
+ * rendering is identical (`object-fit: contain` behaves like
+ * `background-size: contain`) but the image can be lazy-loaded, carries a
+ * caption-derived alt, and reserves its space so nothing shifts.
+ */
+import type { CaseFigure as CaseFigureData } from '../data/cases';
+
+interface Props {
+  figure: CaseFigureData;
+}
+
+const { figure } = Astro.props;
+const { img, mode, cap } = figure;
+
+/** 'phone' is the only mode that nests the image inside a padded dark stage. */
+const isPhone = mode === 'phone';
+---
+
+{
+  img && (
+    <figure class="fig">
+      {isPhone ? (
+        <div class="fig__stage">
+          <img class="fig__img fig__img--phone" src={img} alt={cap ?? ''} loading="lazy" decoding="async" />
+        </div>
+      ) : (
+        <div class:list={['fig__frame', `fig__frame--${mode}`]}>
+          <img class="fig__img" src={img} alt={cap ?? ''} loading="lazy" decoding="async" />
+        </div>
+      )}
+      {cap && <figcaption class="fig__cap">{cap}</figcaption>}
+    </figure>
+  )
+}
+
+<style>
+  .fig {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .fig__frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background-color: var(--paper-hover);
+    border: 1px solid var(--rule-light);
+  }
+
+  .fig__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  /* --- modes ---------------------------------------------------------- */
+
+  /* cover / contain share the 16:10 paper plate defined above. */
+
+  .fig__frame--tall {
+    aspect-ratio: 3 / 4;
+  }
+  .fig__frame--tall .fig__img {
+    object-position: center top;
+  }
+
+  /* Artwork sheets sit on a near-white ground with generous inset margins. */
+  .fig__frame--plate {
+    background-color: var(--paper);
+    padding: 6% 11%;
+  }
+
+  .fig__frame--sheet {
+    aspect-ratio: 5 / 7;
+    background-color: var(--paper);
+    padding: 7% 14%;
+  }
+
+  .fig__frame--wide {
+    max-width: 816px;
+    aspect-ratio: 816 / 422;
+    background-color: var(--ink);
+  }
+
+  .fig__frame--small {
+    max-width: 425px;
+    aspect-ratio: 425 / 288;
+  }
+
+  .fig__frame--dark {
+    background-color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  /* Phone screenshots float on a dark stage with a soft cast shadow. */
+  .fig__stage {
+    display: flex;
+    justify-content: center;
+    background: var(--ink);
+    padding: 32px 20px;
+  }
+
+  .fig__img--phone {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    aspect-ratio: 9 / 19.5;
+    filter: drop-shadow(0 24px 40px rgb(0 0 0 / 0.55));
+  }
+
+  .fig__cap {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-on-light-soft);
+  }
+</style>

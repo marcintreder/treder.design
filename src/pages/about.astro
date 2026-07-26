@@ -1,0 +1,347 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ethos } from '../data/ethos';
+
+/** The bordered credential blocks that sit under the bio. */
+const credentials = [
+  {
+    label: 'Leadership & scale',
+    text: '15+ years of management experience, leading global, cross-functional organizations of up to 100 people. Proven ability to mentor leaders and build high-performing teams that deliver product excellence for billions of users.',
+  },
+  {
+    label: 'Entrepreneurship & business acumen',
+    text: 'Co-founded UXPin, led the company as CEO, and scaled it to a successful acquisition. Responsible for overall company strategy, securing multiple rounds of venture capital, and driving an enterprise business model.',
+  },
+  {
+    label: 'Technical & product excellence',
+    text: 'A design practitioner at heart with hands-on coding skills in Python and JavaScript. Deeply invested in AI and ML — with in-depth training at Stanford, UPenn and the University of Colorado — and a passion for leading innovation and shaping next-generation product strategy.',
+  },
+  {
+    label: 'Thought leadership',
+    text: 'Recognized as an MIT Top Innovator under 35. Author, and a frequent speaker at over 50 global conferences on design and technology.',
+  },
+];
+
+const stats = [
+  { value: '0 → 100+', label: 'UXPin team size' },
+  { value: '6+', label: 'Years in Google leadership' },
+  { value: '17+ yrs', label: 'UX, product & engineering' },
+  { value: '50+', label: 'Global conference talks' },
+];
+---
+
+<BaseLayout
+  title="About"
+  header="light"
+  description="Marcin Treder — technology executive with 17+ years across user experience, product and engineering: founding CEO of UXPin, Director at Google, author."
+>
+  <section class="about-head container">
+    <p class="eyebrow about-head__eyebrow">About Marcin Treder</p>
+    <h1 class="h1 about-head__title">Founder, builder, servant leader, forever student.</h1>
+  </section>
+
+  <section class="about-body container grid grid--halves">
+    <figure class="portrait">
+      <div class="portrait__frame">
+        <img
+          src="/img/treder_keynote.webp"
+          alt="Marcin Treder speaking at Google Play Playtime"
+          width="1000"
+          height="1250"
+          decoding="async"
+        />
+        <span class="portrait__duotone"></span>
+        <span class="portrait__fade"></span>
+      </div>
+      <figcaption class="portrait__caption">
+        Keynote at Playtime — launching the reimagined Google Play Games.
+      </figcaption>
+    </figure>
+
+    <div class="bio">
+      <p class="bio__lede">
+        A versatile technology executive with 17+ years of experience leading teams at the
+        intersection of user experience, product and engineering.
+      </p>
+
+      <div class="prose bio__prose">
+        <p>
+          My career spans a full founder-to-acquisition journey as CEO of UXPin, and senior
+          leadership at global scale as a Director at Google. My current focus is applying that
+          blend of experience to define the future of software through AI — the subject of my
+          forthcoming book, <a class="bio__link" href="/book">The AI Handbook for Product Design</a
+          >.
+        </p>
+        <p>
+          Outside of work: a proud dad, a guitarist for over 25 years, and a relentless tinkerer.
+        </p>
+      </div>
+
+      <div class="creds">
+        {
+          credentials.map((cred) => (
+            <div class="cred">
+              <h2 class="label cred__label">{cred.label}</h2>
+              <p class="cred__text">{cred.text}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="card-strip card-strip--2 stats">
+        {
+          stats.map((stat) => (
+            <div class="stat">
+              <div class="stat__value">{stat.value}</div>
+              <div class="stat__label">{stat.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section--dark ethos">
+    <div class="container ethos__inner">
+      <p class="eyebrow eyebrow--gold ethos__eyebrow">My design ethos</p>
+      <h2 class="h2 ethos__title">
+        Great software exists where technology aligns with human intent.
+      </h2>
+
+      <div class="card-strip card-strip--3">
+        {
+          ethos.map((item) => (
+            <article class="ethos-card">
+              <div class="numeral ethos-card__n">{item.n}</div>
+              <p class="eyebrow eyebrow--gold ethos-card__label">{item.label}</p>
+              <h3 class="h3 ethos-card__title">{item.title}</h3>
+              <p class="ethos-card__text">{item.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ------------------------------------------------------------ page head */
+  .about-head {
+    padding-block: 90px 20px;
+  }
+
+  .about-head__eyebrow {
+    margin-bottom: 28px;
+  }
+
+  .about-head__title {
+    max-width: 16ch;
+  }
+
+  /* ------------------------------------------------------- portrait + bio */
+  .about-body {
+    padding-block: 56px 40px;
+    align-items: start;
+  }
+
+  .portrait {
+    position: sticky;
+    top: 110px;
+    margin: 0;
+  }
+
+  /* The duotone: a greyscaled photo under a gold `color` blend, boxed by the
+     offset gold shadow. `isolation` keeps the blend inside the frame. */
+  .portrait__frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: var(--ink-deep);
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: 18px 18px 0 var(--gold);
+  }
+
+  .portrait__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1) contrast(1.08) brightness(0.94);
+  }
+
+  .portrait__duotone {
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    mix-blend-mode: color;
+    pointer-events: none;
+  }
+
+  .portrait__fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 50%,
+      color-mix(in srgb, var(--ink-deep) 50%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
+  .portrait__caption {
+    display: block;
+    margin-top: 30px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-on-light-soft);
+    max-width: 34ch;
+  }
+
+  .bio__lede {
+    font-size: 20px;
+    font-weight: var(--w-light);
+    line-height: 1.65;
+    color: var(--text-on-light-muted);
+    margin-bottom: 22px;
+  }
+
+  .bio__prose {
+    margin-bottom: 40px;
+  }
+
+  .bio__link {
+    border-bottom: 1px dotted currentcolor;
+    color: var(--rust);
+  }
+
+  .bio__link:hover {
+    color: var(--gold);
+  }
+
+  /* --------------------------------------------------------- credentials */
+  .creds {
+    margin-bottom: 40px;
+  }
+
+  .cred {
+    padding-block: 26px;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .cred:last-child {
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .cred__label {
+    color: var(--rust);
+    margin-bottom: 12px;
+  }
+
+  .cred__text {
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.7;
+    color: var(--text-on-light-muted);
+  }
+
+  /* --------------------------------------------------------------- stats */
+  .stat {
+    padding: 24px;
+  }
+
+  .stat__value {
+    font-weight: var(--w-black);
+    font-size: 30px;
+    letter-spacing: -0.02em;
+  }
+
+  .stat__label {
+    font-size: 13px;
+    color: var(--text-on-light-soft);
+    margin-top: 6px;
+  }
+
+  /* --------------------------------------------------------------- ethos */
+  .ethos {
+    margin-top: 90px;
+  }
+
+  .ethos__inner {
+    padding-block: 90px;
+  }
+
+  .ethos__eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .ethos__title {
+    max-width: 20ch;
+    margin-bottom: 60px;
+  }
+
+  .ethos-card {
+    padding: 40px 32px;
+  }
+
+  .ethos-card__n {
+    color: var(--gold-deep);
+    margin-bottom: 24px;
+  }
+
+  .ethos-card__label {
+    letter-spacing: 0.18em;
+    margin-bottom: 12px;
+  }
+
+  .ethos-card__title {
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+  }
+
+  .ethos-card__text {
+    font-size: 15px;
+    font-weight: var(--w-light);
+    line-height: 1.65;
+    color: var(--text-on-dark-soft);
+  }
+
+  /* --------------------------------------------------------- responsive */
+  @media (max-width: 860px) {
+    /* Single column below this width, so the portrait has nothing to stick to. */
+    .portrait {
+      position: static;
+    }
+
+    .portrait__frame {
+      box-shadow: 12px 12px 0 var(--gold);
+    }
+
+    .ethos {
+      margin-top: 64px;
+    }
+
+    .ethos__inner {
+      padding-block: 64px;
+    }
+
+    .ethos__title {
+      margin-bottom: 40px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about-head {
+      padding-block: 56px 12px;
+    }
+
+    .about-body {
+      padding-block: 40px 32px;
+    }
+
+    .ethos-card {
+      padding: 32px 24px;
+    }
+  }
+</style>

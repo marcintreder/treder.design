@@ -1,0 +1,537 @@
+---
+/**
+ * Blog admin console.
+ *
+ * Server-rendered on every request and gated on an HMAC-signed session cookie.
+ * When the request is not authenticated the page renders the password form and
+ * nothing else — no titles, no slugs, no counts — so a locked response simply
+ * does not contain the data. Everything that mutates is a real form POST to a
+ * route that re-checks the session itself; this page's own check is only what
+ * decides whether to draw the controls.
+ */
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { isAdmin, ADMIN_COOKIE } from '../../lib/admin';
+import { sql, hasDatabase } from '../../lib/db';
+import { formatDate, kindLabel, type PostKind, type PostStatus } from '../../lib/posts';
+
+interface AdminRow {
+  slug: string;
+  title: string;
+  kind: PostKind;
+  status: PostStatus;
+  publishedAt: string | null;
+  updatedAt: string;
+}
+
+let authed = false;
+try {
+  authed = await isAdmin(Astro.cookies.get(ADMIN_COOKIE)?.value);
+} catch {
+  // No signing secret / no password configured — fail closed.
+  authed = false;
+}
+
+// Never let a CDN or shared cache hand an authenticated page to the next visitor.
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Vary', 'Cookie');
+
+const showError = Astro.url.searchParams.get('error') === '1';
+const justDeleted = Astro.url.searchParams.get('deleted') === '1';
+const confirmSlug = Astro.url.searchParams.get('confirm');
+
+let posts: AdminRow[] = [];
+let dbMissing = false;
+
+if (authed) {
+  if (!hasDatabase()) {
+    dbMissing = true;
+  } else {
+    /* Drafts included — that is the whole point of this screen. Newest first by
+       publication, falling back to creation so unpublished drafts still sort. */
+    const rows = await sql()`
+      SELECT slug, title, kind, status, published_at, updated_at
+        FROM posts
+       ORDER BY published_at DESC NULLS FIRST, created_at DESC`;
+
+    posts = rows.map((r) => ({
+      slug: r.slug,
+      title: r.title,
+      kind: r.kind,
+      status: r.status,
+      publishedAt: r.published_at ? new Date(r.published_at).toISOString() : null,
+      updatedAt: new Date(r.updated_at).toISOString(),
+    }));
+  }
+}
+
+// Only ever a post that actually exists, so the confirm screen cannot be made
+// to name something arbitrary through the query string.
+const pendingDelete = confirmSlug ? (posts.find((p) => p.slug === confirmSlug) ?? null) : null;
+
+const publishedCount = posts.filter((p) => p.status === 'published').length;
+const draftCount = posts.length - publishedCount;
+---
+
+<BaseLayout title="Admin" description="Blog administration.">
+  <meta slot="head" name="robots" content="noindex, nofollow, noarchive" />
+
+  {
+    !authed ? (
+      <section class="container--reading gate">
+        <p class="eyebrow">Restricted</p>
+        <h1 class="gate__title">Admin</h1>
+        <p class="gate__copy">This area manages the blog. Enter the admin password to continue.</p>
+
+        <form class="gate__form" method="post" action="/api/admin/login">
+          <input type="hidden" name="redirect" value="/admin" />
+          <label class="field__label" for="admin-password">
+            Password
+          </label>
+          <input
+            class="field__input"
+            id="admin-password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          />
+          <button class="btn btn--dark" type="submit">
+            Sign in
+          </button>
+        </form>
+
+        {showError && (
+          <p class="msg msg--error" role="alert">
+            That password is not right. Try again.
+          </p>
+        )}
+      </section>
+    ) : (
+      <section class="container admin">
+        <header class="admin__head">
+          <div>
+            <p class="eyebrow">Blog administration</p>
+            <h1 class="admin__title">Posts</h1>
+            <p class="admin__count">
+              {posts.length} total &middot; {publishedCount} published &middot; {draftCount} draft
+            </p>
+          </div>
+
+          <form method="post" action="/api/admin/logout">
+            <button class="btn btn--ghost-light" type="submit">
+              Log out
+            </button>
+          </form>
+        </header>
+
+        {justDeleted && (
+          <p class="msg msg--ok" role="status">
+            Post deleted.
+          </p>
+        )}
+
+        {dbMissing && (
+          <p class="msg msg--error" role="alert">
+            DATABASE_URL is not set, so there is nothing to manage here.
+          </p>
+        )}
+
+        {pendingDelete && (
+          <div class="confirm" role="alertdialog" aria-labelledby="confirm-title">
+            <h2 class="confirm__title" id="confirm-title">
+              Delete “{pendingDelete.title}”?
+            </h2>
+            <p class="confirm__copy">
+              This permanently removes the post <code>{pendingDelete.slug}</code> from the database,
+              including its full text. It cannot be undone and there is no backup — the post is
+              gone, and any link to it will 404.
+            </p>
+            <div class="confirm__actions">
+              <form method="post" action="/api/admin/delete">
+                <input type="hidden" name="slug" value={pendingDelete.slug} />
+                <input type="hidden" name="confirm" value={pendingDelete.slug} />
+                <button class="btn btn--danger" type="submit">
+                  Yes, delete permanently
+                </button>
+              </form>
+              <a class="btn btn--ghost-light" href="/admin">
+                Cancel
+              </a>
+            </div>
+          </div>
+        )}
+
+        {posts.length === 0 && !dbMissing ? (
+          <p class="empty">No posts yet.</p>
+        ) : (
+          <ul class="rows">
+            {posts.map((post) => (
+              <li class:list={['row', post.slug === confirmSlug && 'row--pending']}>
+                <div class="row__main">
+                  <h2 class="row__title">{post.title}</h2>
+                  <p class="row__meta">
+                    <span class:list={['pill', `pill--${post.status}`]}>{post.status}</span>
+                    <span class="row__kind">{kindLabel(post.kind)}</span>
+                    <code class="row__slug">/{post.slug}</code>
+                    <span class="row__date">
+                      {post.publishedAt ? formatDate(post.publishedAt) : 'Unpublished'}
+                    </span>
+                  </p>
+                </div>
+
+                <div class="row__actions">
+                  <a class="act act--view" href={`/blog/${post.slug}`}>
+                    View
+                  </a>
+
+                  <form method="post" action="/api/admin/toggle">
+                    <input type="hidden" name="slug" value={post.slug} />
+                    <button class="act" type="submit">
+                      {post.status === 'published' ? 'Unpublish' : 'Publish'}
+                    </button>
+                  </form>
+
+                  {/* A GET back to this page — the destructive step lives behind
+                      the confirmation screen it lands on, not behind a dialog. */}
+                  <form method="get" action="/admin">
+                    <input type="hidden" name="confirm" value={post.slug} />
+                    <button class="act act--danger" type="submit">
+                      Delete
+                    </button>
+                  </form>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  /* Utilitarian on purpose: this is a tool. Same type ramp, palette and
+     hairline rules as the rest of the site, none of the marketing scale. */
+
+  /* ------------------------------------------------------------- gate */
+  .gate {
+    padding-block: 90px 120px;
+    max-width: 460px;
+  }
+
+  .gate .eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .gate__title {
+    font-weight: var(--w-black);
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .gate__copy {
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+    margin-bottom: 32px;
+  }
+
+  .gate__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .field__label {
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-on-light-soft);
+  }
+
+  .field__input {
+    min-height: 52px;
+    padding-inline: 16px;
+    border: 1px solid var(--border-input);
+    background: var(--paper);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--text-on-light);
+    outline: none;
+  }
+
+  .field__input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
+  .gate__form .btn {
+    margin-top: 6px;
+  }
+
+  /* ---------------------------------------------------------- messages */
+  .msg {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    border-left: 3px solid var(--gold);
+    background: var(--paper-warm);
+    color: var(--text-on-light-muted);
+  }
+
+  .msg--error {
+    border-left-color: var(--rust);
+    color: var(--rust);
+  }
+
+  .msg--ok {
+    border-left-color: var(--gold-deep);
+  }
+
+  .gate .msg {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+
+  /* ------------------------------------------------------------ layout */
+  .admin {
+    padding-block: 70px 100px;
+  }
+
+  .admin__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 26px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .admin__head .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .admin__title {
+    font-weight: var(--w-black);
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .admin__count {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text-on-light-faint);
+  }
+
+  .admin__head .btn {
+    min-height: 44px;
+    flex: none;
+  }
+
+  .empty {
+    padding: 40px 0;
+    font-size: 16px;
+    font-weight: var(--w-light);
+    color: var(--text-on-light-soft);
+  }
+
+  /* ----------------------------------------------------------- confirm */
+  .confirm {
+    border: 1px solid var(--rust);
+    padding: 26px 24px;
+    margin-bottom: 32px;
+    background: var(--paper-warm);
+  }
+
+  .confirm__title {
+    font-weight: var(--w-bold);
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+
+  .confirm__copy {
+    font-size: 15px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+    max-width: 62ch;
+    margin-bottom: 22px;
+  }
+
+  .confirm__copy code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  .confirm__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .confirm__actions .btn {
+    min-height: 46px;
+  }
+
+  .btn--danger {
+    background: var(--rust);
+    color: var(--paper);
+  }
+
+  .btn--danger:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* -------------------------------------------------------------- rows */
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .row--pending {
+    background: var(--paper-hover);
+  }
+
+  .row__main {
+    min-width: 0;
+  }
+
+  .row__title {
+    font-weight: var(--w-medium);
+    font-size: 17px;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  .row__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+    font-size: 13px;
+    font-weight: var(--w-light);
+    color: var(--text-on-light-soft);
+  }
+
+  .row__slug {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-on-light-faint);
+    overflow-wrap: anywhere;
+  }
+
+  .row__date {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-on-light-faint);
+  }
+
+  .pill {
+    font-size: 10px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid var(--border-input);
+    color: var(--text-on-light-soft);
+  }
+
+  .pill--published {
+    border-color: var(--gold-deep);
+    color: var(--rust);
+  }
+
+  .row__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .act {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding-inline: 14px;
+    border: 1px solid var(--border-input);
+    background: transparent;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-on-light);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .act:hover {
+    border-color: var(--rust);
+    color: var(--rust);
+  }
+
+  .act--danger:hover {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: var(--paper);
+  }
+
+  /* -------------------------------------------------------- responsive */
+  @media (max-width: 720px) {
+    .admin {
+      padding-block: 50px 80px;
+    }
+
+    .admin__head {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .admin__title {
+      font-size: 32px;
+    }
+
+    .row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+    }
+
+    .row__actions {
+      flex-wrap: wrap;
+    }
+
+    .act {
+      flex: 1;
+      min-height: 44px;
+    }
+  }
+</style>

@@ -1,0 +1,474 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import { parts } from '../data/book';
+import { elsewhere } from '../lib/site';
+
+const chapterCount = parts.reduce((total, part) => total + part.chapters.length, 0);
+
+/** "Readers will learn to" — the five promises under the hero. */
+const learn = [
+  'Bridge theory and practice — translate ideas from classic ML to RAG and agentic systems into product and UX strategy.',
+  'Recognize emerging AI design patterns and understand their technical and experiential logic.',
+  'Navigate ethics and trust — design for safety, transparency and explainability.',
+  'Apply universal principles of AI-first design, grounded in human cognition, prediction and interaction.',
+  'Future-proof their careers by developing the skills to lead product innovation in the era of intelligent interfaces.',
+];
+
+---
+
+<BaseLayout
+  title="The AI Handbook for Product Design"
+  header="dark"
+  description="The AI Handbook for Product Design — how AI is transforming UX, and how UX shapes the future of AI. A forthcoming book by Marcin Treder (Apress)."
+>
+  <section class="section--black book-hero">
+    <div class="container book-hero__inner">
+      <div class="cover">
+        <p class="eyebrow eyebrow--muted cover__imprint">Apress · In progress</p>
+        <div>
+          <span class="cover__mark" aria-hidden="true">
+            <span class="cover__mark-right"></span>
+            <span class="cover__mark-left"></span>
+          </span>
+          <p class="cover__title">The AI<br />Handbook<br />for Product<br />Design</p>
+          <p class="eyebrow eyebrow--muted cover__note">Working title</p>
+        </div>
+        <p class="cover__author">Marcin Treder</p>
+      </div>
+
+      <div class="book-intro">
+        <p class="eyebrow eyebrow--gold book-intro__eyebrow">The Book</p>
+        <h1 class="h1 book-intro__title">The AI Handbook for Product Design</h1>
+        <p class="eyebrow eyebrow--muted book-intro__note">Working title</p>
+        <p class="book-intro__lede">
+          How AI is transforming UX — and how UX shapes the future of AI.
+        </p>
+        <p class="book-intro__text">
+          Unlike books that treat AI as a feature set or a passing trend, this one bridges cognitive
+          science, computational theory and design ethics to define what it means to build
+          human-centered, adaptive and trustworthy AI products.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--gold" href="/blog">Read the book notes</a>
+          <a class="btn btn--ghost" href={elsewhere.linkedin} target="_blank" rel="noopener noreferrer">
+            Get notified
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container why">
+    <div class="why__intro">
+      <p class="eyebrow why__eyebrow">Why this book</p>
+      <h2 class="h2 h2--sm why__title">Go deeper than the tools.</h2>
+      <p class="why__text">
+        Software is shifting from the deterministic model we know to indeterministic computing. This
+        book gives designers, researchers and product managers the in-depth, practical knowledge to
+        navigate it — not by following trends, but by truly understanding how modern AI works.
+      </p>
+    </div>
+
+    <div>
+      <p class="eyebrow learn__eyebrow">Readers will learn to</p>
+      <ol class="learn">
+        {
+          learn.map((item, i) => (
+            <li class="learn__item">
+              <span class="learn__n" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <p class="learn__text">{item}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="container toc">
+    <div class="toc__head">
+      <p class="eyebrow toc__eyebrow">Contents</p>
+      <h2 class="h2">Four parts, {chapterCount === 16 ? 'sixteen' : chapterCount} chapters.</h2>
+    </div>
+
+    {
+      parts.map((part) => (
+        <div class="part">
+          <div>
+            <p class="part__n">PART {part.n}</p>
+            <h3 class="h3 part__title">{part.title}</h3>
+            <p class="part__sub">{part.sub}</p>
+          </div>
+          <ol class="part__chapters">
+            {part.chapters.map((chapter) => (
+              <li class="chapter">{chapter}</li>
+            ))}
+          </ol>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="container audience">
+    <div class="grid grid--halves audience__inner">
+      <div>
+        <p class="eyebrow audience__eyebrow">Who it’s for</p>
+        <h2 class="h2 h2--sm audience__title">
+          If you build user-centered software with the best of modern AI, this book is for you.
+        </h2>
+      </div>
+      <p class="audience__text">
+        Written for UX professionals, product managers and entrepreneurs. If you’ve worked on
+        software in any user-facing role, you already have enough foundation to benefit — the harder
+        ideas are explained from the ground up, assuming no prior knowledge, with pointers for the
+        curious who want to go deeper.
+      </p>
+    </div>
+  </section>
+
+  <NewsletterSignup tone="dark" />
+</BaseLayout>
+
+<style>
+  /* ----------------------------------------------------------------- hero */
+  .book-hero__inner {
+    padding-block: 150px 96px;
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 70px;
+    align-items: center;
+  }
+
+  /* Stand-in for the physical jacket: an empty frame with the mark, the title
+     and the byline pinned to the three edges. */
+  .cover {
+    aspect-ratio: 3 / 4;
+    background: var(--ink);
+    border: 1px solid var(--rule-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px;
+    box-shadow: 24px 24px 0 color-mix(in srgb, var(--gold) 40%, transparent);
+  }
+
+  .cover__imprint {
+    font-size: 11px;
+    font-weight: var(--w-medium);
+    color: var(--text-on-dark-faint);
+  }
+
+  .cover__mark {
+    position: relative;
+    display: block;
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--gold);
+    margin-bottom: 30px;
+  }
+
+  .cover__mark-right {
+    position: absolute;
+    inset: 11px 11px 11px 50%;
+    background: var(--gold);
+    border-radius: 0 100px 100px 0;
+  }
+
+  .cover__mark-left {
+    position: absolute;
+    inset: 11px 50% 11px 11px;
+    background: var(--rust);
+    border-radius: 100px 0 0 100px;
+  }
+
+  .cover__title {
+    font-weight: var(--w-black);
+    font-size: 38px;
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+  }
+
+  .cover__note,
+  .book-intro__note {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+  }
+
+  .cover__note {
+    margin-top: 18px;
+  }
+
+  .cover__author {
+    font-size: 13px;
+    font-weight: var(--w-light);
+    color: var(--text-on-dark-muted);
+  }
+
+  .book-intro__eyebrow {
+    margin-bottom: 24px;
+  }
+
+  .book-intro__title {
+    font-size: clamp(34px, 4.6vw, 66px);
+    line-height: 0.94;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+  }
+
+  .book-intro__note {
+    font-size: 12px;
+    margin-bottom: 24px;
+  }
+
+  .book-intro__lede {
+    font-size: 21px;
+    font-weight: var(--w-light);
+    line-height: 1.4;
+    color: var(--text-on-dark-muted);
+    max-width: 34ch;
+    margin-bottom: 32px;
+  }
+
+  .book-intro__text {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.75;
+    color: var(--text-on-dark-soft);
+    max-width: 58ch;
+    margin-bottom: 36px;
+  }
+
+  /* ---------------------------------------------------------- why / learn */
+  .why {
+    padding-block: 90px 30px;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 70px;
+    align-items: start;
+  }
+
+  .why__intro {
+    position: sticky;
+    top: 110px;
+  }
+
+  .why__eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .why__title {
+    margin-bottom: 24px;
+  }
+
+  .why__text {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.75;
+    color: var(--text-on-light-muted);
+  }
+
+  .learn__eyebrow {
+    color: var(--text-on-light-soft);
+    letter-spacing: 0.18em;
+    margin-bottom: 8px;
+  }
+
+  .learn {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .learn__item {
+    display: flex;
+    gap: 20px;
+    padding-block: 22px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .learn__item:last-child {
+    border-bottom: none;
+  }
+
+  .learn__n {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--gold);
+    padding-top: 3px;
+  }
+
+  .learn__text {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.55;
+    color: var(--text-on-light);
+  }
+
+  /* ------------------------------------------------------------- contents */
+  .toc {
+    padding-block: 70px 40px;
+  }
+
+  .toc__head {
+    border-bottom: 1px solid var(--rule-light);
+    padding-bottom: 22px;
+    margin-bottom: 14px;
+  }
+
+  .toc__eyebrow {
+    margin-bottom: 14px;
+  }
+
+  .part {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 48px;
+    padding-block: 40px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .part__n {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-on-light-soft);
+    margin-bottom: 16px;
+  }
+
+  .part__title {
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .part__sub {
+    font-size: 15px;
+    font-weight: var(--w-light);
+    line-height: 1.5;
+    color: var(--text-on-light-soft);
+    max-width: 34ch;
+  }
+
+  .part__chapters {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .chapter {
+    font-size: 17px;
+    font-weight: var(--w-regular);
+    color: var(--text-on-light);
+    padding-block: 13px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  /* ------------------------------------------------------------- audience */
+  .audience {
+    padding-block: 50px 90px;
+  }
+
+  .audience__inner {
+    background: var(--paper-sand);
+    padding: 56px 48px;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .audience__eyebrow {
+    margin-bottom: 18px;
+  }
+
+  .audience__title {
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.05;
+  }
+
+  .audience__text {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.75;
+    color: var(--text-on-light-muted);
+  }
+
+
+  /* ------------------------------------------------------------ responsive */
+  @media (max-width: 1024px) {
+    .book-hero__inner {
+      gap: 48px;
+    }
+
+    .why {
+      gap: 48px;
+    }
+
+    .part {
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .book-hero__inner {
+      grid-template-columns: 1fr;
+      padding-block: 130px 64px;
+      gap: 44px;
+    }
+
+    .cover {
+      max-width: 380px;
+      box-shadow: 16px 16px 0 color-mix(in srgb, var(--gold) 40%, transparent);
+    }
+
+    .why {
+      grid-template-columns: 1fr;
+      padding-block: 64px 20px;
+      gap: 36px;
+    }
+
+    .why__intro {
+      position: static;
+    }
+
+    .part {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .audience {
+      padding-block: 40px 64px;
+    }
+
+    .audience__inner {
+      padding: 40px 28px;
+    }
+
+    .news__inner {
+      padding-block: 64px;
+    }
+
+    .news__cta {
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cover {
+      padding: 28px;
+    }
+
+    .cover__title {
+      font-size: 32px;
+    }
+
+    .toc {
+      padding-block: 48px 24px;
+    }
+
+    .news-card {
+      padding: 28px 24px;
+    }
+  }
+</style>

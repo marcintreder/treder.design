@@ -1,0 +1,204 @@
+---
+/**
+ * A single row in a list of case studies.
+ *
+ * Two densities share one grid so the home page and the portfolio index stay
+ * visually related:
+ *   'compact' — number, 80px thumb, title, meta, arrow   (home "Selected work")
+ *   'full'    — number, 150px thumb, title, org/years/Protected, lede, arrow
+ *               (the /portfolio index)
+ *
+ * The heading level follows the variant: on the portfolio index each case is a
+ * top-level entry under the page <h1>, so it gets an <h2>; on the home page the
+ * rows sit under the "Selected work" <h2>, so they get an <h3>.
+ */
+import type { CaseStudy } from '../data/cases';
+
+interface Props {
+  caseStudy: CaseStudy;
+  variant?: 'compact' | 'full';
+}
+
+const { caseStudy, variant = 'compact' } = Astro.props;
+const { slug, n, title, org, years, role, lede, hero, confidential } = caseStudy;
+
+const isFull = variant === 'full';
+const TitleTag = isFull ? 'h2' : 'h3';
+
+/* Dynamic, so it has to be an inline style. */
+const thumbStyle = hero ? { 'background-image': `url("${hero}")` } : undefined;
+---
+
+<a class:list={['case-row', `case-row--${variant}`]} href={`/portfolio/${slug}`}>
+  <span class="case-row__n">{n}</span>
+
+  <div class="case-row__thumb" style={thumbStyle} aria-hidden="true"></div>
+
+  <div class="case-row__body">
+    <TitleTag class:list={['case-row__title', isFull ? 'case-row__title--full' : 'h3']}>
+      {title}
+    </TitleTag>
+
+    {
+      isFull ? (
+        <div class="case-row__meta case-row__meta--full">
+          <span class="case-row__org">{org}</span>
+          <span aria-hidden="true">&middot;</span>
+          <span>{years}</span>
+          {confidential && <span class="case-row__badge">Protected</span>}
+        </div>
+      ) : (
+        <p class="case-row__meta">
+          {org} &middot; {years} &middot; {role}
+        </p>
+      )
+    }
+  </div>
+
+  {isFull && <p class="case-row__lede">{lede}</p>}
+
+  <span class="case-row__arrow" aria-hidden="true">&rarr;</span>
+</a>
+
+<style>
+  .case-row {
+    display: grid;
+    align-items: center;
+    width: 100%;
+    color: var(--text-on-light);
+    transition: background-color var(--t-fast);
+  }
+
+  .case-row:hover {
+    background: var(--paper-hover);
+    color: var(--text-on-light);
+  }
+
+  .case-row--compact {
+    grid-template-columns: 64px 132px 1fr auto;
+    gap: 28px;
+    padding-block: 26px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .case-row--full {
+    grid-template-columns: 80px 220px 1.1fr 1.15fr auto;
+    gap: 36px;
+    align-items: start;
+    padding-block: 40px;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .case-row__n {
+    font-family: var(--font-mono);
+    font-weight: var(--w-black);
+    color: var(--text-on-light-faint);
+  }
+
+  .case-row--compact .case-row__n {
+    font-size: 20px;
+  }
+
+  .case-row--full .case-row__n {
+    font-size: 24px;
+    padding-top: 6px;
+  }
+
+  /* The thumbnail is decorative: the row's own title already names the case. */
+  .case-row__thumb {
+    border: 1px solid var(--rule-light);
+    background-color: var(--paper-sand);
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .case-row--compact .case-row__thumb {
+    height: 80px;
+  }
+
+  .case-row--full .case-row__thumb {
+    height: 150px;
+  }
+
+  .case-row__title--full {
+    font-weight: var(--w-black);
+    font-size: clamp(24px, 2.8vw, 36px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+
+  .case-row__meta {
+    margin-top: 8px;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--text-on-light-soft);
+  }
+
+  .case-row__meta--full {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .case-row__org {
+    color: var(--rust);
+    font-weight: var(--w-medium);
+  }
+
+  .case-row__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--border-input);
+    padding: 3px 9px;
+    letter-spacing: 0.1em;
+    color: var(--rust);
+  }
+
+  .case-row__lede {
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.65;
+    color: var(--text-on-light-muted);
+  }
+
+  .case-row__arrow {
+    font-size: 22px;
+    color: var(--gold);
+  }
+
+  .case-row--full .case-row__arrow {
+    padding-top: 2px;
+  }
+
+  /* Below 860 the row collapses to thumb + copy; the number and the arrow are
+     pure ornament, so they drop out rather than eating the width. */
+  @media (max-width: 860px) {
+    .case-row {
+      grid-template-columns: 120px 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .case-row__n,
+    .case-row__arrow {
+      display: none;
+    }
+
+    .case-row__lede {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .case-row {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+</style>

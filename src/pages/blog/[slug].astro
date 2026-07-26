@@ -1,0 +1,523 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPost, formatDate, readingTime, kindLabel } from '../../lib/posts';
+import { renderMarkdown, autoExcerpt } from '../../lib/markdown';
+import { site } from '../../lib/site';
+
+/* Database-backed: a post published through the MCP endpoint must be live on
+   the very next request, with no rebuild. */
+export const prerender = false;
+
+const { slug } = Astro.params;
+const post = slug ? await getPost(slug) : null;
+
+/*
+ * An unknown slug is a genuine 404, not a redirect. `Astro.rewrite('/404')` is
+ * not available here: /404 is prerendered and Astro forbids an on-demand route
+ * rewriting to a static one, so the status is set on this response and the
+ * not-found view is rendered in place.
+ */
+if (!post) {
+  Astro.response.status = 404;
+  Astro.response.statusText = 'Not Found';
+}
+
+/*
+ * The prototype carried a separate `quote` field. In Postgres it is stored the
+ * way `scripts/seed.mjs` writes it — as a blockquote at the very top of the
+ * Markdown — so we lift that leading blockquote back out and render it as the
+ * pull-quote, leaving the rest of the body untouched.
+ */
+const splitPullQuote = (md: string): { quote: string | null; rest: string } => {
+  const lines = md.split('\n');
+  let i = 0;
+  while (i < lines.length && lines[i].trim() === '') i += 1;
+
+  const quoted: string[] = [];
+  while (i < lines.length && lines[i].trimStart().startsWith('>')) {
+    quoted.push(lines[i].replace(/^\s*>\s?/, ''));
+    i += 1;
+  }
+  if (!quoted.length) return { quote: null, rest: md };
+
+  const quote = quoted
+    .join(' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^[“"”]+|[“"”]+$/g, '');
+  return { quote: quote || null, rest: lines.slice(i).join('\n').trim() };
+};
+
+/* Everything the article needs, computed only when there is a post — which is
+   also what narrows `post` for TypeScript inside the template below. */
+const view =
+  post &&
+  (() => {
+    const { quote, rest } = splitPullQuote(post.bodyMd);
+    const excerpt = post.excerpt ?? autoExcerpt(rest);
+    const canonical = new URL(`/blog/${post.slug}`, site.url).href;
+
+    return {
+      label: kindLabel(post.kind),
+      date: formatDate(post.publishedAt),
+      read: readingTime(post),
+      pullQuote: quote,
+      excerpt,
+      body: renderMarkdown(rest),
+      jsonLd: {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: excerpt,
+        datePublished: post.publishedAt ?? post.createdAt,
+        dateModified: post.updatedAt,
+        mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+        url: canonical,
+        author: { '@type': 'Person', name: site.author, url: site.url },
+        publisher: { '@type': 'Person', name: site.author, url: site.url },
+        ...(post.coverImage ? { image: new URL(post.coverImage, site.url).href } : {}),
+        ...(post.tags.length ? { keywords: post.tags.join(', ') } : {}),
+        articleSection: kindLabel(post.kind),
+      },
+    };
+  })();
+---
+
+{
+  !view && (
+    <BaseLayout
+      title="Post not found"
+      description="That post does not exist — it may have been renamed or unpublished."
+    >
+      <section class="container missing">
+        <p class="eyebrow">Error 404</p>
+        <h1 class="missing__title">No post at this address.</h1>
+        <p class="lede missing__lede">
+          The link may be old, or the piece was renamed or unpublished. The rest of the writing is
+          still where you left it.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--dark" href="/blog">All writing</a>
+          <a class="btn btn--ghost-light" href="/">Back home</a>
+        </div>
+      </section>
+    </BaseLayout>
+  )
+}
+
+{
+  post && view && (
+    <BaseLayout
+      title={post.title}
+      description={view.excerpt}
+      ogImage={post.coverImage ?? undefined}
+      article={{ publishedAt: post.publishedAt, kind: post.kind }}
+    >
+      <script
+        slot="head"
+        type="application/ld+json"
+        set:html={JSON.stringify(view.jsonLd)}
+        is:inline
+      />
+
+      <article class="container--reading post">
+        <nav class="post__crumbs" aria-label="Breadcrumb">
+          <a href="/blog">Blog</a>
+          <span aria-hidden="true">/</span>
+          <span>{view.label}</span>
+        </nav>
+
+        <div class="post__meta">
+          <span class="post__badge">{view.label}</span>
+          <span class="post__stamp">
+            {view.date} &middot; {view.read}
+          </span>
+        </div>
+
+        <h1 class="post__title">{post.title}</h1>
+
+        {view.excerpt && <p class="post__excerpt">{view.excerpt}</p>}
+
+        {post.coverImage ? (
+          <img
+            class="post__cover"
+            src={post.coverImage}
+            alt=""
+            width="760"
+            height="300"
+            decoding="async"
+          />
+        ) : (
+          <div class="post__cover post__cover--placeholder" aria-hidden="true" />
+        )}
+
+        {view.pullQuote && (
+          <blockquote class="post__pull">
+            <p>&ldquo;{view.pullQuote}&rdquo;</p>
+          </blockquote>
+        )}
+
+        <div class="post__body" set:html={view.body} />
+      </article>
+
+      <div class="container--reading post__foot">
+        <div class="post__foot-inner">
+          <a class="post__back" href="/blog">
+            &larr; All writing
+          </a>
+          <a class="post__book" href="/book">
+            About the book &rarr;
+          </a>
+        </div>
+      </div>
+    </BaseLayout>
+  )
+}
+
+<style>
+  /* ---------------------------------------------------------- unknown slug */
+  .missing {
+    padding-block: 110px 130px;
+  }
+
+  .missing .eyebrow {
+    margin-bottom: 28px;
+  }
+
+  .missing__title {
+    font-weight: var(--w-black);
+    font-size: var(--size-h2);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .missing__lede {
+    max-width: 52ch;
+    margin-bottom: 40px;
+  }
+
+  /* ---------------------------------------------------------------- article */
+  .post {
+    padding-block: 70px 40px;
+  }
+
+  .post__crumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-on-light-soft);
+    margin-bottom: 44px;
+  }
+
+  .post__crumbs a {
+    color: var(--rust);
+    letter-spacing: 0.04em;
+  }
+
+  .post__crumbs a:hover {
+    color: var(--gold);
+  }
+
+  .post__meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+  }
+
+  .post__badge {
+    background: var(--ink);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+  }
+
+  .post__stamp {
+    font-size: 14px;
+    color: var(--text-on-light-soft);
+  }
+
+  .post__title {
+    margin-bottom: 24px;
+    font-weight: var(--w-black);
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+
+  .post__excerpt {
+    margin-bottom: 40px;
+    font-size: 20px;
+    font-weight: var(--w-light);
+    line-height: 1.55;
+    color: var(--text-on-light-muted);
+  }
+
+  .post__cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border: 1px solid var(--rule-light);
+    margin-bottom: 50px;
+  }
+
+  .post__cover--placeholder {
+    background-image: repeating-linear-gradient(
+      135deg,
+      var(--paper-sand) 0 14px,
+      var(--paper-warm) 14px 28px
+    );
+  }
+
+  /* ------------------------------------------------------------- pull quote */
+  .post__pull {
+    margin: 0 0 44px;
+    padding: 8px 0 8px 32px;
+    border-left: 3px solid var(--gold);
+  }
+
+  .post__pull p {
+    font-weight: var(--w-bold);
+    font-size: 26px;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  /* ------------------------------------------------------------------ body */
+  /*
+   * The prototype only ever rendered plain paragraphs; posts are Markdown now,
+   * so the full element set is styled here against the same type scale.
+   * `:global()` is required because `set:html` output carries no scope
+   * attribute.
+   */
+  .post__body {
+    font-size: 19px;
+    font-weight: var(--w-light);
+    line-height: 1.75;
+    color: var(--text-on-light);
+  }
+
+  .post__body :global(p) {
+    margin: 0 0 26px;
+    font-size: 19px;
+    font-weight: var(--w-light);
+    line-height: 1.75;
+    color: var(--text-on-light);
+  }
+
+  .post__body :global(h2) {
+    margin: 52px 0 18px;
+    font-weight: var(--w-black);
+    font-size: clamp(26px, 3vw, 34px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text-on-light);
+  }
+
+  .post__body :global(h3) {
+    margin: 40px 0 14px;
+    font-weight: var(--w-black);
+    font-size: 22px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--text-on-light);
+  }
+
+  .post__body :global(h4) {
+    margin: 34px 0 12px;
+    font-size: 13px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .post__body :global(ul),
+  .post__body :global(ol) {
+    margin: 0 0 26px;
+    padding-left: 24px;
+  }
+
+  .post__body :global(li) {
+    margin-bottom: 10px;
+    font-size: 19px;
+    font-weight: var(--w-light);
+    line-height: 1.7;
+    color: var(--text-on-light);
+  }
+
+  .post__body :global(li::marker) {
+    color: var(--gold-deep);
+  }
+
+  .post__body :global(blockquote) {
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+    border-left: 3px solid var(--gold);
+  }
+
+  .post__body :global(blockquote p) {
+    font-size: 21px;
+    font-weight: var(--w-regular);
+    line-height: 1.5;
+    color: var(--text-on-light-muted);
+  }
+
+  .post__body :global(blockquote p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .post__body :global(a) {
+    color: var(--rust);
+    border-bottom: 1px solid var(--gold);
+  }
+
+  .post__body :global(a:hover) {
+    color: var(--gold);
+  }
+
+  .post__body :global(strong) {
+    font-weight: var(--w-bold);
+  }
+
+  .post__body :global(em) {
+    font-style: italic;
+  }
+
+  .post__body :global(img) {
+    width: 100%;
+    height: auto;
+    margin: 40px 0;
+    border: 1px solid var(--rule-light);
+  }
+
+  .post__body :global(figure) {
+    margin: 40px 0;
+  }
+
+  .post__body :global(figcaption) {
+    margin-top: 12px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--text-on-light-soft);
+  }
+
+  .post__body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--paper-sand);
+    padding: 2px 6px;
+    color: var(--rust);
+  }
+
+  .post__body :global(pre) {
+    margin: 0 0 30px;
+    padding: 22px 24px;
+    background: var(--ink);
+    color: var(--text-on-dark);
+    overflow-x: auto;
+  }
+
+  .post__body :global(pre code) {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .post__body :global(hr) {
+    margin: 48px 0;
+    border: none;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .post__body :global(table) {
+    width: 100%;
+    margin: 0 0 30px;
+    border-collapse: collapse;
+    font-size: 16px;
+  }
+
+  .post__body :global(th),
+  .post__body :global(td) {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .post__body :global(th) {
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  /* ------------------------------------------------------------------ foot */
+  .post__foot {
+    padding-block: 20px 70px;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .post__foot-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 32px;
+  }
+
+  .post__back {
+    font-size: 14px;
+    font-weight: var(--w-medium);
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+
+  .post__back:hover {
+    color: var(--rust);
+  }
+
+  .post__book {
+    font-size: 13px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    white-space: nowrap;
+  }
+
+  .post__book:hover {
+    color: var(--gold);
+  }
+
+  @media (max-width: 640px) {
+    .post {
+      padding-block: 48px 32px;
+    }
+
+    .post__body,
+    .post__body :global(p),
+    .post__body :global(li) {
+      font-size: 17px;
+    }
+
+    .post__excerpt {
+      font-size: 18px;
+    }
+
+    .post__foot-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+  }
+</style>

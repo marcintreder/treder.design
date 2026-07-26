@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page not found"
+  description="That page does not exist — or it moved. Head back to the homepage or the writing."
+>
+  <section class="container notfound">
+    <p class="eyebrow">Error 404</p>
+    <p class="notfound__code" aria-hidden="true">404</p>
+    <h1 class="notfound__title">This page does not exist.</h1>
+    <p class="lede notfound__lede">
+      The link is broken, the page moved, or it was never here in the first place. No harm done —
+      there is plenty else to read.
+    </p>
+    <div class="btn-row notfound__actions">
+      <a class="btn btn--dark" href="/">Back home</a>
+      <a class="btn btn--ghost-light" href="/blog">Read the blog</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding-block: 110px 130px;
+  }
+
+  .notfound .eyebrow {
+    margin-bottom: 28px;
+  }
+
+  .notfound__code {
+    font-weight: var(--w-black);
+    font-size: var(--size-hero);
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-bottom: 36px;
+  }
+
+  .notfound__title {
+    font-weight: var(--w-black);
+    font-size: var(--size-h2);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .notfound__lede {
+    max-width: 52ch;
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .notfound {
+      padding-block: 70px 90px;
+    }
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CaseRow from '../../components/CaseRow.astro';
+import { cases } from '../../data/cases';
+
+const description =
+  'Selected work by Marcin Treder — Google Play, Google Cloud, UXPin and more. Two decades of building products people love.';
+---
+
+<BaseLayout title="Portfolio" description={description}>
+  <section class="container head">
+    <p class="eyebrow head__eyebrow">Portfolio</p>
+    <h1 class="h1 head__title">Two decades of building products people love.</h1>
+    <p class="lede head__lede">
+      From a bootstrapped design tool to enterprise scale, and now the core experience of one of the
+      world&rsquo;s largest platforms. A selection of the work I&rsquo;m most proud of.
+    </p>
+  </section>
+
+  <section class="container list" aria-label="All case studies">
+    {cases.map((caseStudy) => <CaseRow caseStudy={caseStudy} variant="full" />)}
+  </section>
+</BaseLayout>
+
+<style>
+  .head {
+    padding-block: 90px 20px;
+  }
+
+  .head__eyebrow {
+    margin-bottom: 28px;
+  }
+
+  .head__title {
+    max-width: 14ch;
+    margin-bottom: 24px;
+  }
+
+  .head__lede {
+    max-width: 60ch;
+  }
+
+  .list {
+    padding-block: 40px 60px;
+  }
+
+  @media (max-width: 860px) {
+    .head {
+      padding-block: 70px 16px;
+    }
+    .list {
+      padding-block: 28px 48px;
+    }
+  }
+</style>

@@ -1,0 +1,288 @@
+---
+/**
+ * One post in a list.
+ *
+ * Three shapes, all from the prototype:
+ *  - `featured` — the big dark block ("Latest from the blog" on the home page)
+ *  - `card`     — a cell in the dark Book Notes card-strip on /blog
+ *  - `row`      — a compact light list row in "Essays & observations"
+ */
+import { formatDate, readingTime, kindLabel, type Post } from '../lib/posts';
+import { autoExcerpt } from '../lib/markdown';
+
+interface Props {
+  post: Post;
+  variant?: 'featured' | 'row' | 'card';
+  /** Sequence marker for the `card` variant, e.g. "NOTE 07". */
+  num?: string;
+  /** Cards below the fold should not block the first paint. */
+  loading?: 'eager' | 'lazy';
+}
+
+const { post, variant = 'row', num, loading = 'lazy' } = Astro.props;
+
+const href = `/blog/${post.slug}`;
+const label = kindLabel(post.kind);
+const date = formatDate(post.publishedAt);
+const read = readingTime(post);
+const excerpt = post.excerpt ?? autoExcerpt(post.bodyMd);
+---
+
+{
+  variant === 'featured' && (
+    <a class="pc pc--featured" href={href}>
+      {post.coverImage ? (
+        <img
+          class="pc__cover"
+          src={post.coverImage}
+          alt=""
+          width="820"
+          height="340"
+          loading={loading}
+          decoding="async"
+        />
+      ) : (
+        <div class="pc__cover pc__cover--placeholder" aria-hidden="true" />
+      )}
+      <div class="pc__meta">
+        <span class="pc__badge">{label}</span>
+        <span class="pc__stamp">
+          {date} &middot; {read}
+        </span>
+      </div>
+      <h3 class="pc__title">{post.title}</h3>
+      {excerpt && <p class="pc__excerpt">{excerpt}</p>}
+    </a>
+  )
+}
+
+{
+  variant === 'card' && (
+    <a class="pc pc--card" href={href}>
+      <div class="pc__head">
+        <span class="pc__num">{num ?? label.toUpperCase()}</span>
+        <span class="pc__stamp">{read}</span>
+      </div>
+      <h3 class="pc__title">{post.title}</h3>
+      {excerpt && <p class="pc__excerpt">{excerpt}</p>}
+      <div class="pc__date">{date}</div>
+    </a>
+  )
+}
+
+{
+  variant === 'row' && (
+    <a class="pc pc--row" href={href}>
+      <div class="pc__body">
+        <div class="pc__meta">
+          <span class="pc__kind">{label}</span>
+          <span class="pc__stamp">
+            {date} &middot; {read}
+          </span>
+        </div>
+        <h3 class="pc__title">{post.title}</h3>
+        {excerpt && <p class="pc__excerpt">{excerpt}</p>}
+      </div>
+      <span class="pc__arrow" aria-hidden="true">
+        &rarr;
+      </span>
+    </a>
+  )
+}
+
+<style>
+  .pc {
+    display: block;
+    color: inherit;
+    text-align: left;
+  }
+
+  /* ------------------------------------------------------------- featured */
+  .pc--featured .pc__cover {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+  }
+
+  .pc__cover--placeholder {
+    background-image: repeating-linear-gradient(
+      135deg,
+      var(--ink-raised) 0 14px,
+      var(--ink-raised-alt) 14px 28px
+    );
+  }
+
+  .pc--featured .pc__meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 26px 0 16px;
+  }
+
+  .pc--featured .pc__badge {
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+  }
+
+  .pc--featured .pc__stamp {
+    font-size: 13px;
+    color: var(--text-on-dark-faint);
+  }
+
+  .pc--featured .pc__title {
+    font-weight: var(--w-black);
+    font-size: 34px;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    max-width: 20ch;
+    color: var(--text-on-dark);
+    margin-bottom: 16px;
+  }
+
+  .pc--featured .pc__excerpt {
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-dark-soft);
+    max-width: 52ch;
+  }
+
+  .pc--featured:hover {
+    opacity: 0.72;
+  }
+
+  /* ----------------------------------------------------------------- card */
+  .pc--card {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 24px;
+    min-height: 290px;
+    background: var(--ink);
+  }
+
+  .pc--card:hover {
+    background: var(--ink-raised);
+  }
+
+  .pc__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .pc__num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--gold-deep);
+  }
+
+  .pc--card .pc__stamp,
+  .pc__date {
+    font-size: 12px;
+    color: var(--text-on-dark-faint);
+  }
+
+  .pc__date {
+    letter-spacing: 0.04em;
+  }
+
+  .pc--card .pc__title {
+    font-weight: var(--w-bold);
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--text-on-dark);
+    margin-bottom: 16px;
+  }
+
+  .pc--card .pc__excerpt {
+    font-size: 14px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-dark-soft);
+    flex: 1;
+    margin-bottom: 20px;
+  }
+
+  /* ------------------------------------------------------------------ row */
+  .pc--row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .pc--row .pc__body {
+    max-width: 70ch;
+  }
+
+  .pc--row .pc__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .pc__kind {
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .pc--row .pc__stamp {
+    font-size: 13px;
+    color: var(--text-on-light-soft);
+  }
+
+  .pc--row .pc__title {
+    font-weight: var(--w-black);
+    font-size: clamp(22px, 2.6vw, 32px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--text-on-light);
+    margin-bottom: 12px;
+  }
+
+  .pc--row .pc__excerpt {
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+  }
+
+  .pc__arrow {
+    font-size: 22px;
+    color: var(--gold);
+    transition: transform var(--t-fast);
+  }
+
+  .pc--row:hover .pc__title {
+    color: var(--rust);
+  }
+
+  .pc--row:hover .pc__arrow {
+    transform: translateX(6px);
+  }
+
+  @media (max-width: 640px) {
+    .pc--row {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .pc--featured .pc__title {
+      font-size: 28px;
+    }
+  }
+</style>

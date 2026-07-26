@@ -1,0 +1,180 @@
+---
+import TrederLogo from './TrederLogo.astro';
+import { nav, elsewhere, isActive } from '../lib/site';
+
+/**
+ * Two header treatments from the design:
+ *  - "dark"  overlays a dark hero, transparent and absolutely positioned
+ *  - "light" sticks to the top of pale pages with a blurred paper backdrop
+ */
+interface Props {
+  variant?: 'dark' | 'light';
+}
+
+const { variant = 'light' } = Astro.props;
+const pathname = Astro.url.pathname;
+---
+
+<header class:list={['site-header', `site-header--${variant}`]}>
+  <div class="site-header__inner container">
+    <a href="/" class="site-header__home" aria-label="Home">
+      <TrederLogo />
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      {
+        nav.map((item) => {
+          const active = isActive(item.href, pathname);
+          return (
+            <a
+              href={item.href}
+              class:list={['site-nav__link', active && 'is-active']}
+              aria-current={active ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+
+      <div class="site-nav__elsewhere">
+        <a href={elsewhere.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">Li</a>
+        <a href={elsewhere.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">Gh</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    z-index: 50;
+  }
+
+  .site-header--dark {
+    position: absolute;
+    inset: 0 0 auto 0;
+    background: transparent;
+    --nav-color: var(--text-on-dark-faint);
+    --nav-color-active: var(--text-on-dark);
+    --nav-rule: var(--rule-dark);
+  }
+
+  .site-header--light {
+    position: sticky;
+    top: 0;
+    background: rgb(252 251 249 / 0.86);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--rule-light);
+    --nav-color: var(--text-on-light-soft);
+    --nav-color-active: var(--text-on-light);
+    --nav-rule: var(--rule-light);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding-block: 20px;
+  }
+
+  .site-header--dark .site-header__inner {
+    padding-block: 26px;
+  }
+
+  .site-header__home {
+    display: flex;
+    align-items: center;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .site-nav__link {
+    position: relative;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: var(--w-medium);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--nav-color);
+  }
+
+  .site-nav__link:hover {
+    color: var(--nav-color-active);
+    box-shadow: inset 0 -2px 0 var(--gold);
+  }
+
+  .site-nav__link.is-active {
+    color: var(--nav-color-active);
+  }
+
+  /* The gold underline marking the current section. */
+  .site-nav__link.is-active::after {
+    content: '';
+    position: absolute;
+    inset: auto 16px 0 16px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .site-nav__elsewhere {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: 20px;
+    padding-left: 22px;
+    border-left: 1px solid var(--nav-rule);
+  }
+
+  .site-nav__elsewhere a {
+    font-size: 12px;
+    font-weight: var(--w-medium);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--nav-color);
+  }
+
+  .site-nav__elsewhere a:hover {
+    color: var(--gold);
+  }
+
+  @media (max-width: 860px) {
+    .site-nav__elsewhere {
+      display: none;
+    }
+
+    .site-nav__link {
+      padding-inline: 10px;
+      font-size: 12px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .site-header__inner {
+      padding-block: 14px;
+    }
+
+    .site-nav__link {
+      padding-inline: 6px;
+      letter-spacing: 0.04em;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .site-nav {
+      gap: 0;
+    }
+
+    .site-nav__link {
+      padding-inline: 4px;
+      letter-spacing: 0.01em;
+    }
+  }
+</style>
