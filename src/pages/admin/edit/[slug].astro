@@ -18,7 +18,6 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PostForm from '../../../components/PostForm.astro';
 import { isAdmin, ADMIN_COOKIE } from '../../../lib/admin';
 import { sql, hasDatabase } from '../../../lib/db';
-import { autoExcerpt } from '../../../lib/markdown';
 import { slugify, estimateMinutes, type PostKind, type PostStatus } from '../../../lib/posts';
 
 let authed = false;
@@ -133,7 +132,7 @@ if (Astro.request.method === 'POST') {
       UPDATE posts SET
         slug         = ${nextSlug},
         title        = ${values.title},
-        excerpt      = ${values.excerpt || autoExcerpt(values.body)},
+        excerpt      = ${values.excerpt || null},
         body_md      = ${values.body},
         kind         = ${values.kind},
         status       = ${status},

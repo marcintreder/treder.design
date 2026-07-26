@@ -17,7 +17,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostForm from '../../components/PostForm.astro';
 import { isAdmin, ADMIN_COOKIE } from '../../lib/admin';
 import { sql, hasDatabase } from '../../lib/db';
-import { autoExcerpt } from '../../lib/markdown';
 import { slugify, estimateMinutes, type PostKind } from '../../lib/posts';
 
 let authed = false;
@@ -103,7 +102,7 @@ if (Astro.request.method === 'POST') {
     await sql()`
       INSERT INTO posts (slug, title, excerpt, body_md, kind, status, featured, tags, cover_image, read_minutes, published_at)
       VALUES (
-        ${finalSlug}, ${values.title}, ${values.excerpt || autoExcerpt(values.body)}, ${values.body},
+        ${finalSlug}, ${values.title}, ${values.excerpt || null}, ${values.body},
         ${values.kind}, ${status}, ${values.featured}, ${tags}, ${values.coverImage || null},
         ${estimateMinutes(values.body)},
         ${status === 'published' ? new Date().toISOString() : null}

@@ -8,14 +8,16 @@ import { listPosts, formatDate, readingTime, kindLabel } from '../lib/posts';
 import { autoExcerpt } from '../lib/markdown';
 
 /**
- * The home page is fully prerendered: it is the most-hit, least-dynamic page on
- * the site, and nothing here depends on the request.
+ * Rendered per request, because "Latest from the blog" reads the database.
  *
- * Consequence worth knowing: the "Latest from the blog" list below is baked in
- * at build time, so publishing a post does not change this page until the next
- * build. /blog itself renders per-request and is always current.
+ * This page was prerendered at first, on the reasoning that the home page is
+ * the most-hit and least-dynamic page on the site. That was wrong in practice:
+ * the post list was baked in at build time, so publishing or unpublishing left
+ * the home page advertising stale posts until something else triggered a
+ * deploy. A home page that contradicts /blog is worse than one that costs a
+ * database round trip.
  */
-export const prerender = true;
+export const prerender = false;
 
 const posts = await listPosts({ limit: 5 });
 const featured = posts[0];
