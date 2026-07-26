@@ -31,30 +31,23 @@ const topCases = cases.slice(0, 5);
 
     <div class="container hero__inner">
       <div class="hero__top">
-        <span class="hero__role">Director of UX, Product &amp; Strategy · Google Play</span>
+        <span class="hero__role">Marcin Treder: Design, Product, AI</span>
         <span class="hero__place">San Francisco Bay Area</span>
       </div>
 
-      <h1 class="hero__wordmark">Marcin<br />Treder</h1>
+      <h1 class="hero__stack">
+        <span class="hero__line">Design and Product</span>
+        <span class="hero__line hero__line--outline">In the Age of AI</span>
+      </h1>
 
-      <div class="hero__cols">
-        <div>
-          <p class="label hero__label">Now</p>
-          <p class="hero__text">Leading UX for over two billion gamers at Google Play.</p>
-        </div>
-
-        <div>
-          <p class="label hero__label">Before</p>
-          <p class="hero__text">Founding CEO of UXPin — bootstrapped to acquisition in 2020.</p>
-        </div>
-
-        <div>
-          <p class="label hero__label">Writing</p>
-          <p class="hero__text">
-            <span class="hero__accent">The AI Handbook for Product Design</span> — how AI is
-            transforming UX.
-          </p>
-        </div>
+      <div class="hero__foot">
+        <p class="hero__bio">
+          I’m Director of UX, Product &amp; Strategy at <span class="hero__accent">Google Play</span>.
+          Before that I was founding CEO of <span class="hero__accent">UXPin</span> (acquired ’20),
+          where I spent seven years building tools for designers. I write about what happens to our
+          craft as the machines get good at it — a new piece most weeks, plus notes from the book I’m
+          working on.
+        </p>
 
         <div class="hero__ctas">
           <a class="btn btn--gold" href="/blog">Read the blog</a>
@@ -227,7 +220,7 @@ const topCases = cases.slice(0, 5);
 
   .hero__inner {
     position: relative;
-    padding-block: 132px 76px;
+    padding-block: 150px 104px;
   }
 
   .hero__top {
@@ -237,6 +230,7 @@ const topCases = cases.slice(0, 5);
     justify-content: space-between;
     gap: 24px;
     padding-bottom: 20px;
+    margin-bottom: 38px;
     border-bottom: 1px solid var(--rule-dark);
   }
 
@@ -244,81 +238,101 @@ const topCases = cases.slice(0, 5);
   .hero__place {
     font-size: 12px;
     font-weight: var(--w-medium);
-    letter-spacing: 0.2em;
     text-transform: uppercase;
   }
 
   .hero__role {
+    letter-spacing: 0.24em;
     color: var(--gold);
   }
 
   .hero__place {
+    letter-spacing: 0.2em;
     color: var(--text-on-dark-faint);
   }
 
-  .hero__wordmark {
-    margin-top: 38px;
+  /* The stacked lockup: a solid line over an outlined one. The negative bottom
+     margin pulls the rule below back up against the descender-free caps, and
+     the -4px left offset optically aligns the cap stems to the container edge. */
+  .hero__stack {
+    margin: 0 0 -0.16em -4px;
     font-weight: var(--w-black);
-    font-size: var(--size-hero);
-    line-height: 0.8;
-    letter-spacing: -0.055em;
+    font-size: var(--size-hero-outline);
+    line-height: 0.9;
+    letter-spacing: -0.012em;
     text-transform: uppercase;
   }
 
-  .hero__cols {
+  .hero__line {
+    display: block;
+    color: var(--text-on-dark);
+  }
+
+  .hero__line--outline {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--gold);
+  }
+
+  /* Without text-stroke support the line would render invisible, so fall back
+     to solid gold rather than losing half the headline. */
+  @supports not ((-webkit-text-stroke: 2px currentColor) or (text-stroke: 2px currentColor)) {
+    .hero__line--outline {
+      color: var(--gold);
+    }
+  }
+
+  .hero__foot {
     display: grid;
-    grid-template-columns: repeat(3, 1fr) auto;
-    gap: 40px;
-    align-items: start;
-    margin-top: 60px;
+    grid-template-columns: 1fr auto;
+    gap: 56px;
+    align-items: end;
+    margin-top: 38px;
     padding-top: 34px;
     border-top: 1px solid var(--rule-dark);
   }
 
-  .hero__label {
-    margin-bottom: 12px;
-  }
-
-  .hero__text {
-    font-size: 16px;
+  .hero__bio {
+    max-width: 56ch;
+    font-size: 19px;
     font-weight: var(--w-light);
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--text-on-dark-muted);
   }
 
+  /* In this variant the inline emphasis is a brightness step, not a colour one. */
   .hero__accent {
-    color: var(--gold);
+    color: var(--text-on-dark);
   }
 
   .hero__ctas {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    align-self: end;
-  }
-
-  .hero__ctas .btn {
-    padding-inline: 26px;
-  }
-
-  @media (max-width: 1024px) {
-    .hero__cols {
-      grid-template-columns: repeat(3, 1fr);
-    }
+    gap: 14px;
   }
 
   @media (max-width: 860px) {
     .hero__inner {
-      padding-block: 112px 76px;
+      padding-block: 118px 76px;
     }
 
-    .hero__cols {
+    .hero__foot {
       grid-template-columns: 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 520px) {
+    /* 2px of stroke on small caps closes up the counters, so ease it off. */
+    .hero__line--outline {
+      -webkit-text-stroke-width: 1.5px;
     }
 
     .hero__ctas {
-      align-items: flex-start;
-      align-self: start;
+      flex-wrap: wrap;
+    }
+
+    .hero__ctas .btn {
+      flex: 1 1 100%;
     }
   }
 
