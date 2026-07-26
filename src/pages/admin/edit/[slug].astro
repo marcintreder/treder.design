@@ -204,9 +204,16 @@ const hasErrors = Object.keys(errors).length > 0;
             )}
           </div>
 
-          <a class="btn btn--ghost-light" href="/admin">
-            All posts
-          </a>
+          <div class="admin__tools">
+            {found && (
+              <a class="btn btn--ghost-light" href={`/admin/substack/${slug}`}>
+                Substack
+              </a>
+            )}
+            <a class="btn btn--ghost-light" href="/admin">
+              All posts
+            </a>
+          </div>
         </header>
 
         {dbMissing && (
@@ -394,6 +401,13 @@ const hasErrors = Object.keys(errors).length > 0;
     flex: none;
   }
 
+  .admin__tools {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 10px;
+  }
+
   @media (max-width: 720px) {
     .admin {
       padding-block: 50px 80px;
@@ -402,6 +416,14 @@ const hasErrors = Object.keys(errors).length > 0;
     .admin__head {
       flex-direction: column;
       align-items: stretch;
+    }
+
+    .admin__tools > * {
+      flex: 1;
+    }
+
+    .admin__tools .btn {
+      width: 100%;
     }
 
     .admin__title {
