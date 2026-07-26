@@ -68,6 +68,27 @@ export async function getPost(slug: string): Promise<Post | null> {
   return rows.length ? toPost(rows[0]) : null;
 }
 
+/**
+ * URL slug from arbitrary text.
+ *
+ * Shared by the MCP endpoint and the browser admin so a post written in either
+ * place lands on exactly the same slug: lower-cased, decomposed so accents drop
+ * their marks, every other run of non-alphanumerics collapsed to a hyphen, and
+ * capped at 80 characters.
+ */
+export const slugify = (s: string): string =>
+  s
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 80);
+
+/** The `read_minutes` value stamped on write — same 220 wpm as `readingTime`. */
+export const estimateMinutes = (md: string): number =>
+  Math.max(1, Math.round(md.split(/\s+/).length / 220));
+
 /** Human date in the site's style, e.g. "June 28, 2026". */
 export const formatDate = (iso: string | null): string =>
   iso

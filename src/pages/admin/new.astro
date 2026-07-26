@@ -1,0 +1,331 @@
+---
+/**
+ * Write a new post.
+ *
+ * The POST is handled here rather than in an API route on purpose. A route
+ * would have to redirect back on a validation error, and a redirect throws away
+ * the request body — which on this screen is somebody's entire essay. Handling
+ * it in the page means a rejected submission re-renders the form with every
+ * character still in it.
+ *
+ * The write itself mirrors the MCP `publish_post` handler exactly, so a post
+ * written in the browser is indistinguishable from one published over MCP.
+ */
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostForm from '../../components/PostForm.astro';
+import { isAdmin, ADMIN_COOKIE } from '../../lib/admin';
+import { sql, hasDatabase } from '../../lib/db';
+import { autoExcerpt } from '../../lib/markdown';
+import { slugify, estimateMinutes, type PostKind } from '../../lib/posts';
+
+let authed = false;
+try {
+  authed = await isAdmin(Astro.cookies.get(ADMIN_COOKIE)?.value);
+} catch {
+  authed = false;
+}
+
+// Never let a CDN or shared cache hand an authenticated page to the next visitor.
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Vary', 'Cookie');
+
+const showError = Astro.url.searchParams.get('error') === '1';
+
+let values = {
+  title: '',
+  slug: '',
+  kind: 'essay' as PostKind,
+  excerpt: '',
+  body: '',
+  tags: '',
+  coverImage: '',
+  featured: false,
+};
+
+const errors: Record<string, string> = {};
+const dbMissing = authed && !hasDatabase();
+
+if (Astro.request.method === 'POST') {
+  // Same posture as the mutation routes: a forged or stale POST is refused
+  // outright rather than redirected, so it reveals nothing about this page.
+  if (!authed) return new Response('Forbidden', { status: 403 });
+  if (!hasDatabase()) return new Response('No database configured', { status: 503 });
+
+  let form: FormData;
+  try {
+    form = await Astro.request.formData();
+  } catch {
+    return new Response('Bad request', { status: 400 });
+  }
+
+  const text = (name: string): string => {
+    const v = form.get(name);
+    return typeof v === 'string' ? v : '';
+  };
+
+  values = {
+    title: text('title').trim(),
+    slug: text('slug').trim(),
+    kind: text('kind') === 'book-note' ? 'book-note' : 'essay',
+    excerpt: text('excerpt').trim(),
+    // Body is kept verbatim — this is the one field where "helpfully" tidying
+    // the input would be felt.
+    body: text('body'),
+    tags: text('tags'),
+    coverImage: text('cover_image').trim(),
+    featured: form.get('featured') !== null,
+  };
+
+  const publish = text('action') === 'publish';
+
+  if (!values.title) errors.title = 'A title is required.';
+  if (!values.body.trim()) errors.body = 'A body is required.';
+
+  const finalSlug = slugify(values.slug || values.title);
+  if (!finalSlug && !errors.title) {
+    errors.slug = 'Could not derive a slug from that title — enter one explicitly.';
+  }
+
+  if (finalSlug && Object.keys(errors).length === 0) {
+    const clash = await sql()`SELECT slug FROM posts WHERE slug = ${finalSlug} LIMIT 1`;
+    if (clash.length) errors.slug = 'A post with that slug already exists.';
+  }
+
+  if (Object.keys(errors).length === 0) {
+    const tags = values.tags
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+    const status = publish ? 'published' : 'draft';
+
+    await sql()`
+      INSERT INTO posts (slug, title, excerpt, body_md, kind, status, featured, tags, cover_image, read_minutes, published_at)
+      VALUES (
+        ${finalSlug}, ${values.title}, ${values.excerpt || autoExcerpt(values.body)}, ${values.body},
+        ${values.kind}, ${status}, ${values.featured}, ${tags}, ${values.coverImage || null},
+        ${estimateMinutes(values.body)},
+        ${status === 'published' ? new Date().toISOString() : null}
+      )`;
+
+    return Astro.redirect('/admin', 303);
+  }
+
+  // Fell through: re-render below with `values` and `errors` intact.
+  Astro.response.status = 422;
+}
+
+const hasErrors = Object.keys(errors).length > 0;
+---
+
+<BaseLayout title="New post" description="Blog administration.">
+  <meta slot="head" name="robots" content="noindex, nofollow, noarchive" />
+
+  {
+    !authed ? (
+      <section class="container--reading gate">
+        <p class="eyebrow">Restricted</p>
+        <h1 class="gate__title">Admin</h1>
+        <p class="gate__copy">This area manages the blog. Enter the admin password to continue.</p>
+
+        <form class="gate__form" method="post" action="/api/admin/login">
+          <input type="hidden" name="redirect" value="/admin" />
+          <label class="field__label" for="admin-password">
+            Password
+          </label>
+          <input
+            class="field__input"
+            id="admin-password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          />
+          <button class="btn btn--dark" type="submit">
+            Sign in
+          </button>
+        </form>
+
+        {showError && (
+          <p class="msg msg--error" role="alert">
+            That password is not right. Try again.
+          </p>
+        )}
+      </section>
+    ) : (
+      <section class="container admin">
+        <header class="admin__head">
+          <div>
+            <p class="eyebrow">Blog administration</p>
+            <h1 class="admin__title">New post</h1>
+            <p class="admin__count">Saved as a draft unless you publish it</p>
+          </div>
+
+          <a class="btn btn--ghost-light" href="/admin">
+            All posts
+          </a>
+        </header>
+
+        {dbMissing && (
+          <p class="msg msg--error" role="alert">
+            DATABASE_URL is not set, so there is nothing to write to.
+          </p>
+        )}
+
+        {hasErrors && (
+          <p class="msg msg--error" role="alert">
+            The post was not saved. Fix the fields marked below — nothing you typed was lost.
+          </p>
+        )}
+
+        <PostForm mode="new" values={values} errors={errors} />
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  /* ------------------------------------------------------------- gate */
+  .gate {
+    padding-block: 90px 120px;
+    max-width: 460px;
+  }
+
+  .gate .eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .gate__title {
+    font-weight: var(--w-black);
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .gate__copy {
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+    margin-bottom: 32px;
+  }
+
+  .gate__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .field__label {
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-on-light-soft);
+  }
+
+  .field__input {
+    min-height: 52px;
+    padding-inline: 16px;
+    border: 1px solid var(--border-input);
+    background: var(--paper);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--text-on-light);
+    outline: none;
+  }
+
+  .field__input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
+  .gate__form .btn {
+    margin-top: 6px;
+  }
+
+  /* ---------------------------------------------------------- messages */
+  .msg {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    border-left: 3px solid var(--gold);
+    background: var(--paper-warm);
+    color: var(--text-on-light-muted);
+  }
+
+  .msg--error {
+    border-left-color: var(--rust);
+    color: var(--rust);
+  }
+
+  .gate .msg {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+
+  /* ------------------------------------------------------------ layout */
+  .admin {
+    padding-block: 70px 100px;
+  }
+
+  /* Capped to the form's measure so the head rule and the field hairlines are
+     one continuous column rather than two different widths. */
+  .admin__head,
+  .msg {
+    max-width: 780px;
+  }
+
+  .admin__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 26px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .admin__head .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .admin__title {
+    font-weight: var(--w-black);
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .admin__count {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text-on-light-faint);
+  }
+
+  .admin__head .btn {
+    min-height: 44px;
+    flex: none;
+  }
+
+  @media (max-width: 720px) {
+    .admin {
+      padding-block: 50px 80px;
+    }
+
+    .admin__head {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .admin__title {
+      font-size: 32px;
+    }
+  }
+</style>

@@ -70,15 +70,14 @@ const pathname = Astro.url.pathname;
     --nav-rule: var(--rule-light);
   }
 
+  /* One value for both treatments. The prototype set the dark header to 26px
+     and the light one to 20px, which read as an inconsistency when moving
+     between pages rather than as an intentional difference. */
   .site-header__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding-block: 20px;
-  }
-
-  .site-header--dark .site-header__inner {
     padding-block: 26px;
   }
 

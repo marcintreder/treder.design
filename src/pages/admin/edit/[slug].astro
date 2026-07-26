@@ -1,0 +1,411 @@
+---
+/**
+ * Edit an existing post.
+ *
+ * Like /admin/new, the POST is handled in the page so a validation failure can
+ * re-render the form with the author's text intact instead of redirecting it
+ * into the bin. The UPDATE mirrors the MCP `update_post` handler, including the
+ * rule that `published_at` is stamped only the first time a post goes public.
+ *
+ * One deliberate difference from MCP: this form always submits every field, so
+ * a cleared excerpt or cover image really does clear (or re-derive) the stored
+ * value. MCP's COALESCE semantics exist because it patches a subset of fields;
+ * a form has no way to express "leave this one alone".
+ */
+export const prerender = false;
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostForm from '../../../components/PostForm.astro';
+import { isAdmin, ADMIN_COOKIE } from '../../../lib/admin';
+import { sql, hasDatabase } from '../../../lib/db';
+import { autoExcerpt } from '../../../lib/markdown';
+import { slugify, estimateMinutes, type PostKind, type PostStatus } from '../../../lib/posts';
+
+let authed = false;
+try {
+  authed = await isAdmin(Astro.cookies.get(ADMIN_COOKIE)?.value);
+} catch {
+  authed = false;
+}
+
+// Never let a CDN or shared cache hand an authenticated page to the next visitor.
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Vary', 'Cookie');
+
+const showError = Astro.url.searchParams.get('error') === '1';
+const slug = Astro.params.slug ?? '';
+
+let values = {
+  title: '',
+  slug: '',
+  kind: 'essay' as PostKind,
+  excerpt: '',
+  body: '',
+  tags: '',
+  coverImage: '',
+  featured: false,
+};
+
+const errors: Record<string, string> = {};
+const dbMissing = authed && !hasDatabase();
+let found = false;
+let currentStatus: PostStatus = 'draft';
+
+/* Nothing is read from the database until the session checks out, so a locked
+   response cannot contain a title, a slug or a line of the body. */
+if (authed && !dbMissing) {
+  const rows = await sql()`SELECT * FROM posts WHERE slug = ${slug} LIMIT 1`;
+
+  if (rows.length) {
+    found = true;
+    const p = rows[0];
+    currentStatus = p.status as PostStatus;
+
+    values = {
+      title: p.title,
+      slug: p.slug,
+      kind: p.kind as PostKind,
+      excerpt: p.excerpt ?? '',
+      body: p.body_md ?? '',
+      tags: (p.tags ?? []).join(', '),
+      coverImage: p.cover_image ?? '',
+      featured: Boolean(p.featured),
+    };
+  }
+}
+
+if (Astro.request.method === 'POST') {
+  if (!authed) return new Response('Forbidden', { status: 403 });
+  if (!hasDatabase()) return new Response('No database configured', { status: 503 });
+  if (!found) return new Response('Not found', { status: 404 });
+
+  let form: FormData;
+  try {
+    form = await Astro.request.formData();
+  } catch {
+    return new Response('Bad request', { status: 400 });
+  }
+
+  const text = (name: string): string => {
+    const v = form.get(name);
+    return typeof v === 'string' ? v : '';
+  };
+
+  values = {
+    title: text('title').trim(),
+    slug: text('slug').trim(),
+    kind: text('kind') === 'book-note' ? 'book-note' : 'essay',
+    excerpt: text('excerpt').trim(),
+    body: text('body'),
+    tags: text('tags'),
+    coverImage: text('cover_image').trim(),
+    featured: form.get('featured') !== null,
+  };
+
+  const publish = text('action') === 'publish';
+
+  if (!values.title) errors.title = 'A title is required.';
+  if (!values.body.trim()) errors.body = 'A body is required.';
+
+  const nextSlug = slugify(values.slug || values.title);
+  if (!nextSlug) errors.slug = 'A slug is required — this post needs a URL.';
+
+  // The post keeping its own slug is not a collision.
+  if (nextSlug && nextSlug !== slug && Object.keys(errors).length === 0) {
+    const clash = await sql()`SELECT slug FROM posts WHERE slug = ${nextSlug} LIMIT 1`;
+    if (clash.length) errors.slug = 'A post with that slug already exists.';
+  }
+
+  if (Object.keys(errors).length === 0) {
+    const tags = values.tags
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const status: PostStatus = publish ? 'published' : currentStatus;
+
+    // Stamp published_at the first time the post actually goes public, and
+    // leave it alone on every later edit so the original date is preserved.
+    const publishedAt =
+      status === 'published' && currentStatus !== 'published' ? new Date().toISOString() : null;
+
+    await sql()`
+      UPDATE posts SET
+        slug         = ${nextSlug},
+        title        = ${values.title},
+        excerpt      = ${values.excerpt || autoExcerpt(values.body)},
+        body_md      = ${values.body},
+        kind         = ${values.kind},
+        status       = ${status},
+        featured     = ${values.featured},
+        tags         = ${tags},
+        cover_image  = ${values.coverImage || null},
+        read_minutes = ${estimateMinutes(values.body)},
+        published_at = COALESCE(${publishedAt}, published_at)
+      WHERE slug = ${slug}`;
+
+    return Astro.redirect('/admin', 303);
+  }
+
+  Astro.response.status = 422;
+}
+
+if (authed && !dbMissing && !found) Astro.response.status = 404;
+
+const hasErrors = Object.keys(errors).length > 0;
+---
+
+<BaseLayout title="Edit post" description="Blog administration.">
+  <meta slot="head" name="robots" content="noindex, nofollow, noarchive" />
+
+  {
+    !authed ? (
+      <section class="container--reading gate">
+        <p class="eyebrow">Restricted</p>
+        <h1 class="gate__title">Admin</h1>
+        <p class="gate__copy">This area manages the blog. Enter the admin password to continue.</p>
+
+        <form class="gate__form" method="post" action="/api/admin/login">
+          <input type="hidden" name="redirect" value="/admin" />
+          <label class="field__label" for="admin-password">
+            Password
+          </label>
+          <input
+            class="field__input"
+            id="admin-password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          />
+          <button class="btn btn--dark" type="submit">
+            Sign in
+          </button>
+        </form>
+
+        {showError && (
+          <p class="msg msg--error" role="alert">
+            That password is not right. Try again.
+          </p>
+        )}
+      </section>
+    ) : (
+      <section class="container admin">
+        <header class="admin__head">
+          <div>
+            <p class="eyebrow">Blog administration</p>
+            <h1 class="admin__title">Edit post</h1>
+            {found && (
+              <p class="admin__count">
+                <span class:list={['pill', `pill--${currentStatus}`]}>{currentStatus}</span>
+                <code class="admin__slug">/blog/{values.slug}</code>
+              </p>
+            )}
+          </div>
+
+          <a class="btn btn--ghost-light" href="/admin">
+            All posts
+          </a>
+        </header>
+
+        {dbMissing && (
+          <p class="msg msg--error" role="alert">
+            DATABASE_URL is not set, so there is nothing to edit here.
+          </p>
+        )}
+
+        {!dbMissing && !found ? (
+          <p class="msg msg--error" role="alert">
+            No post with that slug. It may have been deleted or renamed.
+          </p>
+        ) : (
+          found && (
+            <>
+              {hasErrors && (
+                <p class="msg msg--error" role="alert">
+                  The post was not saved. Fix the fields marked below — nothing you typed was lost.
+                </p>
+              )}
+
+              <PostForm
+                mode="edit"
+                values={values}
+                errors={errors}
+                slug={slug}
+                currentStatus={currentStatus}
+              />
+            </>
+          )
+        )}
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  /* ------------------------------------------------------------- gate */
+  .gate {
+    padding-block: 90px 120px;
+    max-width: 460px;
+  }
+
+  .gate .eyebrow {
+    margin-bottom: 20px;
+  }
+
+  .gate__title {
+    font-weight: var(--w-black);
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .gate__copy {
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.6;
+    color: var(--text-on-light-muted);
+    margin-bottom: 32px;
+  }
+
+  .gate__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .field__label {
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-on-light-soft);
+  }
+
+  .field__input {
+    min-height: 52px;
+    padding-inline: 16px;
+    border: 1px solid var(--border-input);
+    background: var(--paper);
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--text-on-light);
+    outline: none;
+  }
+
+  .field__input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
+  .gate__form .btn {
+    margin-top: 6px;
+  }
+
+  /* ---------------------------------------------------------- messages */
+  .msg {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    border-left: 3px solid var(--gold);
+    background: var(--paper-warm);
+    color: var(--text-on-light-muted);
+  }
+
+  .msg--error {
+    border-left-color: var(--rust);
+    color: var(--rust);
+  }
+
+  .gate .msg {
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+
+  /* ------------------------------------------------------------ layout */
+  .admin {
+    padding-block: 70px 100px;
+  }
+
+  /* Capped to the form's measure so the head rule and the field hairlines are
+     one continuous column rather than two different widths. */
+  .admin__head,
+  .msg {
+    max-width: 780px;
+  }
+
+  .admin__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 26px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .admin__head .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .admin__title {
+    font-weight: var(--w-black);
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .admin__count {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    margin-top: 14px;
+  }
+
+  .admin__slug {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text-on-light-faint);
+    overflow-wrap: anywhere;
+  }
+
+  .pill {
+    font-size: 10px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid var(--border-input);
+    color: var(--text-on-light-soft);
+  }
+
+  .pill--published {
+    border-color: var(--gold-deep);
+    color: var(--rust);
+  }
+
+  .admin__head .btn {
+    min-height: 44px;
+    flex: none;
+  }
+
+  @media (max-width: 720px) {
+    .admin {
+      padding-block: 50px 80px;
+    }
+
+    .admin__head {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .admin__title {
+      font-size: 32px;
+    }
+  }
+</style>
