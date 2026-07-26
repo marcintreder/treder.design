@@ -25,6 +25,9 @@
   --ink-deep: #0a0a0a;
   --ink-raised: #1c1a16;
   --ink-raised-alt: #232019;
+  /* Input surface on the near-black sections: lifted just enough off --ink-deep
+     to read as a field without becoming a panel. */
+  --ink-field: #0f0f0f;
   --rule-dark: #2c2924;
   --border-dark: #4a453e;
 

@@ -182,6 +182,13 @@ const cards = [
     min-height: 58px;
   }
 
+  /* Inset the focus ring: the field is flush against its border, so the global
+     outward offset would be clipped by the adjacent submit button. */
+  .newsletter__input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
   .newsletter__terms {
     margin-top: 16px;
     display: flex;
@@ -247,7 +254,7 @@ const cards = [
 
   .newsletter--dark .newsletter__form {
     border-color: var(--border-dark);
-    background: var(--ink-raised);
+    background: var(--ink-field);
   }
 
   .newsletter--dark .newsletter__input {
@@ -260,6 +267,12 @@ const cards = [
 
   .newsletter--dark .newsletter__card-title {
     color: var(--text-on-dark);
+  }
+
+  /* On the dark surface the card numerals warm up to the deep gold — the pale
+     stone used on paper would read as noise against near-black. */
+  .newsletter--dark .newsletter__card-n {
+    color: var(--gold-deep);
   }
 
   .newsletter--dark .card-strip {
