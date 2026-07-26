@@ -2,22 +2,14 @@ import type { APIRoute } from 'astro';
 import { sql, hasDatabase } from '../../lib/db';
 import { handleRpc, type JsonRpcRequest, type ToolDefinition, PROTOCOL_VERSION } from '../../lib/mcp';
 import { autoExcerpt } from '../../lib/markdown';
+// Shared with the browser admin so a post written in either place gets the same
+// slug and the same read_minutes estimate.
+import { slugify, estimateMinutes } from '../../lib/posts';
 import { getSecret } from 'astro:env/server';
 
 export const prerender = false;
 
 /* ------------------------------------------------------------------ helpers */
-
-const slugify = (s: string): string =>
-  s
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 80);
-
-const estimateMinutes = (md: string): number => Math.max(1, Math.round(md.split(/\s+/).length / 220));
 
 const token = (): string | null => getSecret('BLOG_API_TOKEN') ?? null;
 

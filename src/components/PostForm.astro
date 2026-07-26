@@ -1,0 +1,688 @@
+---
+/**
+ * The post editor, shared by /admin/new and /admin/edit/[slug].
+ *
+ * Deliberately dumb: it renders the values it is handed and posts back to the
+ * page it sits on. All validation, slugging and writing happens in the page's
+ * frontmatter, which means a rejected submission can re-render this component
+ * with everything the author typed still in place — no redirect, no lost draft.
+ */
+import { kindLabel, type PostKind, type PostStatus } from '../lib/posts';
+import { ACCEPT_ATTRIBUTE } from '../lib/media';
+
+export interface PostFormValues {
+  title: string;
+  slug: string;
+  kind: PostKind;
+  excerpt: string;
+  body: string;
+  tags: string;
+  coverImage: string;
+  featured: boolean;
+}
+
+interface Props {
+  mode: 'new' | 'edit';
+  values: PostFormValues;
+  /** Field name → message. Presence of a key marks that field invalid. */
+  errors?: Record<string, string>;
+  /** Current slug, for the edit form's "this changes the URL" warning. */
+  slug?: string;
+  /** Current stored status, so edit can offer "Save & publish" on a draft. */
+  currentStatus?: PostStatus;
+}
+
+const { mode, values, errors = {}, slug, currentStatus } = Astro.props;
+
+const isEdit = mode === 'edit';
+const kinds: PostKind[] = ['essay', 'book-note'];
+---
+
+<form class="form" method="post">
+  <div class:list={['field', errors.title && 'field--bad']}>
+    <label class="field__label" for="post-title">Title</label>
+    <input
+      class="field__input"
+      id="post-title"
+      name="title"
+      type="text"
+      value={values.title}
+      autocomplete="off"
+      spellcheck="true"
+      required
+      aria-describedby={errors.title ? 'err-title' : undefined}
+    />
+    {
+      errors.title && (
+        <p class="field__error" id="err-title" role="alert">
+          {errors.title}
+        </p>
+      )
+    }
+  </div>
+
+  <div class:list={['field', errors.slug && 'field--bad']}>
+    <label class="field__label" for="post-slug">Slug</label>
+    <input
+      class="field__input field__input--mono"
+      id="post-slug"
+      name="slug"
+      type="text"
+      value={values.slug}
+      placeholder={isEdit ? '' : 'Derived from the title if left blank'}
+      autocomplete="off"
+      spellcheck="false"
+      aria-describedby={errors.slug ? 'err-slug' : 'hint-slug'}
+    />
+    <p class="field__hint" id="hint-slug">
+      {
+        isEdit ? (
+          <>
+            This is the post's URL — <code>/blog/{slug}</code>. Changing it changes the address and
+            the old one stops working.
+          </>
+        ) : (
+          <>Lower case, hyphenated. Leave it blank to derive one from the title.</>
+        )
+      }
+    </p>
+    {
+      errors.slug && (
+        <p class="field__error" id="err-slug" role="alert">
+          {errors.slug}
+        </p>
+      )
+    }
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="post-kind">Kind</label>
+    <select class="field__input field__select" id="post-kind" name="kind">
+      {
+        kinds.map((k) => (
+          <option value={k} selected={values.kind === k}>
+            {kindLabel(k)}
+          </option>
+        ))
+      }
+    </select>
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="post-excerpt">Excerpt</label>
+    <textarea class="field__input field__textarea" id="post-excerpt" name="excerpt" rows="3"
+      spellcheck="true" aria-describedby="hint-excerpt">{values.excerpt}</textarea>
+    <p class="field__hint" id="hint-excerpt">
+      The standfirst shown in listings. Left blank, it is taken from the first paragraph of the body.
+    </p>
+  </div>
+
+  <div class:list={['field', 'field--body', errors.body && 'field--bad']}>
+    <div class="field__head">
+      <label class="field__label" for="post-body">Body</label>
+
+      {/* Hidden until the script un-hides it: with JS off a file input here
+          would be a dead control, and the body is still typed by hand. */}
+      <div class="uploader uploader--inline" id="body-uploader" hidden>
+        <label class="uploader__pick" for="body-file">Insert image</label>
+        <input
+          class="uploader__file"
+          id="body-file"
+          type="file"
+          accept={ACCEPT_ATTRIBUTE}
+          data-target="post-body"
+        />
+        <p class="uploader__status" id="body-status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <textarea
+      class="field__input field__body"
+      id="post-body"
+      name="body"
+      rows="26"
+      spellcheck="true"
+      required
+      aria-describedby={errors.body ? 'err-body' : 'hint-body'}>{values.body}</textarea>
+    <p class="field__hint" id="hint-body">Markdown. Inline HTML is allowed.</p>
+    {
+      errors.body && (
+        <p class="field__error" id="err-body" role="alert">
+          {errors.body}
+        </p>
+      )
+    }
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="post-tags">Tags</label>
+    <input
+      class="field__input"
+      id="post-tags"
+      name="tags"
+      type="text"
+      value={values.tags}
+      placeholder="design, tooling"
+      autocomplete="off"
+      spellcheck="false"
+      aria-describedby="hint-tags"
+    />
+    <p class="field__hint" id="hint-tags">Comma separated. Optional.</p>
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="post-cover">Cover image</label>
+
+    {/* The text input is the real field and always works on its own — paste a
+        path to an existing asset and save. Uploading just fills it in. */}
+    <input
+      class="field__input field__input--mono"
+      id="post-cover"
+      name="cover_image"
+      type="text"
+      value={values.coverImage}
+      placeholder="/img/foo.webp"
+      autocomplete="off"
+      spellcheck="false"
+      aria-describedby="hint-cover"
+    />
+
+    <div class="cover" id="cover-block" hidden>
+      <img
+        class="cover__thumb"
+        id="cover-thumb"
+        src={values.coverImage || undefined}
+        alt=""
+        hidden={!values.coverImage}
+      />
+
+      <div class="uploader" id="cover-uploader">
+        <div class="uploader__row">
+          <label class="uploader__pick" for="cover-file">Upload image</label>
+          <input class="uploader__file" id="cover-file" type="file" accept={ACCEPT_ATTRIBUTE} />
+          <button class="uploader__clear" id="cover-clear" type="button">Clear</button>
+        </div>
+        <p class="uploader__status" id="cover-status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <p class="field__hint" id="hint-cover">
+      A path to an existing asset, or upload one. Images are stored as-is — no resizing.
+    </p>
+  </div>
+
+  <div class="field field--check">
+    <label class="check">
+      <input class="check__box" type="checkbox" name="featured" checked={values.featured} />
+      <span class="check__text">Featured — pinned to the top of the blog</span>
+    </label>
+  </div>
+
+  {/* The first submit button is the one Enter triggers from a text field, so the
+      safe action goes first and gets the primary weight. Publishing is always a
+      deliberate second click. */}
+  <div class="form__actions">
+    {
+      isEdit ? (
+        <>
+          <button class="btn btn--dark" type="submit" name="action" value="save">
+            Save
+          </button>
+          {currentStatus === 'draft' && (
+            <button class="btn btn--ghost-light" type="submit" name="action" value="publish">
+              Save &amp; publish
+            </button>
+          )}
+        </>
+      ) : (
+        <>
+          <button class="btn btn--dark" type="submit" name="action" value="draft">
+            Save as draft
+          </button>
+          <button class="btn btn--ghost-light" type="submit" name="action" value="publish">
+            Publish
+          </button>
+        </>
+      )
+    }
+    <a class="form__cancel" href="/admin">Cancel</a>
+  </div>
+</form>
+
+<script>
+  /**
+   * Image upload, layered on top of a form that already works without it.
+   *
+   * Nothing here is required to save a post: the upload controls start hidden
+   * and are only revealed once this script runs, the cover field stays an
+   * ordinary text input, and a failed upload leaves the form exactly as it was.
+   */
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
+
+  const coverBlock = $<HTMLDivElement>('cover-block');
+  const coverInput = $<HTMLInputElement>('post-cover');
+  const coverFile = $<HTMLInputElement>('cover-file');
+  const coverThumb = $<HTMLImageElement>('cover-thumb');
+  const coverClear = $<HTMLButtonElement>('cover-clear');
+  const coverStatus = $<HTMLParagraphElement>('cover-status');
+
+  const bodyBlock = $<HTMLDivElement>('body-uploader');
+  const bodyFile = $<HTMLInputElement>('body-file');
+  const bodyArea = $<HTMLTextAreaElement>('post-body');
+  const bodyStatus = $<HTMLParagraphElement>('body-status');
+
+  const say = (el: HTMLElement | null, message: string, state: 'busy' | 'error' | 'ok' | '' = '') => {
+    if (!el) return;
+    el.textContent = message;
+    if (state) el.dataset.state = state;
+    else delete el.dataset.state;
+  };
+
+  interface Uploaded {
+    url: string;
+    name: string;
+    width?: number;
+    height?: number;
+  }
+
+  /** XHR rather than fetch, purely for the upload progress events. */
+  const upload = (file: File, onProgress: (percent: number) => void): Promise<Uploaded> =>
+    new Promise((resolve, reject) => {
+      const body = new FormData();
+      body.append('file', file);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/admin/upload');
+      xhr.responseType = 'json';
+
+      xhr.upload.addEventListener('progress', (event) => {
+        if (event.lengthComputable) onProgress(Math.round((event.loaded / event.total) * 100));
+      });
+
+      xhr.addEventListener('load', () => {
+        const data = xhr.response as (Uploaded & { error?: string }) | null;
+        if (xhr.status >= 200 && xhr.status < 300 && data?.url) resolve(data);
+        else if (xhr.status === 403) reject(new Error('Your session has expired — log in again.'));
+        else reject(new Error(data?.error || `Upload failed (${xhr.status}).`));
+      });
+
+      xhr.addEventListener('error', () => reject(new Error('Upload failed — check your connection.')));
+      xhr.send(body);
+    });
+
+  const showCover = (value: string) => {
+    if (!coverThumb) return;
+    if (value) {
+      coverThumb.src = value;
+      coverThumb.hidden = false;
+    } else {
+      coverThumb.removeAttribute('src');
+      coverThumb.hidden = true;
+    }
+  };
+
+  /* ------------------------------------------------------------------ cover */
+  if (coverBlock && coverInput && coverFile) {
+    coverBlock.hidden = false;
+
+    coverInput.addEventListener('change', () => showCover(coverInput.value.trim()));
+    coverThumb?.addEventListener('error', () => {
+      coverThumb.hidden = true;
+    });
+
+    coverClear?.addEventListener('click', () => {
+      coverInput.value = '';
+      coverFile.value = '';
+      showCover('');
+      say(coverStatus, '');
+    });
+
+    coverFile.addEventListener('change', async () => {
+      const file = coverFile.files?.[0];
+      if (!file) return;
+
+      say(coverStatus, `Uploading ${file.name}…`, 'busy');
+      try {
+        const result = await upload(file, (p) => say(coverStatus, `Uploading ${file.name} — ${p}%`, 'busy'));
+        coverInput.value = result.url;
+        showCover(result.url);
+        const size = result.width && result.height ? ` · ${result.width}×${result.height}` : '';
+        say(coverStatus, `${result.name} uploaded${size}`, 'ok');
+      } catch (error) {
+        say(coverStatus, (error as Error).message, 'error');
+      } finally {
+        coverFile.value = '';
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------- body */
+  if (bodyBlock && bodyFile && bodyArea) {
+    bodyBlock.hidden = false;
+
+    bodyFile.addEventListener('change', async () => {
+      const file = bodyFile.files?.[0];
+      if (!file) return;
+
+      // Remember where the caret was before the file dialog stole focus.
+      const start = bodyArea.selectionStart;
+      const end = bodyArea.selectionEnd;
+
+      say(bodyStatus, `Uploading ${file.name}…`, 'busy');
+      try {
+        const result = await upload(file, (p) => say(bodyStatus, `Uploading ${file.name} — ${p}%`, 'busy'));
+
+        const alt = (result.name || 'image').replace(/\.[^.]*$/, '').replace(/[-_]+/g, ' ').trim();
+        const text = bodyArea.value;
+        // Sit the image on its own block, but only add the blank lines that
+        // are actually missing, so inserting mid-paragraph does not rewrap it.
+        const before = text.slice(0, start);
+        const after = text.slice(end);
+        const lead = before === '' || before.endsWith('\n\n') ? '' : before.endsWith('\n') ? '\n' : '\n\n';
+        const trail = after === '' || after.startsWith('\n\n') ? '' : after.startsWith('\n') ? '\n' : '\n\n';
+        const snippet = `${lead}![${alt}](${result.url})${trail}`;
+
+        bodyArea.value = before + snippet + after;
+
+        const caret = before.length + snippet.length;
+        bodyArea.focus();
+        bodyArea.setSelectionRange(caret, caret);
+
+        const size = result.width && result.height ? ` · ${result.width}×${result.height}` : '';
+        say(bodyStatus, `Inserted ${result.name}${size}`, 'ok');
+      } catch (error) {
+        say(bodyStatus, (error as Error).message, 'error');
+        bodyArea.focus();
+      } finally {
+        bodyFile.value = '';
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Same vocabulary as the console: hairline rules, uppercase micro-labels,
+     one column all the way down so a long body gets the full measure. */
+  .form {
+    max-width: 780px;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-block: 24px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .field__label {
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-on-light-soft);
+  }
+
+  .field--bad .field__label {
+    color: var(--rust);
+  }
+
+  .field__input {
+    width: 100%;
+    min-height: 52px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-input);
+    background: var(--paper);
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: var(--w-light);
+    line-height: 1.5;
+    color: var(--text-on-light);
+    outline: none;
+  }
+
+  .field__input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: -2px;
+  }
+
+  .field--bad .field__input {
+    border-color: var(--rust);
+  }
+
+  .field__input--mono {
+    font-family: var(--font-mono);
+    font-size: 14px;
+  }
+
+  .field__select {
+    appearance: none;
+    padding-inline: 16px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--text-on-light-soft) 50%),
+      linear-gradient(135deg, var(--text-on-light-soft) 50%, transparent 50%);
+    background-position:
+      calc(100% - 20px) calc(50% + 1px),
+      calc(100% - 14px) calc(50% + 1px);
+    background-size:
+      6px 6px,
+      6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 44px;
+  }
+
+  .field__textarea {
+    resize: vertical;
+    min-height: 92px;
+  }
+
+  /* The body is the point of this screen — mono, roomy, and it grows. */
+  .field__body {
+    resize: vertical;
+    min-height: 520px;
+    padding: 18px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.75;
+    tab-size: 2;
+  }
+
+  .field__hint {
+    font-size: 13px;
+    font-weight: var(--w-light);
+    line-height: 1.5;
+    color: var(--text-on-light-soft);
+  }
+
+  .field__hint code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-on-light-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .field__error {
+    font-size: 13px;
+    font-weight: var(--w-medium);
+    line-height: 1.5;
+    padding-left: 12px;
+    border-left: 3px solid var(--rust);
+    color: var(--rust);
+  }
+
+  /* ------------------------------------------------------------- uploader */
+  .field__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+  }
+
+  .uploader__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* The real input is hidden and driven by its label, so the control matches
+     the .act buttons in the console instead of the browser's file widget. */
+  .uploader__file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .uploader__pick,
+  .uploader__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding-inline: 14px;
+    border: 1px solid var(--border-input);
+    background: transparent;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-on-light);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .uploader__pick:hover,
+  .uploader__clear:hover {
+    border-color: var(--rust);
+    color: var(--rust);
+  }
+
+  .uploader:has(.uploader__file:focus-visible) .uploader__pick {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* These blocks are laid out with flex, which would otherwise beat the
+     `hidden` attribute they start life with. */
+  [hidden] {
+    display: none !important;
+  }
+
+  .uploader--inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+  }
+
+  .uploader__status {
+    font-size: 12px;
+    font-weight: var(--w-light);
+    line-height: 1.5;
+    color: var(--text-on-light-soft);
+  }
+
+  .uploader__status[data-state='error'] {
+    font-weight: var(--w-medium);
+    color: var(--rust);
+  }
+
+  .cover {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 2px;
+  }
+
+  .cover__thumb {
+    width: 96px;
+    height: 72px;
+    flex: none;
+    object-fit: cover;
+    border: 1px solid var(--rule-light);
+    background: var(--paper-warm);
+  }
+
+  /* ------------------------------------------------------------- checkbox */
+  .field--check {
+    padding-block: 22px;
+  }
+
+  .check {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+
+  .check__box {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    accent-color: var(--rust);
+    cursor: pointer;
+  }
+
+  .check__text {
+    font-size: 15px;
+    font-weight: var(--w-light);
+    color: var(--text-on-light-muted);
+  }
+
+  /* -------------------------------------------------------------- actions */
+  .form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding-top: 28px;
+  }
+
+  .form__actions .btn {
+    min-height: 50px;
+    cursor: pointer;
+  }
+
+  .form__cancel {
+    margin-left: 6px;
+    font-size: 13px;
+    font-weight: var(--w-medium);
+    letter-spacing: 0.06em;
+    color: var(--text-on-light-soft);
+  }
+
+  .form__cancel:hover {
+    color: var(--rust);
+  }
+
+  /* ----------------------------------------------------------- responsive */
+  @media (max-width: 720px) {
+    .field__body {
+      min-height: 420px;
+      font-size: 13px;
+    }
+
+    .form__actions .btn {
+      flex: 1 1 auto;
+    }
+
+    /* Same 44px touch target the console's row actions use on small screens. */
+    .uploader__pick,
+    .uploader__clear {
+      min-height: 44px;
+    }
+
+    .form__cancel {
+      margin-left: 0;
+      width: 100%;
+      padding-top: 6px;
+    }
+  }
+</style>
