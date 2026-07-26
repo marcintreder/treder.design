@@ -14,8 +14,11 @@
  * panel, never an open one.
  */
 
+import { getSecret } from 'astro:env/server';
+
 const COOKIE = 'admin_session';
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 days
+
 
 const enc = new TextEncoder();
 
@@ -27,10 +30,10 @@ const clean = (v: string | undefined): string | null =>
   typeof v === 'string' && v.length > 0 ? v : null;
 
 const secret = (): string | null =>
-  clean(import.meta.env.SESSION_SECRET ?? process.env.SESSION_SECRET);
+  clean(getSecret('SESSION_SECRET'));
 
 const expectedPassword = (): string | null =>
-  clean(import.meta.env.ADMIN_PASSWORD ?? process.env.ADMIN_PASSWORD);
+  clean(getSecret('ADMIN_PASSWORD'));
 
 async function hmac(value: string, key: string): Promise<string> {
   const cryptoKey = await crypto.subtle.importKey(
