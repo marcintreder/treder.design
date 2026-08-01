@@ -9,6 +9,7 @@
  */
 import { kindLabel, type PostKind, type PostStatus } from '../lib/posts';
 import { ACCEPT_ATTRIBUTE } from '../lib/media';
+import { TOOLBAR_BUTTONS } from '../lib/markdown-toolbar';
 
 export interface PostFormValues {
   title: string;
@@ -136,14 +137,43 @@ const kinds: PostKind[] = ['essay', 'book-note'];
       </div>
     </div>
 
-    <textarea
-      class="field__input field__body"
-      id="post-body"
-      name="body"
-      rows="26"
-      spellcheck="true"
-      required
-      aria-describedby={errors.body ? 'err-body' : 'hint-body'}>{values.body}</textarea>
+    {/* Hidden for the same reason as the uploader: with JS off these would be
+        eleven buttons that do nothing. The script un-hides the bar. */}
+    <div class="mdbar" id="md-toolbar" hidden>
+      <div class="mdbar__group" role="group" aria-label="Markdown formatting">
+        {
+          TOOLBAR_BUTTONS.map((b) => (
+            <button
+              class="mdbar__btn"
+              type="button"
+              data-md={b.action}
+              aria-label={b.label}
+              title={b.hint ? `${b.label} (${b.hint})` : b.label}
+            >
+              <span aria-hidden="true">{b.glyph}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <button class="mdbar__btn mdbar__btn--wide" id="md-preview" type="button" aria-pressed="false"
+        aria-controls="post-body">Preview</button>
+    </div>
+
+    <div class="editor" id="md-editor">
+      <textarea
+        class="field__input field__body"
+        id="post-body"
+        name="body"
+        rows="26"
+        spellcheck="true"
+        required
+        aria-describedby={errors.body ? 'err-body' : 'hint-body'}>{values.body}</textarea>
+
+      {/* Written to only by the preview toggle, only ever from the textarea's
+          own value. Nothing here can write back into the body. */}
+      <div class="preview" id="md-preview-pane" hidden></div>
+    </div>
 
     {/* Filled in by the paste handler when a pasted image points at a source
         that will not last — Google's CDN, a data: URI. Empty and hidden until
@@ -267,6 +297,8 @@ const kinds: PostKind[] = ['essay', 'book-note'];
    * ordinary text input, and a failed upload leaves the form exactly as it was.
    */
   import { htmlToMarkdown, PLACEHOLDER_PREFIX } from '../lib/rich-paste';
+  import { runAction, SHORTCUTS, type ToolbarAction } from '../lib/markdown-toolbar';
+  import { renderMarkdown } from '../lib/markdown';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
 
@@ -282,6 +314,44 @@ const kinds: PostKind[] = ['essay', 'book-note'];
   const bodyFile = $<HTMLInputElement>('body-file');
   const bodyArea = $<HTMLTextAreaElement>('post-body');
   const bodyStatus = $<HTMLParagraphElement>('body-status');
+
+  const toolbar = $<HTMLDivElement>('md-toolbar');
+  const previewBtn = $<HTMLButtonElement>('md-preview');
+  const previewPane = $<HTMLDivElement>('md-preview-pane');
+
+  /**
+   * The one way anything in this file writes into the body.
+   *
+   * Replaces `[from, to)` with `text` and leaves the selection where the caller
+   * asks. execCommand is deprecated but it is still the only way to change a
+   * textarea and keep the browser's own undo stack — Cmd+Z has to take a
+   * formatting press back off, the same as typing. Where it has been removed,
+   * splice the value and announce the change so nothing downstream goes stale.
+   */
+  const replaceRange = (
+    from: number,
+    to: number,
+    text: string,
+    selStart = from + text.length,
+    selEnd = selStart
+  ) => {
+    if (!bodyArea) return;
+    bodyArea.focus();
+    bodyArea.setSelectionRange(from, to);
+
+    let ok = false;
+    try {
+      ok = document.execCommand('insertText', false, text);
+    } catch {
+      ok = false;
+    }
+    if (!ok) {
+      bodyArea.value = bodyArea.value.slice(0, from) + text + bodyArea.value.slice(to);
+      bodyArea.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    bodyArea.setSelectionRange(selStart, selEnd);
+  };
 
   const say = (el: HTMLElement | null, message: string, state: 'busy' | 'error' | 'ok' | '' = '') => {
     if (!el) return;
@@ -421,25 +491,9 @@ const kinds: PostKind[] = ['essay', 'book-note'];
   if (bodyArea) {
     /** Insert at the caret, replacing the selection, keeping undo if we can. */
     const insertAtCaret = (text: string) => {
-      bodyArea.focus();
-
-      // execCommand is deprecated but it is still the only way to write into a
-      // textarea and leave the undo stack intact. Where it is gone, splice the
-      // value directly and tell the page the field changed.
-      let inserted = false;
-      try {
-        inserted = document.execCommand('insertText', false, text);
-      } catch {
-        inserted = false;
-      }
-      if (inserted) return;
-
       const start = bodyArea.selectionStart ?? bodyArea.value.length;
       const end = bodyArea.selectionEnd ?? start;
-      bodyArea.value = bodyArea.value.slice(0, start) + text + bodyArea.value.slice(end);
-      const caret = start + text.length;
-      bodyArea.setSelectionRange(caret, caret);
-      bodyArea.dispatchEvent(new Event('input', { bubbles: true }));
+      replaceRange(start, end, text);
     };
 
     const warnAboutImages = (count: number) => {
@@ -491,6 +545,94 @@ const kinds: PostKind[] = ['essay', 'book-note'];
       insertAtCaret(markdown);
       warnAboutImages(volatileImages);
       say(bodyStatus, 'Pasted formatting converted to Markdown.', 'ok');
+    });
+  }
+
+  /* --------------------------------------------------------------- toolbar */
+  /**
+   * Eleven buttons and three shortcuts, all of them one call into
+   * `runAction` — which is a pure function in ../lib/markdown-toolbar and is
+   * where the actual behaviour (toggling, prefix replacement, where the caret
+   * lands) is decided and unit-tested. Nothing here knows any Markdown.
+   */
+  if (bodyArea && toolbar) {
+    toolbar.hidden = false;
+
+    const format = (action: ToolbarAction) => {
+      const edit = runAction(action, {
+        value: bodyArea.value,
+        start: bodyArea.selectionStart,
+        end: bodyArea.selectionEnd,
+      });
+      replaceRange(edit.from, edit.to, edit.text, edit.selStart, edit.selEnd);
+    };
+
+    // `mousedown` would move focus out of the textarea before the click lands,
+    // and Safari drops the selection when it does. Kill the default instead:
+    // the button never takes focus, so the selection survives to the click.
+    toolbar.addEventListener('mousedown', (event) => {
+      if ((event.target as HTMLElement).closest('.mdbar__btn')) event.preventDefault();
+    });
+
+    toolbar.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-md]');
+      const action = button?.dataset.md as ToolbarAction | undefined;
+      if (action) format(action);
+    });
+
+    // Exactly three keys, and only with the platform modifier and nothing
+    // else. Anything the browser or the OS already owns stays theirs.
+    bodyArea.addEventListener('keydown', (event) => {
+      if (!(event.metaKey || event.ctrlKey) || event.altKey || event.shiftKey) return;
+      const action = SHORTCUTS[event.key.toLowerCase()];
+      if (!action) return;
+      event.preventDefault();
+      format(action);
+    });
+  }
+
+  /* --------------------------------------------------------------- preview */
+  /**
+   * The same `renderMarkdown` the published page uses, bundled by Astro — so
+   * what is previewed is what marked will make of the body at request time,
+   * not a second dialect from a CDN script.
+   *
+   * The textarea is clipped rather than `hidden` while previewing: a
+   * `display: none` field that is `required` cannot be focused, and the
+   * browser refuses to submit the form at all when it wants to complain about
+   * one. Clipped, it stays a real, focusable, submittable field.
+   */
+  if (bodyArea && previewBtn && previewPane) {
+    let previewing = false;
+
+    const draw = () => {
+      previewPane.innerHTML = bodyArea.value.trim()
+        ? renderMarkdown(bodyArea.value)
+        : '<p class="preview__empty">Nothing to preview yet.</p>';
+    };
+
+    const setPreview = (on: boolean) => {
+      previewing = on;
+      if (on) draw();
+      previewPane.hidden = !on;
+      bodyArea.classList.toggle('field__body--clipped', on);
+      previewBtn.setAttribute('aria-pressed', String(on));
+      previewBtn.textContent = on ? 'Edit' : 'Preview';
+
+      // Formatting an invisible textarea would be a trap; grey them out.
+      toolbar
+        ?.querySelectorAll<HTMLButtonElement>('[data-md]')
+        .forEach((b) => (b.disabled = on));
+
+      if (!on) bodyArea.focus();
+    };
+
+    previewBtn.addEventListener('click', () => setPreview(!previewing));
+
+    // Insert image still works while previewing, and so does an undo landing
+    // from the keyboard — keep the rendering honest either way.
+    bodyArea.addEventListener('input', () => {
+      if (previewing) draw();
     });
   }
 </script>
@@ -580,6 +722,256 @@ const kinds: PostKind[] = ['essay', 'book-note'];
     font-size: 14px;
     line-height: 1.75;
     tab-size: 2;
+  }
+
+  /* -------------------------------------------------------------- toolbar */
+  /* Same hairline-and-uppercase vocabulary as .act in the console, only
+     tighter: eleven of these sit in a row above the field. */
+  .mdbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: -2px;
+  }
+
+  .mdbar__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mdbar__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    min-height: 38px;
+    padding-inline: 10px;
+    border: 1px solid var(--border-input);
+    background: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1;
+    color: var(--text-on-light);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .mdbar__btn:hover:not(:disabled) {
+    border-color: var(--rust);
+    color: var(--rust);
+  }
+
+  .mdbar__btn:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  .mdbar__btn:disabled {
+    color: var(--text-on-light-faint);
+    border-color: var(--rule-light);
+    cursor: default;
+  }
+
+  /* The first two carry their own weight so the glyph reads as the effect. */
+  .mdbar__btn[data-md='bold'] {
+    font-weight: var(--w-bold);
+  }
+
+  .mdbar__btn[data-md='italic'] {
+    font-style: italic;
+  }
+
+  /* Preview is a mode, not a format — pushed to the far end and labelled. */
+  .mdbar__btn--wide {
+    margin-left: auto;
+    padding-inline: 14px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .mdbar__btn--wide[aria-pressed='true'] {
+    border-color: var(--rust);
+    background: var(--paper-sand);
+    color: var(--rust);
+  }
+
+  /* -------------------------------------------------------------- preview */
+  .editor {
+    position: relative;
+  }
+
+  /* Not `hidden`: a required textarea the browser cannot focus blocks the
+     whole submission. Clipped, it stays focusable and still submits. */
+  .field__body--clipped {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    min-height: 0;
+    padding: 0;
+    margin: -1px;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .preview {
+    min-height: 520px;
+    padding: 18px 22px;
+    border: 1px solid var(--border-input);
+    background: var(--paper);
+    font-size: 17px;
+    font-weight: var(--w-light);
+    line-height: 1.75;
+    color: var(--text-on-light);
+    overflow-wrap: anywhere;
+  }
+
+  /* The published article's type scale, stepped down a notch for the editor's
+     narrower measure. `:global()` because innerHTML output carries no scope. */
+  .preview :global(p) {
+    margin: 0 0 22px;
+  }
+
+  .preview :global(h2) {
+    margin: 40px 0 16px;
+    font-weight: var(--w-black);
+    font-size: 30px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .preview :global(h3) {
+    margin: 32px 0 12px;
+    font-weight: var(--w-black);
+    font-size: 21px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+
+  .preview :global(h4) {
+    margin: 28px 0 10px;
+    font-size: 13px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .preview :global(:is(h2, h3, h4):first-child) {
+    margin-top: 0;
+  }
+
+  .preview :global(:is(ul, ol)) {
+    margin: 0 0 22px;
+    padding-left: 24px;
+  }
+
+  .preview :global(li) {
+    margin-bottom: 8px;
+    line-height: 1.7;
+  }
+
+  .preview :global(li::marker) {
+    color: var(--gold-deep);
+  }
+
+  .preview :global(blockquote) {
+    margin: 28px 0;
+    padding: 2px 0 2px 24px;
+    border-left: 3px solid var(--gold);
+  }
+
+  .preview :global(blockquote p) {
+    font-size: 19px;
+    font-weight: var(--w-regular);
+    line-height: 1.5;
+    color: var(--text-on-light-muted);
+  }
+
+  .preview :global(blockquote p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .preview :global(a) {
+    color: var(--rust);
+    border-bottom: 1px solid var(--gold);
+  }
+
+  .preview :global(strong) {
+    font-weight: var(--w-bold);
+  }
+
+  .preview :global(em) {
+    font-style: italic;
+  }
+
+  .preview :global(img) {
+    width: 100%;
+    height: auto;
+    margin: 28px 0;
+    border: 1px solid var(--rule-light);
+  }
+
+  .preview :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    padding: 2px 6px;
+    background: var(--paper-sand);
+    color: var(--rust);
+  }
+
+  .preview :global(pre) {
+    margin: 0 0 24px;
+    padding: 18px 20px;
+    background: var(--ink);
+    color: var(--text-on-dark);
+    overflow-x: auto;
+  }
+
+  .preview :global(pre code) {
+    padding: 0;
+    background: none;
+    color: inherit;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .preview :global(hr) {
+    margin: 36px 0;
+    border: none;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .preview :global(table) {
+    width: 100%;
+    margin: 0 0 24px;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+
+  .preview :global(:is(th, td)) {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule-light);
+  }
+
+  .preview :global(th) {
+    font-size: 11px;
+    font-weight: var(--w-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .preview :global(.preview__empty) {
+    margin: 0;
+    color: var(--text-on-light-faint);
   }
 
   .field__hint {
@@ -780,8 +1172,38 @@ const kinds: PostKind[] = ['essay', 'book-note'];
 
     /* Same 44px touch target the console's row actions use on small screens. */
     .uploader__pick,
-    .uploader__clear {
+    .uploader__clear,
+    .mdbar__btn {
       min-height: 44px;
+    }
+
+    .mdbar__btn {
+      min-width: 44px;
+    }
+
+    /* Eleven buttons will not fit on a phone; let the row wrap rather than
+       run off the edge, and keep Preview on the end of whatever line it
+       lands on. */
+    .mdbar {
+      gap: 8px;
+    }
+
+    .mdbar__group {
+      gap: 8px;
+    }
+
+    .preview {
+      min-height: 420px;
+      padding: 16px;
+      font-size: 16px;
+    }
+
+    .preview :global(h2) {
+      font-size: 26px;
+    }
+
+    .preview :global(h3) {
+      font-size: 19px;
     }
 
     .form__cancel {
